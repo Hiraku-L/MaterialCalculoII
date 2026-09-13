@@ -82,9 +82,7 @@
   .hero p.lede{ max-width:60ch; font-size:18px; color:var(--ink-soft); margin-top:18px; }
 
   .stat-row{ display:flex; flex-wrap:wrap; gap:14px; margin-top:30px; }
-  .stat{
-    border:1px solid var(--line); background:#fff; padding:14px 20px; min-width:120px;
-  }
+  .stat{ border:1px solid var(--line); background:#fff; padding:14px 20px; min-width:120px; }
   .stat .num{ font-family:'Fraunces',serif; font-size:26px; font-weight:600; }
   .stat .lbl{ font-size:12.5px; color:var(--muted); font-family:'IBM Plex Mono',monospace; margin-top:2px;}
 
@@ -103,7 +101,7 @@
   h2.block-title{ font-size:clamp(22px,3vw,28px); margin-bottom:8px;}
   .block-desc{ color:var(--ink-soft); max-width:62ch; margin-bottom:24px; }
 
-  .exercise-list{ list-style:none; margin:0; padding:0; display:grid; gap:14px; }
+  .exercise-list{ list-style:none; margin:0; padding:0; display:grid; gap:16px; }
   .exercise-list li{ border:1px solid var(--line); background:#fff; border-left-width:4px; }
   .lvl-facil-item{ border-left-color:var(--teal); }
   .lvl-medio-item{ border-left-color:var(--gold); }
@@ -120,8 +118,23 @@
   details.ex-toggle > summary::-webkit-details-marker{ display:none; }
   details.ex-toggle > summary:before{ content:"▸ "; }
   details.ex-toggle[open] > summary:before{ content:"▾ "; }
-  .ex-answer{ padding:15px 22px 19px; border-top:1px solid var(--line); }
+  .ex-answer{ padding:20px 22px 22px; border-top:1px solid var(--line); }
   .ex-hint{ color:var(--muted); font-size:13.5px; margin-top:6px; }
+
+  /* passo a passo dentro da resposta */
+  .step{ display:grid; grid-template-columns:26px 1fr; gap:13px; margin-bottom:14px; align-items:start; }
+  .step:last-child{ margin-bottom:0; }
+  .step-num{
+    font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:#fff; background:var(--ink);
+    width:22px; height:22px; border-radius:50%; display:flex; align-items:center; justify-content:center; margin-top:2px;
+  }
+  .step-content p{ margin:0 0 6px 0; font-size:15px; color:var(--ink-soft); }
+  .step-content .katex-display{ margin:4px 0; }
+
+  .result-box{
+    margin-top:14px; padding:12px 18px; background:var(--gold-soft);
+    border-radius:3px; font-weight:500; font-size:15.5px;
+  }
 
   .note{
     border-left:3px solid var(--teal); background:var(--teal-soft); padding:15px 20px;
@@ -130,15 +143,11 @@
   .note .note-label{ font-weight:600; color:var(--teal); display:block; margin-bottom:4px; font-size:14px; font-family:'Fraunces',serif; }
   .note p{ margin:0; }
 
-  .final{
-    background:var(--board); color:#F2F1EC; padding:48px 56px;
-  }
+  .final{ background:var(--board); color:#F2F1EC; padding:48px 56px; }
   @media (max-width:640px){ .final{ padding:36px 24px; } }
   .final h2{ color:#fff; }
   .final p{ color:#D8DEE8; max-width:62ch; }
-  .progress-tip{
-    margin-top:24px; background:var(--board-2); padding:20px 24px; border-radius:2px; max-width:640px;
-  }
+  .progress-tip{ margin-top:24px; background:var(--board-2); padding:20px 24px; border-radius:2px; max-width:640px; }
   .progress-tip strong{ color:var(--gold-soft); }
 </style>
 </head>
@@ -148,7 +157,7 @@
   <nav class="toc">
     <a class="back-link" href="integracao-por-partes.html">← voltar ao guia principal</a>
     <div class="toc-mark">∫</div>
-    <div class="toc-title"><strong>35 Exercícios</strong>Integração por partes — lista completa</div>
+    <div class="toc-title"><strong>35 Exercícios</strong>Integração por partes — resolução comentada</div>
     <ul class="toc-list">
       <li><a href="#bloco-a">Bloco A — Fundamentais <span class="toc-count">8</span></a></li>
       <li><a href="#bloco-b">Bloco B — dv = dx <span class="toc-count">4</span></a></li>
@@ -164,7 +173,7 @@
     <div class="hero">
       <div class="hero-eyebrow">cálculo ii · lista de exercícios</div>
       <h1>35 exercícios de integração por partes</h1>
-      <p class="lede">Da aplicação direta da fórmula até integrais cíclicas, combinadas com substituição e casos de desafio. Resolva antes de abrir a resposta — é assim que o método vira automático.</p>
+      <p class="lede">Da aplicação direta da fórmula até integrais cíclicas, combinadas com substituição e casos de desafio. Cada resposta traz a resolução comentada, passo a passo — tente sozinho antes de abrir.</p>
       <div class="stat-row">
         <div class="stat"><div class="num">35</div><div class="lbl">questões</div></div>
         <div class="stat"><div class="num">7</div><div class="lbl">blocos</div></div>
@@ -172,145 +181,505 @@
       </div>
     </div>
 
-    <!-- BLOCO A -->
+    <!-- ================= BLOCO A ================= -->
     <section id="bloco-a">
       <div class="kicker">bloco a <span class="level-chip lvl-facil">fácil</span></div>
       <h2 class="block-title">Fundamentais — polinômio de grau 1</h2>
       <p class="block-desc">Uma única aplicação da fórmula. O objetivo aqui é fixar a mecânica: escolher u e dv, derivar, integrar, substituir.</p>
       <ul class="exercise-list">
-        <li class="lvl-facil-item"><div class="ex-q"><span class="ex-q-num">1</span><span>\( \displaystyle\int x\sin x\,dx \)</span></div>
-          <details class="ex-toggle"><summary>ver resposta</summary><div class="ex-answer">\( -x\cos x + \sin x + C \)</div></details></li>
-        <li class="lvl-facil-item"><div class="ex-q"><span class="ex-q-num">2</span><span>\( \displaystyle\int x\,e^{2x}\,dx \)</span></div>
-          <details class="ex-toggle"><summary>ver resposta</summary><div class="ex-answer">\( e^{2x}\left(\dfrac{x}{2}-\dfrac{1}{4}\right)+C \)</div></details></li>
-        <li class="lvl-facil-item"><div class="ex-q"><span class="ex-q-num">3</span><span>\( \displaystyle\int x\cos 3x\,dx \)</span></div>
-          <details class="ex-toggle"><summary>ver resposta</summary><div class="ex-answer">\( \dfrac{x\sin 3x}{3} + \dfrac{\cos 3x}{9} + C \)</div></details></li>
-        <li class="lvl-facil-item"><div class="ex-q"><span class="ex-q-num">4</span><span>\( \displaystyle\int (2x+1)e^x\,dx \)</span></div>
-          <details class="ex-toggle"><summary>ver resposta</summary><div class="ex-answer">\( e^x(2x-1) + C \)</div></details></li>
-        <li class="lvl-facil-item"><div class="ex-q"><span class="ex-q-num">5</span><span>\( \displaystyle\int x\cdot 2^{x}\,dx \)</span></div>
-          <details class="ex-toggle"><summary>ver resposta</summary><div class="ex-answer">\( \dfrac{x\,2^x}{\ln 2} - \dfrac{2^x}{(\ln 2)^2} + C \)</div></details></li>
-        <li class="lvl-facil-item"><div class="ex-q"><span class="ex-q-num">6</span><span>\( \displaystyle\int x\sec^2 x\,dx \)</span></div>
-          <details class="ex-toggle"><summary>ver resposta</summary><div class="ex-answer">\( x\tan x + \ln|\cos x| + C \)</div></details></li>
-        <li class="lvl-facil-item"><div class="ex-q"><span class="ex-q-num">7</span><span>\( \displaystyle\int x\,e^{-x}\,dx \)</span></div>
-          <details class="ex-toggle"><summary>ver resposta</summary><div class="ex-answer">\( -e^{-x}(x+1) + C \)</div></details></li>
-        <li class="lvl-facil-item"><div class="ex-q"><span class="ex-q-num">8</span><span>\( \displaystyle\int 3x\cos x\,dx \)</span></div>
-          <details class="ex-toggle"><summary>ver resposta</summary><div class="ex-answer">\( 3x\sin x + 3\cos x + C \)</div></details></li>
+
+        <li class="lvl-facil-item">
+          <div class="ex-q"><span class="ex-q-num">1</span><span>\( \displaystyle\int x\sin x\,dx \)</span></div>
+          <details class="ex-toggle"><summary>ver resolução</summary>
+            <div class="ex-answer">
+              <div class="step"><div class="step-num">1</div><div class="step-content"><p>x é algébrica e simplifica ao derivar; \( \sin x \) é fácil de integrar. Escolhemos:</p>\[ u=x \qquad dv=\sin x\,dx \]</div></div>
+              <div class="step"><div class="step-num">2</div><div class="step-content"><p>Derivamos e integramos:</p>\[ du=dx \qquad v=-\cos x \]</div></div>
+              <div class="step"><div class="step-num">3</div><div class="step-content"><p>Aplicamos \( \int u\,dv=uv-\int v\,du \):</p>\[ \int x\sin x\,dx = -x\cos x + \int \cos x\,dx \]</div></div>
+              <div class="result-box">\( -x\cos x + \sin x + C \)</div>
+            </div>
+          </details>
+        </li>
+
+        <li class="lvl-facil-item">
+          <div class="ex-q"><span class="ex-q-num">2</span><span>\( \displaystyle\int x\,e^{2x}\,dx \)</span></div>
+          <details class="ex-toggle"><summary>ver resolução</summary>
+            <div class="ex-answer">
+              <div class="step"><div class="step-num">1</div><div class="step-content">\[ u=x \qquad dv=e^{2x}\,dx \]</div></div>
+              <div class="step"><div class="step-num">2</div><div class="step-content"><p>Ao integrar \( e^{2x} \), a regra da cadeia ao contrário divide por 2:</p>\[ du=dx \qquad v=\frac{e^{2x}}{2} \]</div></div>
+              <div class="step"><div class="step-num">3</div><div class="step-content">\[ \int x e^{2x}dx = \frac{x e^{2x}}{2} - \int \frac{e^{2x}}{2}\,dx = \frac{xe^{2x}}{2} - \frac{e^{2x}}{4} \]</div></div>
+              <div class="result-box">\( e^{2x}\left(\dfrac{x}{2}-\dfrac{1}{4}\right)+C \)</div>
+            </div>
+          </details>
+        </li>
+
+        <li class="lvl-facil-item">
+          <div class="ex-q"><span class="ex-q-num">3</span><span>\( \displaystyle\int x\cos 3x\,dx \)</span></div>
+          <details class="ex-toggle"><summary>ver resolução</summary>
+            <div class="ex-answer">
+              <div class="step"><div class="step-num">1</div><div class="step-content">\[ u=x \qquad dv=\cos 3x\,dx \qquad du=dx \qquad v=\frac{\sin 3x}{3} \]</div></div>
+              <div class="step"><div class="step-num">2</div><div class="step-content">\[ \int x\cos 3x\,dx = \frac{x\sin 3x}{3} - \int \frac{\sin 3x}{3}\,dx \]</div></div>
+              <div class="step"><div class="step-num">3</div><div class="step-content"><p>\( \int \sin 3x\,dx = -\tfrac{\cos 3x}{3} \), então o sinal negativo vira positivo:</p></div></div>
+              <div class="result-box">\( \dfrac{x\sin 3x}{3} + \dfrac{\cos 3x}{9} + C \)</div>
+            </div>
+          </details>
+        </li>
+
+        <li class="lvl-facil-item">
+          <div class="ex-q"><span class="ex-q-num">4</span><span>\( \displaystyle\int (2x+1)e^x\,dx \)</span></div>
+          <details class="ex-toggle"><summary>ver resolução</summary>
+            <div class="ex-answer">
+              <div class="step"><div class="step-num">1</div><div class="step-content"><p>Separamos a soma antes de partir:</p>\[ \int(2x+1)e^x dx = 2\int xe^x\,dx + \int e^x\,dx \]</div></div>
+              <div class="step"><div class="step-num">2</div><div class="step-content"><p>Para \( \int xe^x dx \): \( u=x,\ dv=e^xdx,\ du=dx,\ v=e^x \), logo</p>\[ \int xe^x\,dx = xe^x - e^x \]</div></div>
+              <div class="step"><div class="step-num">3</div><div class="step-content"><p>Juntando tudo:</p>\[ 2(xe^x-e^x)+e^x = 2xe^x - 2e^x + e^x = 2xe^x - e^x \]</div></div>
+              <div class="result-box">\( e^x(2x-1) + C \)</div>
+            </div>
+          </details>
+        </li>
+
+        <li class="lvl-facil-item">
+          <div class="ex-q"><span class="ex-q-num">5</span><span>\( \displaystyle\int x\cdot 2^{x}\,dx \)</span></div>
+          <details class="ex-toggle"><summary>ver resolução</summary>
+            <div class="ex-answer">
+              <div class="step"><div class="step-num">1</div><div class="step-content"><p>Lembre que \( \int 2^x dx = \dfrac{2^x}{\ln 2} \). Escolhemos:</p>\[ u=x \qquad dv=2^x\,dx \qquad du=dx \qquad v=\frac{2^x}{\ln 2} \]</div></div>
+              <div class="step"><div class="step-num">2</div><div class="step-content">\[ \int x\,2^x\,dx = \frac{x\,2^x}{\ln 2} - \int \frac{2^x}{\ln 2}\,dx = \frac{x\,2^x}{\ln 2} - \frac{2^x}{(\ln 2)^2} \]</div></div>
+              <div class="result-box">\( \dfrac{x\,2^x}{\ln 2} - \dfrac{2^x}{(\ln 2)^2} + C \)</div>
+            </div>
+          </details>
+        </li>
+
+        <li class="lvl-facil-item">
+          <div class="ex-q"><span class="ex-q-num">6</span><span>\( \displaystyle\int x\sec^2 x\,dx \)</span></div>
+          <details class="ex-toggle"><summary>ver resolução</summary>
+            <div class="ex-answer">
+              <div class="step"><div class="step-num">1</div><div class="step-content">\[ u=x \qquad dv=\sec^2 x\,dx \qquad du=dx \qquad v=\tan x \]</div></div>
+              <div class="step"><div class="step-num">2</div><div class="step-content">\[ \int x\sec^2x\,dx = x\tan x - \int \tan x\,dx \]</div></div>
+              <div class="step"><div class="step-num">3</div><div class="step-content"><p>Como \( \int \tan x\,dx = -\ln|\cos x| \), o sinal negativo se cancela:</p></div></div>
+              <div class="result-box">\( x\tan x + \ln|\cos x| + C \)</div>
+            </div>
+          </details>
+        </li>
+
+        <li class="lvl-facil-item">
+          <div class="ex-q"><span class="ex-q-num">7</span><span>\( \displaystyle\int x\,e^{-x}\,dx \)</span></div>
+          <details class="ex-toggle"><summary>ver resolução</summary>
+            <div class="ex-answer">
+              <div class="step"><div class="step-num">1</div><div class="step-content">\[ u=x \qquad dv=e^{-x}\,dx \qquad du=dx \qquad v=-e^{-x} \]</div></div>
+              <div class="step"><div class="step-num">2</div><div class="step-content">\[ \int xe^{-x}dx = -xe^{-x} + \int e^{-x}\,dx = -xe^{-x} - e^{-x} \]</div></div>
+              <div class="result-box">\( -e^{-x}(x+1) + C \)</div>
+            </div>
+          </details>
+        </li>
+
+        <li class="lvl-facil-item">
+          <div class="ex-q"><span class="ex-q-num">8</span><span>\( \displaystyle\int 3x\cos x\,dx \)</span></div>
+          <details class="ex-toggle"><summary>ver resolução</summary>
+            <div class="ex-answer">
+              <div class="step"><div class="step-num">1</div><div class="step-content"><p>A constante 3 sai da integral:</p>\[ 3\int x\cos x\,dx,\qquad u=x,\ dv=\cos x\,dx,\ du=dx,\ v=\sin x \]</div></div>
+              <div class="step"><div class="step-num">2</div><div class="step-content">\[ 3\Big(x\sin x - \int \sin x\,dx\Big) = 3(x\sin x + \cos x) \]</div></div>
+              <div class="result-box">\( 3x\sin x + 3\cos x + C \)</div>
+            </div>
+          </details>
+        </li>
+
       </ul>
     </section>
 
-    <!-- BLOCO B -->
+    <!-- ================= BLOCO B ================= -->
     <section id="bloco-b">
       <div class="kicker">bloco b <span class="level-chip lvl-facil">fácil</span></div>
       <h2 class="block-title">O truque de dv = dx</h2>
-      <p class="block-desc">Funções que parecem "sozinhas" — logaritmos e inversas trigonométricas — mas escondem um produto quando você escreve \( f(x) = f(x)\cdot 1 \).</p>
+      <p class="block-desc">Funções que parecem "sozinhas" — logaritmos e inversas trigonométricas — mas escondem um produto quando você escreve \( f(x)=f(x)\cdot 1 \).</p>
       <ul class="exercise-list">
-        <li class="lvl-facil-item"><div class="ex-q"><span class="ex-q-num">9</span><span>\( \displaystyle\int \arccos x\,dx \)</span></div>
-          <details class="ex-toggle"><summary>ver resposta</summary><div class="ex-answer">\( x\arccos x - \sqrt{1-x^2} + C \)</div></details></li>
-        <li class="lvl-facil-item"><div class="ex-q"><span class="ex-q-num">10</span><span>\( \displaystyle\int \log_2 x\,dx \)</span></div>
-          <details class="ex-toggle"><summary>ver resposta</summary><div class="ex-answer">\( x\log_2 x - \dfrac{x}{\ln 2} + C \)</div></details></li>
-        <li class="lvl-facil-item"><div class="ex-q"><span class="ex-q-num">11</span><span>\( \displaystyle\int \arctan(2x)\,dx \)</span></div>
-          <details class="ex-toggle"><summary>ver resposta</summary><div class="ex-answer">\( x\arctan(2x) - \dfrac{1}{4}\ln(1+4x^2) + C \)</div></details></li>
-        <li class="lvl-facil-item"><div class="ex-q"><span class="ex-q-num">12</span><span>\( \displaystyle\int \ln(2x)\,dx \)</span></div>
-          <details class="ex-toggle"><summary>ver resposta</summary><div class="ex-answer">\( x\ln(2x) - x + C \)</div></details></li>
+
+        <li class="lvl-facil-item">
+          <div class="ex-q"><span class="ex-q-num">9</span><span>\( \displaystyle\int \arccos x\,dx \)</span></div>
+          <details class="ex-toggle"><summary>ver resolução</summary>
+            <div class="ex-answer">
+              <div class="step"><div class="step-num">1</div><div class="step-content">\[ u=\arccos x \qquad dv=dx \qquad du=-\frac{1}{\sqrt{1-x^2}}\,dx \qquad v=x \]</div></div>
+              <div class="step"><div class="step-num">2</div><div class="step-content">\[ \int \arccos x\,dx = x\arccos x + \int \frac{x}{\sqrt{1-x^2}}\,dx \]</div></div>
+              <div class="step"><div class="step-num">3</div><div class="step-content"><p>Na integral restante, \( w=1-x^2,\ dw=-2x\,dx \):</p>\[ \int \frac{x}{\sqrt{1-x^2}}\,dx = -\sqrt{1-x^2} \]</div></div>
+              <div class="result-box">\( x\arccos x - \sqrt{1-x^2} + C \)</div>
+            </div>
+          </details>
+        </li>
+
+        <li class="lvl-facil-item">
+          <div class="ex-q"><span class="ex-q-num">10</span><span>\( \displaystyle\int \log_2 x\,dx \)</span></div>
+          <details class="ex-toggle"><summary>ver resolução</summary>
+            <div class="ex-answer">
+              <div class="step"><div class="step-num">1</div><div class="step-content"><p>Reescrevemos na base natural: \( \log_2 x = \dfrac{\ln x}{\ln 2} \), constante que sai da integral.</p>\[ u=\ln x \qquad dv=dx \qquad du=\frac{1}{x}dx \qquad v=x \]</div></div>
+              <div class="step"><div class="step-num">2</div><div class="step-content">\[ \int \ln x\,dx = x\ln x - \int 1\,dx = x\ln x - x \]</div></div>
+              <div class="step"><div class="step-num">3</div><div class="step-content"><p>Dividindo por \( \ln 2 \):</p></div></div>
+              <div class="result-box">\( x\log_2 x - \dfrac{x}{\ln 2} + C \)</div>
+            </div>
+          </details>
+        </li>
+
+        <li class="lvl-facil-item">
+          <div class="ex-q"><span class="ex-q-num">11</span><span>\( \displaystyle\int \arctan(2x)\,dx \)</span></div>
+          <details class="ex-toggle"><summary>ver resolução</summary>
+            <div class="ex-answer">
+              <div class="step"><div class="step-num">1</div><div class="step-content">\[ u=\arctan(2x) \qquad dv=dx \qquad du=\frac{2}{1+4x^2}dx \qquad v=x \]</div></div>
+              <div class="step"><div class="step-num">2</div><div class="step-content">\[ \int \arctan(2x)dx = x\arctan(2x) - \int \frac{2x}{1+4x^2}dx \]</div></div>
+              <div class="step"><div class="step-num">3</div><div class="step-content"><p>Com \( w=1+4x^2,\ dw=8x\,dx \), então \( 2x\,dx=\tfrac{dw}{4} \):</p>\[ \int \frac{2x}{1+4x^2}dx = \frac{1}{4}\ln(1+4x^2) \]</div></div>
+              <div class="result-box">\( x\arctan(2x) - \dfrac{1}{4}\ln(1+4x^2) + C \)</div>
+            </div>
+          </details>
+        </li>
+
+        <li class="lvl-facil-item">
+          <div class="ex-q"><span class="ex-q-num">12</span><span>\( \displaystyle\int \ln(2x)\,dx \)</span></div>
+          <details class="ex-toggle"><summary>ver resolução</summary>
+            <div class="ex-answer">
+              <div class="step"><div class="step-num">1</div><div class="step-content"><p>Note que \( \dfrac{d}{dx}\ln(2x)=\dfrac{1}{x} \) — a constante 2 desaparece na derivada.</p>\[ u=\ln(2x) \qquad dv=dx \qquad du=\frac{1}{x}dx \qquad v=x \]</div></div>
+              <div class="step"><div class="step-num">2</div><div class="step-content">\[ \int \ln(2x)dx = x\ln(2x) - \int 1\,dx \]</div></div>
+              <div class="result-box">\( x\ln(2x) - x + C \)</div>
+            </div>
+          </details>
+        </li>
+
       </ul>
     </section>
 
-    <!-- BLOCO C -->
+    <!-- ================= BLOCO C ================= -->
     <section id="bloco-c">
       <div class="kicker">bloco c <span class="level-chip lvl-medio">médio</span></div>
       <h2 class="block-title">Repetição — polinômios de grau 2 ou mais</h2>
-      <p class="block-desc">Aqui é preciso aplicar a fórmula mais de uma vez. Use o método tabular (DI) se quiser economizar passos.</p>
+      <p class="block-desc">Aqui é preciso aplicar a fórmula mais de uma vez. Cada rodada reduz o grau do polinômio em 1.</p>
       <ul class="exercise-list">
-        <li class="lvl-medio-item"><div class="ex-q"><span class="ex-q-num">13</span><span>\( \displaystyle\int x^2 e^x\,dx \)</span></div>
-          <details class="ex-toggle"><summary>ver resposta</summary><div class="ex-answer">\( e^x(x^2-2x+2) + C \)</div></details></li>
-        <li class="lvl-medio-item"><div class="ex-q"><span class="ex-q-num">14</span><span>\( \displaystyle\int x^2 \sin x\,dx \)</span></div>
-          <details class="ex-toggle"><summary>ver resposta</summary><div class="ex-answer">\( -x^2\cos x + 2x\sin x + 2\cos x + C \)</div></details></li>
-        <li class="lvl-medio-item"><div class="ex-q"><span class="ex-q-num">15</span><span>\( \displaystyle\int x^3 e^x\,dx \) <span class="ex-hint">— tente pelo método tabular</span></span></div>
-          <details class="ex-toggle"><summary>ver resposta</summary><div class="ex-answer">\( e^x(x^3-3x^2+6x-6) + C \)</div></details></li>
-        <li class="lvl-medio-item"><div class="ex-q"><span class="ex-q-num">16</span><span>\( \displaystyle\int x^2 \cos 2x\,dx \)</span></div>
-          <details class="ex-toggle"><summary>ver resposta</summary><div class="ex-answer">\( \dfrac{x^2\sin 2x}{2} + \dfrac{x\cos 2x}{2} - \dfrac{\sin 2x}{4} + C \)</div></details></li>
-        <li class="lvl-medio-item"><div class="ex-q"><span class="ex-q-num">17</span><span>\( \displaystyle\int (x^2+1)e^{-x}\,dx \)</span></div>
-          <details class="ex-toggle"><summary>ver resposta</summary><div class="ex-answer">\( -e^{-x}(x^2+2x+3) + C \)</div></details></li>
-        <li class="lvl-medio-item"><div class="ex-q"><span class="ex-q-num">18</span><span>\( \displaystyle\int x^3 \ln x\,dx \)</span></div>
-          <details class="ex-toggle"><summary>ver resposta</summary><div class="ex-answer">\( \dfrac{x^4}{4}\ln x - \dfrac{x^4}{16} + C \)</div></details></li>
+
+        <li class="lvl-medio-item">
+          <div class="ex-q"><span class="ex-q-num">13</span><span>\( \displaystyle\int x^2 e^x\,dx \)</span></div>
+          <details class="ex-toggle"><summary>ver resolução</summary>
+            <div class="ex-answer">
+              <div class="step"><div class="step-num">1</div><div class="step-content"><p>Rodada 1:</p>\[ u=x^2,\ dv=e^xdx,\ du=2x\,dx,\ v=e^x \]\[ \int x^2e^xdx = x^2e^x - \int 2xe^x\,dx \]</div></div>
+              <div class="step"><div class="step-num">2</div><div class="step-content"><p>Rodada 2, em \( \int 2xe^x dx \): \( u=2x,\ dv=e^xdx,\ du=2dx,\ v=e^x \)</p>\[ \int 2xe^x\,dx = 2xe^x - \int 2e^x dx = 2xe^x-2e^x \]</div></div>
+              <div class="step"><div class="step-num">3</div><div class="step-content"><p>Juntando as duas rodadas:</p>\[ x^2e^x-(2xe^x-2e^x) = x^2e^x-2xe^x+2e^x \]</div></div>
+              <div class="result-box">\( e^x(x^2-2x+2) + C \)</div>
+            </div>
+          </details>
+        </li>
+
+        <li class="lvl-medio-item">
+          <div class="ex-q"><span class="ex-q-num">14</span><span>\( \displaystyle\int x^2 \sin x\,dx \)</span></div>
+          <details class="ex-toggle"><summary>ver resolução</summary>
+            <div class="ex-answer">
+              <div class="step"><div class="step-num">1</div><div class="step-content"><p>Rodada 1: \( u=x^2,\ dv=\sin xdx,\ du=2x\,dx,\ v=-\cos x \)</p>\[ \int x^2\sin x\,dx = -x^2\cos x + \int 2x\cos x\,dx \]</div></div>
+              <div class="step"><div class="step-num">2</div><div class="step-content"><p>Rodada 2, em \( \int 2x\cos x\,dx \): \( u=2x,\ dv=\cos xdx,\ du=2dx,\ v=\sin x \)</p>\[ \int 2x\cos x\,dx = 2x\sin x - \int 2\sin x\,dx = 2x\sin x+2\cos x \]</div></div>
+              <div class="step"><div class="step-num">3</div><div class="step-content"><p>Somando:</p>\[ -x^2\cos x + 2x\sin x + 2\cos x \]</div></div>
+              <div class="result-box">\( -x^2\cos x + 2x\sin x + 2\cos x + C \)</div>
+            </div>
+          </details>
+        </li>
+
+        <li class="lvl-medio-item">
+          <div class="ex-q"><span class="ex-q-num">15</span><span>\( \displaystyle\int x^3 e^x\,dx \)</span></div>
+          <details class="ex-toggle"><summary>ver resolução</summary>
+            <div class="ex-answer">
+              <div class="step"><div class="step-num">1</div><div class="step-content"><p>Método tabular: derive \( x^3 \) até zero na coluna D, integre \( e^x \) o mesmo número de vezes na coluna I, alternando o sinal:</p></div></div>
+              <div class="step"><div class="step-num">2</div><div class="step-content">\[
+                \begin{array}{c|c|c}
+                + & x^3 & e^x \\
+                - & 3x^2 & e^x \\
+                + & 6x & e^x \\
+                - & 6 & e^x \\
+                + & 0 & e^x
+                \end{array}
+              \]</div></div>
+              <div class="step"><div class="step-num">3</div><div class="step-content"><p>Multiplicando as diagonais com os sinais:</p>\[ x^3e^x - 3x^2e^x + 6xe^x - 6e^x \]</div></div>
+              <div class="result-box">\( e^x(x^3-3x^2+6x-6) + C \)</div>
+            </div>
+          </details>
+        </li>
+
+        <li class="lvl-medio-item">
+          <div class="ex-q"><span class="ex-q-num">16</span><span>\( \displaystyle\int x^2 \cos 2x\,dx \)</span></div>
+          <details class="ex-toggle"><summary>ver resolução</summary>
+            <div class="ex-answer">
+              <div class="step"><div class="step-num">1</div><div class="step-content"><p>Rodada 1: \( u=x^2,\ dv=\cos2x\,dx,\ du=2x\,dx,\ v=\tfrac{\sin2x}{2} \)</p>\[ \int x^2\cos2x\,dx = \frac{x^2\sin 2x}{2} - \int x\sin 2x\,dx \]</div></div>
+              <div class="step"><div class="step-num">2</div><div class="step-content"><p>Rodada 2, em \( \int x\sin2x\,dx \): \( u=x,\ dv=\sin2xdx,\ du=dx,\ v=-\tfrac{\cos2x}{2} \)</p>\[ \int x\sin2x\,dx = -\frac{x\cos2x}{2}+\int\frac{\cos2x}{2}dx = -\frac{x\cos2x}{2}+\frac{\sin2x}{4} \]</div></div>
+              <div class="step"><div class="step-num">3</div><div class="step-content"><p>Substituindo de volta (atenção ao sinal negativo distribuído):</p>\[ \frac{x^2\sin2x}{2} - \Big(-\frac{x\cos2x}{2}+\frac{\sin2x}{4}\Big) \]</div></div>
+              <div class="result-box">\( \dfrac{x^2\sin 2x}{2} + \dfrac{x\cos 2x}{2} - \dfrac{\sin 2x}{4} + C \)</div>
+            </div>
+          </details>
+        </li>
+
+        <li class="lvl-medio-item">
+          <div class="ex-q"><span class="ex-q-num">17</span><span>\( \displaystyle\int (x^2+1)e^{-x}\,dx \)</span></div>
+          <details class="ex-toggle"><summary>ver resolução</summary>
+            <div class="ex-answer">
+              <div class="step"><div class="step-num">1</div><div class="step-content"><p>Separamos a soma:</p>\[ \int(x^2+1)e^{-x}dx = \int x^2e^{-x}dx + \int e^{-x}dx \]</div></div>
+              <div class="step"><div class="step-num">2</div><div class="step-content"><p>Para \( \int x^2e^{-x}dx \), rodada 1: \( u=x^2,\ dv=e^{-x}dx,\ du=2xdx,\ v=-e^{-x} \)</p>\[ \int x^2e^{-x}dx = -x^2e^{-x}+\int 2xe^{-x}dx \]</div></div>
+              <div class="step"><div class="step-num">3</div><div class="step-content"><p>Rodada 2, em \( \int 2xe^{-x}dx \): \( u=2x,\ dv=e^{-x}dx,\ du=2dx,\ v=-e^{-x} \)</p>\[ \int 2xe^{-x}dx = -2xe^{-x}+\int2e^{-x}dx = -2xe^{-x}-2e^{-x} \]</div></div>
+              <div class="step"><div class="step-num">4</div><div class="step-content"><p>Juntando tudo, incluindo o \( \int e^{-x}dx=-e^{-x} \) do início:</p>\[ -x^2e^{-x}-2xe^{-x}-2e^{-x} - e^{-x} = -e^{-x}(x^2+2x+3) \]</div></div>
+              <div class="result-box">\( -e^{-x}(x^2+2x+3) + C \)</div>
+            </div>
+          </details>
+        </li>
+
+        <li class="lvl-medio-item">
+          <div class="ex-q"><span class="ex-q-num">18</span><span>\( \displaystyle\int x^3 \ln x\,dx \)</span></div>
+          <details class="ex-toggle"><summary>ver resolução</summary>
+            <div class="ex-answer">
+              <div class="step"><div class="step-num">1</div><div class="step-content"><p>Aqui o log é quem entra como \( u \) (LIATE: L antes de A):</p>\[ u=\ln x \qquad dv=x^3dx \qquad du=\frac{1}{x}dx \qquad v=\frac{x^4}{4} \]</div></div>
+              <div class="step"><div class="step-num">2</div><div class="step-content">\[ \int x^3\ln x\,dx = \frac{x^4\ln x}{4} - \int \frac{x^4}{4}\cdot\frac{1}{x}dx = \frac{x^4\ln x}{4} - \int \frac{x^3}{4}dx \]</div></div>
+              <div class="result-box">\( \dfrac{x^4}{4}\ln x - \dfrac{x^4}{16} + C \)</div>
+            </div>
+          </details>
+        </li>
+
       </ul>
     </section>
 
-    <!-- BLOCO D -->
+    <!-- ================= BLOCO D ================= -->
     <section id="bloco-d">
       <div class="kicker">bloco d <span class="level-chip lvl-medio">médio</span></div>
       <h2 class="block-title">Integrais cíclicas</h2>
-      <p class="block-desc">Exponencial vezes trigonométrica: aplique a fórmula duas vezes mantendo sempre a mesma família como \( u \), e resolva a equação algébrica que aparece no final.</p>
+      <p class="block-desc">Exponencial vezes trigonométrica: aplique a fórmula duas vezes mantendo sempre a mesma família como u, e resolva a equação algébrica que aparece no final.</p>
       <ul class="exercise-list">
-        <li class="lvl-medio-item"><div class="ex-q"><span class="ex-q-num">19</span><span>\( \displaystyle\int e^x \cos x\,dx \)</span></div>
-          <details class="ex-toggle"><summary>ver resposta</summary><div class="ex-answer">\( \dfrac{e^x(\sin x + \cos x)}{2} + C \)</div></details></li>
-        <li class="lvl-medio-item"><div class="ex-q"><span class="ex-q-num">20</span><span>\( \displaystyle\int e^{-x} \sin x\,dx \)</span></div>
-          <details class="ex-toggle"><summary>ver resposta</summary><div class="ex-answer">\( -\dfrac{e^{-x}(\sin x + \cos x)}{2} + C \)</div></details></li>
-        <li class="lvl-medio-item"><div class="ex-q"><span class="ex-q-num">21</span><span>\( \displaystyle\int e^{2x} \sin 3x\,dx \)</span></div>
-          <details class="ex-toggle"><summary>ver resposta</summary><div class="ex-answer">\( \dfrac{e^{2x}(2\sin 3x - 3\cos 3x)}{13} + C \)</div></details></li>
-        <li class="lvl-medio-item"><div class="ex-q"><span class="ex-q-num">22</span><span>\( \displaystyle\int e^{2x} \cos 3x\,dx \)</span></div>
-          <details class="ex-toggle"><summary>ver resposta</summary><div class="ex-answer">\( \dfrac{e^{2x}(2\cos 3x + 3\sin 3x)}{13} + C \)</div></details></li>
-        <li class="lvl-medio-item"><div class="ex-q"><span class="ex-q-num">23</span><span>\( \displaystyle\int e^{-2x} \cos x\,dx \)</span></div>
-          <details class="ex-toggle"><summary>ver resposta</summary><div class="ex-answer">\( \dfrac{e^{-2x}(\sin x - 2\cos x)}{5} + C \)</div></details></li>
+
+        <li class="lvl-medio-item">
+          <div class="ex-q"><span class="ex-q-num">19</span><span>\( \displaystyle\int e^x \cos x\,dx \)</span></div>
+          <details class="ex-toggle"><summary>ver resolução</summary>
+            <div class="ex-answer">
+              <div class="step"><div class="step-num">1</div><div class="step-content"><p>Chame a integral de \( I \). Primeira aplicação com \( u=\cos x \):</p>\[ I = e^x\cos x + \int e^x\sin x\,dx \]</div></div>
+              <div class="step"><div class="step-num">2</div><div class="step-content"><p>Aplique de novo, mantendo a trigonométrica como \( u \):</p>\[ \int e^x\sin x\,dx = e^x\sin x - \int e^x\cos x\,dx = e^x\sin x - I \]</div></div>
+              <div class="step"><div class="step-num">3</div><div class="step-content"><p>Substituindo de volta, \( I \) aparece nos dois lados:</p>\[ I = e^x\cos x + e^x\sin x - I \ \Rightarrow\ 2I = e^x(\sin x+\cos x) \]</div></div>
+              <div class="result-box">\( \dfrac{e^x(\sin x + \cos x)}{2} + C \)</div>
+            </div>
+          </details>
+        </li>
+
+        <li class="lvl-medio-item">
+          <div class="ex-q"><span class="ex-q-num">20</span><span>\( \displaystyle\int e^{-x} \sin x\,dx \)</span></div>
+          <details class="ex-toggle"><summary>ver resolução</summary>
+            <div class="ex-answer">
+              <div class="step"><div class="step-num">1</div><div class="step-content"><p>Chame de \( I \). Primeira aplicação com \( u=\sin x,\ dv=e^{-x}dx \):</p>\[ I = -e^{-x}\sin x + \int e^{-x}\cos x\,dx \]</div></div>
+              <div class="step"><div class="step-num">2</div><div class="step-content"><p>Segunda aplicação, mesma família como \( u \):</p>\[ \int e^{-x}\cos x\,dx = -e^{-x}\cos x - \int e^{-x}\sin x\,dx = -e^{-x}\cos x - I \]</div></div>
+              <div class="step"><div class="step-num">3</div><div class="step-content">\[ I = -e^{-x}\sin x -e^{-x}\cos x - I \ \Rightarrow\ 2I = -e^{-x}(\sin x+\cos x) \]</div></div>
+              <div class="result-box">\( -\dfrac{e^{-x}(\sin x + \cos x)}{2} + C \)</div>
+            </div>
+          </details>
+        </li>
+
+        <li class="lvl-medio-item">
+          <div class="ex-q"><span class="ex-q-num">21</span><span>\( \displaystyle\int e^{2x} \sin 3x\,dx \)</span></div>
+          <details class="ex-toggle"><summary>ver resolução</summary>
+            <div class="ex-answer">
+              <div class="step"><div class="step-num">1</div><div class="step-content"><p>Chame de \( I \). Primeira aplicação com \( u=\sin3x,\ dv=e^{2x}dx,\ v=\tfrac{e^{2x}}{2} \):</p>\[ I = \frac{e^{2x}\sin3x}{2} - \frac{3}{2}\int e^{2x}\cos3x\,dx \]</div></div>
+              <div class="step"><div class="step-num">2</div><div class="step-content"><p>Na integral restante, \( u=\cos3x,\ v=\tfrac{e^{2x}}{2} \):</p>\[ \int e^{2x}\cos3x\,dx = \frac{e^{2x}\cos3x}{2} + \frac{3}{2}I \]</div></div>
+              <div class="step"><div class="step-num">3</div><div class="step-content"><p>Substituindo de volta:</p>\[ I = \frac{e^{2x}\sin3x}{2} - \frac{3}{2}\Big(\frac{e^{2x}\cos3x}{2}+\frac{3}{2}I\Big) = \frac{e^{2x}\sin3x}{2}-\frac{3e^{2x}\cos3x}{4} - \frac{9}{4}I \]</div></div>
+              <div class="step"><div class="step-num">4</div><div class="step-content"><p>Isolando \( I \):</p>\[ \frac{13}{4}I = \frac{e^{2x}(2\sin3x-3\cos3x)}{4} \]</div></div>
+              <div class="result-box">\( \dfrac{e^{2x}(2\sin 3x - 3\cos 3x)}{13} + C \)</div>
+            </div>
+          </details>
+        </li>
+
+        <li class="lvl-medio-item">
+          <div class="ex-q"><span class="ex-q-num">22</span><span>\( \displaystyle\int e^{2x} \cos 3x\,dx \)</span></div>
+          <details class="ex-toggle"><summary>ver resolução</summary>
+            <div class="ex-answer">
+              <div class="step"><div class="step-num">1</div><div class="step-content"><p>É a integral \( J \) que apareceu no exercício 21:</p>\[ J = \frac{e^{2x}\cos3x}{2} + \frac{3}{2}I,\qquad I=\frac{e^{2x}(2\sin3x-3\cos3x)}{13} \]</div></div>
+              <div class="step"><div class="step-num">2</div><div class="step-content"><p>Substituindo \( I \) e simplificando:</p>\[ J = \frac{e^{2x}\cos3x}{2} + \frac{3}{2}\cdot\frac{e^{2x}(2\sin3x-3\cos3x)}{13} \]</div></div>
+              <div class="step"><div class="step-num">3</div><div class="step-content"><p>Colocando \( e^{2x} \) em evidência e somando as frações:</p>\[ J = \frac{e^{2x}\big[13\cos3x + 3(2\sin3x-3\cos3x)\big]}{26} = \frac{e^{2x}(4\cos3x+6\sin3x)}{26} \]</div></div>
+              <div class="result-box">\( \dfrac{e^{2x}(2\cos 3x + 3\sin 3x)}{13} + C \)</div>
+            </div>
+          </details>
+        </li>
+
+        <li class="lvl-medio-item">
+          <div class="ex-q"><span class="ex-q-num">23</span><span>\( \displaystyle\int e^{-2x} \cos x\,dx \)</span></div>
+          <details class="ex-toggle"><summary>ver resolução</summary>
+            <div class="ex-answer">
+              <div class="step"><div class="step-num">1</div><div class="step-content"><p>Chame de \( I \). Primeira aplicação, \( u=\cos x,\ dv=e^{-2x}dx,\ v=-\tfrac{e^{-2x}}{2} \):</p>\[ I = -\frac{e^{-2x}\cos x}{2} - \frac{1}{2}\int e^{-2x}\sin x\,dx \]</div></div>
+              <div class="step"><div class="step-num">2</div><div class="step-content"><p>Segunda aplicação na integral restante, \( u=\sin x \):</p>\[ \int e^{-2x}\sin x\,dx = -\frac{e^{-2x}\sin x}{2}+\frac{1}{2}\int e^{-2x}\cos x\,dx = -\frac{e^{-2x}\sin x}{2}+\frac{1}{2}I \]</div></div>
+              <div class="step"><div class="step-num">3</div><div class="step-content"><p>Substituindo de volta e isolando \( I \):</p>\[ I = -\frac{e^{-2x}\cos x}{2} + \frac{e^{-2x}\sin x}{4} - \frac{1}{4}I \ \Rightarrow\ \frac{5}{4}I = \frac{e^{-2x}(\sin x-2\cos x)}{4} \]</div></div>
+              <div class="result-box">\( \dfrac{e^{-2x}(\sin x - 2\cos x)}{5} + C \)</div>
+            </div>
+          </details>
+        </li>
+
       </ul>
     </section>
 
-    <!-- BLOCO E -->
+    <!-- ================= BLOCO E ================= -->
     <section id="bloco-e">
       <div class="kicker">bloco e <span class="level-chip lvl-medio">médio</span></div>
       <h2 class="block-title">Por partes combinada com substituição</h2>
-      <p class="block-desc">Nestes exercícios, uma troca de variável entra antes ou depois da integração por partes — ou a própria escolha de \(dv\) já exige uma pequena substituição.</p>
+      <p class="block-desc">Nestes exercícios, uma troca de variável entra antes ou depois da integração por partes — ou a própria escolha de dv já exige uma pequena substituição.</p>
       <ul class="exercise-list">
-        <li class="lvl-medio-item"><div class="ex-q"><span class="ex-q-num">24</span><span>\( \displaystyle\int x\sqrt{x+1}\,dx \)</span></div>
-          <details class="ex-toggle"><summary>ver resposta</summary><div class="ex-answer">\( \dfrac{2x}{3}(x+1)^{3/2} - \dfrac{4}{15}(x+1)^{5/2} + C \)</div></details></li>
-        <li class="lvl-medio-item"><div class="ex-q"><span class="ex-q-num">25</span><span>\( \displaystyle\int x^3 e^{x^2}\,dx \) <span class="ex-hint">— substitua \(t=x^2\) antes de partir</span></span></div>
-          <details class="ex-toggle"><summary>ver resposta</summary><div class="ex-answer">\( \dfrac{1}{2}e^{x^2}(x^2-1) + C \)</div></details></li>
-        <li class="lvl-medio-item"><div class="ex-q"><span class="ex-q-num">26</span><span>\( \displaystyle\int \sin(\ln x)\,dx \) <span class="ex-hint">— também é cíclica</span></span></div>
-          <details class="ex-toggle"><summary>ver resposta</summary><div class="ex-answer">\( \dfrac{x\big(\sin(\ln x) - \cos(\ln x)\big)}{2} + C \)</div></details></li>
-        <li class="lvl-medio-item"><div class="ex-q"><span class="ex-q-num">27</span><span>\( \displaystyle\int \cos(\ln x)\,dx \)</span></div>
-          <details class="ex-toggle"><summary>ver resposta</summary><div class="ex-answer">\( \dfrac{x\big(\sin(\ln x) + \cos(\ln x)\big)}{2} + C \)</div></details></li>
-        <li class="lvl-medio-item"><div class="ex-q"><span class="ex-q-num">28</span><span>\( \displaystyle\int x\ln(x^2+1)\,dx \)</span></div>
-          <details class="ex-toggle"><summary>ver resposta</summary><div class="ex-answer">\( \dfrac{(x^2+1)\ln(x^2+1)}{2} - \dfrac{x^2}{2} + C \)</div></details></li>
+
+        <li class="lvl-medio-item">
+          <div class="ex-q"><span class="ex-q-num">24</span><span>\( \displaystyle\int x\sqrt{x+1}\,dx \)</span></div>
+          <details class="ex-toggle"><summary>ver resolução</summary>
+            <div class="ex-answer">
+              <div class="step"><div class="step-num">1</div><div class="step-content">\[ u=x \qquad dv=\sqrt{x+1}\,dx \qquad du=dx \qquad v=\frac{2}{3}(x+1)^{3/2} \]</div></div>
+              <div class="step"><div class="step-num">2</div><div class="step-content">\[ \int x\sqrt{x+1}\,dx = \frac{2x}{3}(x+1)^{3/2} - \frac{2}{3}\int(x+1)^{3/2}dx \]</div></div>
+              <div class="step"><div class="step-num">3</div><div class="step-content"><p>A integral restante é imediata:</p>\[ \int(x+1)^{3/2}dx = \frac{2}{5}(x+1)^{5/2} \]</div></div>
+              <div class="result-box">\( \dfrac{2x}{3}(x+1)^{3/2} - \dfrac{4}{15}(x+1)^{5/2} + C \)</div>
+            </div>
+          </details>
+        </li>
+
+        <li class="lvl-medio-item">
+          <div class="ex-q"><span class="ex-q-num">25</span><span>\( \displaystyle\int x^3 e^{x^2}\,dx \)</span></div>
+          <details class="ex-toggle"><summary>ver resolução</summary>
+            <div class="ex-answer">
+              <div class="step"><div class="step-num">1</div><div class="step-content"><p>Antes de partir, substitua \( t=x^2,\ dt=2x\,dx \), reescrevendo \( x^3dx = x^2\cdot x\,dx = t\cdot\tfrac{dt}{2} \):</p>\[ \int x^3e^{x^2}dx = \frac{1}{2}\int t\,e^t\,dt \]</div></div>
+              <div class="step"><div class="step-num">2</div><div class="step-content"><p>Agora sim, por partes: \( u=t,\ dv=e^tdt,\ du=dt,\ v=e^t \):</p>\[ \int t e^t dt = te^t - \int e^t dt = e^t(t-1) \]</div></div>
+              <div class="step"><div class="step-num">3</div><div class="step-content"><p>Voltando para \( x \) (\( t=x^2 \)):</p></div></div>
+              <div class="result-box">\( \dfrac{1}{2}e^{x^2}(x^2-1) + C \)</div>
+            </div>
+          </details>
+        </li>
+
+        <li class="lvl-medio-item">
+          <div class="ex-q"><span class="ex-q-num">26</span><span>\( \displaystyle\int \sin(\ln x)\,dx \)</span></div>
+          <details class="ex-toggle"><summary>ver resolução</summary>
+            <div class="ex-answer">
+              <div class="step"><div class="step-num">1</div><div class="step-content"><p>Chame de \( I \). \( u=\sin(\ln x),\ dv=dx,\ du=\tfrac{\cos(\ln x)}{x}dx,\ v=x \):</p>\[ I = x\sin(\ln x) - \int \cos(\ln x)\,dx \]</div></div>
+              <div class="step"><div class="step-num">2</div><div class="step-content"><p>Na integral restante, mesmo truque: \( u=\cos(\ln x),\ dv=dx \):</p>\[ \int \cos(\ln x)\,dx = x\cos(\ln x) + \int \sin(\ln x)\,dx = x\cos(\ln x)+I \]</div></div>
+              <div class="step"><div class="step-num">3</div><div class="step-content"><p>Substituindo de volta e isolando \( I \) (é cíclica, como as do bloco D):</p>\[ I = x\sin(\ln x) - x\cos(\ln x) - I \ \Rightarrow\ 2I = x\big(\sin(\ln x)-\cos(\ln x)\big) \]</div></div>
+              <div class="result-box">\( \dfrac{x\big(\sin(\ln x) - \cos(\ln x)\big)}{2} + C \)</div>
+            </div>
+          </details>
+        </li>
+
+        <li class="lvl-medio-item">
+          <div class="ex-q"><span class="ex-q-num">27</span><span>\( \displaystyle\int \cos(\ln x)\,dx \)</span></div>
+          <details class="ex-toggle"><summary>ver resolução</summary>
+            <div class="ex-answer">
+              <div class="step"><div class="step-num">1</div><div class="step-content"><p>Já isolamos essa integral no passo 2 do exercício 26:</p>\[ J = x\cos(\ln x) + I \]</div></div>
+              <div class="step"><div class="step-num">2</div><div class="step-content"><p>Substituindo o valor de \( I \) encontrado ali:</p>\[ J = x\cos(\ln x) + \frac{x\big(\sin(\ln x)-\cos(\ln x)\big)}{2} \]</div></div>
+              <div class="step"><div class="step-num">3</div><div class="step-content"><p>Colocando \( x \) em evidência e somando as frações:</p>\[ J = x\left[\cos(\ln x)+\frac{\sin(\ln x)-\cos(\ln x)}{2}\right] = x\cdot\frac{\cos(\ln x)+\sin(\ln x)}{2} \]</div></div>
+              <div class="result-box">\( \dfrac{x\big(\sin(\ln x) + \cos(\ln x)\big)}{2} + C \)</div>
+            </div>
+          </details>
+        </li>
+
+        <li class="lvl-medio-item">
+          <div class="ex-q"><span class="ex-q-num">28</span><span>\( \displaystyle\int x\ln(x^2+1)\,dx \)</span></div>
+          <details class="ex-toggle"><summary>ver resolução</summary>
+            <div class="ex-answer">
+              <div class="step"><div class="step-num">1</div><div class="step-content">\[ u=\ln(x^2+1) \qquad dv=x\,dx \qquad du=\frac{2x}{x^2+1}dx \qquad v=\frac{x^2}{2} \]</div></div>
+              <div class="step"><div class="step-num">2</div><div class="step-content">\[ \int x\ln(x^2+1)dx = \frac{x^2}{2}\ln(x^2+1) - \int \frac{x^3}{x^2+1}dx \]</div></div>
+              <div class="step"><div class="step-num">3</div><div class="step-content"><p>Dividindo o polinômio: \( \dfrac{x^3}{x^2+1} = x - \dfrac{x}{x^2+1} \), então:</p>\[ \int \frac{x^3}{x^2+1}dx = \frac{x^2}{2} - \frac{1}{2}\ln(x^2+1) \]</div></div>
+              <div class="step"><div class="step-num">4</div><div class="step-content"><p>Substituindo de volta (o sinal negativo se distribui):</p>\[ \frac{x^2}{2}\ln(x^2+1) - \frac{x^2}{2} + \frac{1}{2}\ln(x^2+1) \]</div></div>
+              <div class="result-box">\( \dfrac{(x^2+1)\ln(x^2+1)}{2} - \dfrac{x^2}{2} + C \)</div>
+            </div>
+          </details>
+        </li>
+
       </ul>
     </section>
 
-    <!-- BLOCO F -->
+    <!-- ================= BLOCO F ================= -->
     <section id="bloco-f">
       <div class="kicker">bloco f <span class="level-chip lvl-medio">médio</span></div>
       <h2 class="block-title">Integrais definidas</h2>
       <p class="block-desc">Ache a antiderivada geral primeiro e só então aplique os limites — é quase sempre o caminho mais rápido.</p>
       <ul class="exercise-list">
-        <li class="lvl-medio-item"><div class="ex-q"><span class="ex-q-num">29</span><span>\( \displaystyle\int_0^{\pi} x\sin x\,dx \)</span></div>
-          <details class="ex-toggle"><summary>ver resposta</summary><div class="ex-answer">\( \pi \)</div></details></li>
-        <li class="lvl-medio-item"><div class="ex-q"><span class="ex-q-num">30</span><span>\( \displaystyle\int_0^1 x^2 e^x\,dx \)</span></div>
-          <details class="ex-toggle"><summary>ver resposta</summary><div class="ex-answer">\( e - 2 \)</div></details></li>
-        <li class="lvl-medio-item"><div class="ex-q"><span class="ex-q-num">31</span><span>\( \displaystyle\int_1^e x\ln x\,dx \)</span></div>
-          <details class="ex-toggle"><summary>ver resposta</summary><div class="ex-answer">\( \dfrac{e^2+1}{4} \)</div></details></li>
-        <li class="lvl-medio-item"><div class="ex-q"><span class="ex-q-num">32</span><span>\( \displaystyle\int_0^{\pi/2} e^x \cos x\,dx \)</span></div>
-          <details class="ex-toggle"><summary>ver resposta</summary><div class="ex-answer">\( \dfrac{e^{\pi/2}-1}{2} \)</div></details></li>
+
+        <li class="lvl-medio-item">
+          <div class="ex-q"><span class="ex-q-num">29</span><span>\( \displaystyle\int_0^{\pi} x\sin x\,dx \)</span></div>
+          <details class="ex-toggle"><summary>ver resolução</summary>
+            <div class="ex-answer">
+              <div class="step"><div class="step-num">1</div><div class="step-content"><p>A antiderivada já foi encontrada no exercício 1:</p>\[ \int x\sin x\,dx = -x\cos x + \sin x \]</div></div>
+              <div class="step"><div class="step-num">2</div><div class="step-content"><p>Avaliando nos limites:</p>\[ \Big[-x\cos x+\sin x\Big]_0^\pi = \big(-\pi\cos\pi+\sin\pi\big) - \big(0+0\big) = \pi \]</div></div>
+              <div class="result-box">\( \pi \)</div>
+            </div>
+          </details>
+        </li>
+
+        <li class="lvl-medio-item">
+          <div class="ex-q"><span class="ex-q-num">30</span><span>\( \displaystyle\int_0^1 x^2 e^x\,dx \)</span></div>
+          <details class="ex-toggle"><summary>ver resolução</summary>
+            <div class="ex-answer">
+              <div class="step"><div class="step-num">1</div><div class="step-content"><p>Reaproveitando o exercício 13:</p>\[ \int x^2e^xdx = e^x(x^2-2x+2) \]</div></div>
+              <div class="step"><div class="step-num">2</div><div class="step-content">\[ \Big[e^x(x^2-2x+2)\Big]_0^1 = e^1(1-2+2) - e^0(0-0+2) = e - 2 \]</div></div>
+              <div class="result-box">\( e - 2 \)</div>
+            </div>
+          </details>
+        </li>
+
+        <li class="lvl-medio-item">
+          <div class="ex-q"><span class="ex-q-num">31</span><span>\( \displaystyle\int_1^e x\ln x\,dx \)</span></div>
+          <details class="ex-toggle"><summary>ver resolução</summary>
+            <div class="ex-answer">
+              <div class="step"><div class="step-num">1</div><div class="step-content">\[ u=\ln x \qquad dv=x\,dx \qquad du=\frac{1}{x}dx \qquad v=\frac{x^2}{2} \]</div></div>
+              <div class="step"><div class="step-num">2</div><div class="step-content">\[ \int x\ln x\,dx = \frac{x^2\ln x}{2} - \int \frac{x}{2}dx = \frac{x^2\ln x}{2}-\frac{x^2}{4} \]</div></div>
+              <div class="step"><div class="step-num">3</div><div class="step-content"><p>Avaliando de 1 a \( e \):</p>\[ \left(\frac{e^2}{2}-\frac{e^2}{4}\right) - \left(0-\frac{1}{4}\right) = \frac{e^2}{4}+\frac{1}{4} \]</div></div>
+              <div class="result-box">\( \dfrac{e^2+1}{4} \)</div>
+            </div>
+          </details>
+        </li>
+
+        <li class="lvl-medio-item">
+          <div class="ex-q"><span class="ex-q-num">32</span><span>\( \displaystyle\int_0^{\pi/2} e^x \cos x\,dx \)</span></div>
+          <details class="ex-toggle"><summary>ver resolução</summary>
+            <div class="ex-answer">
+              <div class="step"><div class="step-num">1</div><div class="step-content"><p>Reaproveitando a integral cíclica do exercício 19:</p>\[ \int e^x\cos x\,dx = \frac{e^x(\sin x+\cos x)}{2} \]</div></div>
+              <div class="step"><div class="step-num">2</div><div class="step-content">\[ \left[\frac{e^x(\sin x+\cos x)}{2}\right]_0^{\pi/2} = \frac{e^{\pi/2}(1+0)}{2} - \frac{e^0(0+1)}{2} \]</div></div>
+              <div class="result-box">\( \dfrac{e^{\pi/2}-1}{2} \)</div>
+            </div>
+          </details>
+        </li>
+
       </ul>
     </section>
 
-    <!-- BLOCO G -->
+    <!-- ================= BLOCO G ================= -->
     <section id="bloco-g" style="border-bottom:none;">
       <div class="kicker">bloco g <span class="level-chip lvl-dificil">difícil</span></div>
       <h2 class="block-title">Desafios finais</h2>
       <p class="block-desc">Aplicações repetidas, integrais que também aparecem em outros contextos de Cálculo II, e uma clássica que costuma cair em prova.</p>
       <ul class="exercise-list">
-        <li class="lvl-dificil-item"><div class="ex-q"><span class="ex-q-num">33</span><span>\( \displaystyle\int x^5(\ln x)^2\,dx \)</span></div>
-          <details class="ex-toggle"><summary>ver resposta</summary><div class="ex-answer">\( \dfrac{x^6}{6}(\ln x)^2 - \dfrac{x^6}{18}\ln x + \dfrac{x^6}{108} + C \)</div></details></li>
-        <li class="lvl-dificil-item"><div class="ex-q"><span class="ex-q-num">34</span><span>\( \displaystyle\int \sec^3 x\,dx \) <span class="ex-hint">— clássica; aparece de novo em substituição trigonométrica</span></span></div>
-          <details class="ex-toggle"><summary>ver resposta</summary><div class="ex-answer">\( \dfrac{\sec x\tan x + \ln|\sec x + \tan x|}{2} + C \)</div></details></li>
-        <li class="lvl-dificil-item"><div class="ex-q"><span class="ex-q-num">35</span><span>\( \displaystyle\int (x+1)\ln(x+1)\,dx \)</span></div>
-          <details class="ex-toggle"><summary>ver resposta</summary><div class="ex-answer">\( \dfrac{(x+1)^2}{2}\ln(x+1) - \dfrac{(x+1)^2}{4} + C \)</div></details></li>
+
+        <li class="lvl-dificil-item">
+          <div class="ex-q"><span class="ex-q-num">33</span><span>\( \displaystyle\int x^5(\ln x)^2\,dx \)</span></div>
+          <details class="ex-toggle"><summary>ver resolução</summary>
+            <div class="ex-answer">
+              <div class="step"><div class="step-num">1</div><div class="step-content"><p>Rodada 1: \( u=(\ln x)^2,\ dv=x^5dx,\ du=\tfrac{2\ln x}{x}dx,\ v=\tfrac{x^6}{6} \)</p>\[ \int x^5(\ln x)^2dx = \frac{x^6(\ln x)^2}{6} - \frac{1}{3}\int x^5\ln x\,dx \]</div></div>
+              <div class="step"><div class="step-num">2</div><div class="step-content"><p>Rodada 2, em \( \int x^5\ln x\,dx \): \( u=\ln x,\ dv=x^5dx,\ du=\tfrac{1}{x}dx,\ v=\tfrac{x^6}{6} \)</p>\[ \int x^5\ln x\,dx = \frac{x^6\ln x}{6} - \int \frac{x^5}{6}dx = \frac{x^6\ln x}{6}-\frac{x^6}{36} \]</div></div>
+              <div class="step"><div class="step-num">3</div><div class="step-content"><p>Substituindo de volta e distribuindo o \( -\tfrac{1}{3} \):</p>\[ \frac{x^6(\ln x)^2}{6} - \frac{1}{3}\left(\frac{x^6\ln x}{6}-\frac{x^6}{36}\right) \]</div></div>
+              <div class="result-box">\( \dfrac{x^6}{6}(\ln x)^2 - \dfrac{x^6}{18}\ln x + \dfrac{x^6}{108} + C \)</div>
+            </div>
+          </details>
+        </li>
+
+        <li class="lvl-dificil-item">
+          <div class="ex-q"><span class="ex-q-num">34</span><span>\( \displaystyle\int \sec^3 x\,dx \)</span></div>
+          <details class="ex-toggle"><summary>ver resolução</summary>
+            <div class="ex-answer">
+              <div class="step"><div class="step-num">1</div><div class="step-content"><p>Chame de \( I \). Escolha \( u=\sec x,\ dv=\sec^2x\,dx,\ du=\sec x\tan x\,dx,\ v=\tan x \):</p>\[ I = \sec x\tan x - \int \sec x\tan^2x\,dx \]</div></div>
+              <div class="step"><div class="step-num">2</div><div class="step-content"><p>Use \( \tan^2x=\sec^2x-1 \) para reescrever a integral restante em termos de \( I \):</p>\[ \int \sec x\tan^2x\,dx = \int \sec^3x\,dx - \int \sec x\,dx = I - \int \sec x\,dx \]</div></div>
+              <div class="step"><div class="step-num">3</div><div class="step-content"><p>Substituindo de volta — a mesma integral \( I \) reaparece, como nas integrais cíclicas:</p>\[ I = \sec x\tan x - I + \int \sec x\,dx \ \Rightarrow\ 2I = \sec x\tan x + \ln|\sec x+\tan x| \]</div></div>
+              <div class="result-box">\( \dfrac{\sec x\tan x + \ln|\sec x + \tan x|}{2} + C \)</div>
+            </div>
+          </details>
+        </li>
+
+        <li class="lvl-dificil-item">
+          <div class="ex-q"><span class="ex-q-num">35</span><span>\( \displaystyle\int (x+1)\ln(x+1)\,dx \)</span></div>
+          <details class="ex-toggle"><summary>ver resolução</summary>
+            <div class="ex-answer">
+              <div class="step"><div class="step-num">1</div><div class="step-content"><p>Substitua \( t=x+1,\ dt=dx \) para simplificar a forma:</p>\[ \int (x+1)\ln(x+1)\,dx = \int t\ln t\,dt \]</div></div>
+              <div class="step"><div class="step-num">2</div><div class="step-content"><p>Por partes: \( u=\ln t,\ dv=t\,dt,\ du=\tfrac{1}{t}dt,\ v=\tfrac{t^2}{2} \):</p>\[ \int t\ln t\,dt = \frac{t^2\ln t}{2} - \int \frac{t}{2}dt = \frac{t^2\ln t}{2}-\frac{t^2}{4} \]</div></div>
+              <div class="step"><div class="step-num">3</div><div class="step-content"><p>Voltando para \( x \) (\( t=x+1 \)):</p></div></div>
+              <div class="result-box">\( \dfrac{(x+1)^2}{2}\ln(x+1) - \dfrac{(x+1)^2}{4} + C \)</div>
+            </div>
+          </details>
+        </li>
+
       </ul>
     </section>
 
     <div class="final">
       <div class="kicker" style="color:var(--gold-soft);">como usar esta lista</div>
       <h2 class="block-title" style="margin-top:6px;">Um roteiro de estudo, não só uma lista</h2>
-      <p>Resolva os blocos em ordem. Se travar em algum exercício, volte ao guia principal — cada bloco aqui corresponde diretamente a uma seção da teoria.</p>
+      <p>Resolva os blocos em ordem. Se travar em algum exercício, volte ao guia principal — cada bloco aqui corresponde diretamente a uma seção da teoria. Tente sempre até o fim antes de abrir a resolução; ela existe para conferir seu caminho, não para substituí-lo.</p>
       <div class="progress-tip">
-        <strong>Meta sugerida:</strong> um bloco por sessão de estudo. Ao terminar os blocos A–D sem consultar a resposta, você já domina o essencial. Os blocos E–G são o que separa "sabe integração por partes" de "é craque em integração por partes".
+        <strong>Meta sugerida:</strong> um bloco por sessão de estudo. Ao terminar os blocos A–D sem consultar a resolução, você já domina o essencial. Os blocos E–G são o que separa "sabe integração por partes" de "é craque em integração por partes".
       </div>
     </div>
   </main>
