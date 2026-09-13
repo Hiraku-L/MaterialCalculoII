@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Integração por Partes — Cálculo II</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+
+<style>
+  :root{
+    --paper:#FBFAF6;
+    --paper-dim:#F3F1EA;
+    --ink:#16202E;
+    --ink-soft:#3C4654;
+    --muted:#6B7280;
+    --board:#1E3448;
+    --board-2:#28425A;
+    --gold:#D79A2C;
+    --gold-soft:#F3DBA6;
+    --teal:#3F7C6E;
+    --teal-soft:#DCEAE5;
+    --line: #DCD6C7;
+    --rose:#B4553F;
+    --radius-note: 3px;
+    --radius-card: 2px;
+  }
+
+  *{ box-sizing:border-box; }
+
+  html{ scroll-behavior:smooth; }
+
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'IBM Plex Sans', sans-serif;
+    font-size:16.5px;
+    line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  h1,h2,h3,h4{
+    font-family:'Fraunces', serif;
+    color:var(--ink);
+    font-weight:600;
+    line-height:1.15;
+    margin:0;
+  }
+
+  a{ color:var(--teal); }
+
+  ::selection{ background:var(--gold-soft); }
+
+  .katex{ font-size:1.06em; }
+
+  /* ---------- layout shell ---------- */
+
+  .shell{
+    display:grid;
+    grid-template-columns: 260px minmax(0,1fr);
+    max-width:1200px;
+    margin:0 auto;
+  }
+
+  @media (max-width: 900px){
+    .shell{ grid-template-columns: 1fr; }
+  }
+
+  /* ---------- sidebar ---------- */
+
+  .toc{
+    position:sticky;
+    top:0;
+    align-self:start;
+    height:100vh;
+    overflow-y:auto;
+    padding:38px 22px 40px 32px;
+    border-right:1px solid var(--line);
+  }
+
+  @media (max-width:900px){
+    .toc{
+      position:static;
+      height:auto;
+      border-right:none;
+      border-bottom:1px solid var(--line);
+      padding:22px 24px;
+    }
+  }
+
+  .toc-mark{
+    width:34px; height:34px;
+    border:1.5px solid var(--ink);
+    border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-size:19px;
+    margin-bottom:18px;
+  }
+
+  .toc-title{
+    font-family:'Fraunces', serif;
+    font-size:15px;
+    color:var(--muted);
+    margin-bottom: 26px;
+    line-height:1.4;
+  }
+
+  .toc-title strong{ color:var(--ink); display:block; font-size:17px; font-weight:600;}
+
+  .toc-list{ list-style:none; margin:0; padding:0; }
+
+  .toc-list li{ margin-bottom:2px; }
+
+  .toc-list a{
+    display:block;
+    text-decoration:none;
+    color:var(--ink-soft);
+    font-size:14.5px;
+    padding:7px 10px 7px 14px;
+    border-left:2px solid transparent;
+    transition:border-color .15s ease, color .15s ease, background .15s ease;
+  }
+
+  .toc-list a:hover{ border-left-color:var(--gold); color:var(--ink); background:var(--paper-dim); }
+
+  .toc-num{ color:var(--muted); font-family:'IBM Plex Mono', monospace; font-size:12px; margin-right:8px; }
+
+  .toc-foot{
+    margin-top:28px;
+    padding-top:18px;
+    border-top:1px solid var(--line);
+    font-size:12.5px;
+    color:var(--muted);
+  }
+
+  /* ---------- main column ---------- */
+
+  main{ padding: 0 0 100px 0; }
+
+  .hero{
+    padding:64px 56px 46px 56px;
+    border-bottom:1px solid var(--line);
+  }
+
+  @media (max-width:640px){ .hero{ padding:44px 24px 32px; } }
+
+  .hero-eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:13px;
+    color:var(--teal);
+    margin-bottom:16px;
+  }
+
+  .hero h1{
+    font-size:clamp(34px, 5vw, 54px);
+    max-width:14ch;
+  }
+
+  .hero p.lede{
+    max-width:56ch;
+    font-size:18px;
+    color:var(--ink-soft);
+    margin-top:20px;
+  }
+
+  .hero-formula{
+    margin-top:34px;
+    background:var(--board);
+    color:#F2F1EC;
+    padding:26px 30px;
+    border-radius:var(--radius-card);
+    display:inline-block;
+    font-size:22px;
+  }
+
+  .hero-formula .katex{ color:#F6EFD9; }
+
+  section{
+    padding:52px 56px;
+    border-bottom:1px solid var(--line);
+    max-width:840px;
+  }
+
+  @media (max-width:640px){ section{ padding:38px 24px; } }
+
+  section.wide{ max-width:none; }
+
+  .kicker{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12.5px;
+    color:var(--muted);
+    letter-spacing:.02em;
+    margin-bottom:10px;
+  }
+
+  h2.section-title{
+    font-size:clamp(26px,3vw,34px);
+    margin-bottom:22px;
+  }
+
+  h3.sub-title{
+    font-size:20px;
+    margin: 30px 0 12px 0;
+    color: var(--ink);
+  }
+
+  p{ margin:0 0 16px 0; max-width:68ch; }
+
+  .lead-in{ font-size:18px; color:var(--ink-soft); max-width:62ch; }
+
+  /* ---------- formula / definition blocks ---------- */
+
+  .formula-block{
+    background:var(--board);
+    color:#F2F1EC;
+    padding:28px 32px;
+    margin: 22px 0;
+    border-radius:var(--radius-card);
+    overflow-x:auto;
+  }
+  .formula-block .katex{ color:#F6EFD9; font-size:1.2em; }
+  .formula-block .katex-display{ margin:0; }
+
+  .formula-label{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11.5px;
+    text-transform:uppercase;
+    letter-spacing:.08em;
+    color:var(--gold-soft);
+    margin-bottom:10px;
+    opacity:.85;
+  }
+
+  .note{
+    border-left:3px solid var(--teal);
+    background:var(--teal-soft);
+    padding:16px 20px;
+    margin:22px 0;
+    border-radius:0 var(--radius-note) var(--radius-note) 0;
+  }
+  .note .note-label{
+    font-weight:600;
+    color:var(--teal);
+    display:block;
+    margin-bottom:4px;
+    font-size:14px;
+    font-family:'Fraunces',serif;
+  }
+  .note p:last-child{ margin-bottom:0; }
+
+  .warn{
+    border-left:3px solid var(--rose);
+    background:#F5E8E3;
+    padding:16px 20px;
+    margin:22px 0;
+    border-radius:0 var(--radius-note) var(--radius-note) 0;
+  }
+  .warn .warn-label{
+    font-weight:600;
+    color:var(--rose);
+    display:block;
+    margin-bottom:4px;
+    font-size:14px;
+    font-family:'Fraunces',serif;
+  }
+  .warn p:last-child{ margin-bottom:0; }
+
+  /* ---------- LIATE table ---------- */
+
+  .liate{
+    width:100%;
+    border-collapse:collapse;
+    margin:24px 0;
+    font-size:15px;
+  }
+  .liate th{
+    text-align:left;
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    padding:10px 14px;
+    border-bottom:1.5px solid var(--ink);
+    color:var(--ink);
+  }
+  .liate td{
+    padding:12px 14px;
+    border-bottom:1px solid var(--line);
+    vertical-align:top;
+  }
+  .liate tr:last-child td{ border-bottom:none; }
+  .liate .letra{
+    font-family:'Fraunces',serif;
+    font-style:italic;
+    font-size:19px;
+    color:var(--gold);
+    width:34px;
+  }
+  .liate .cat{ font-weight:600; width:170px; }
+
+  /* ---------- worked examples ---------- */
+
+  .example{
+    border:1px solid var(--line);
+    margin:28px 0;
+    background:#fff;
+  }
+  .example-head{
+    display:flex;
+    align-items:baseline;
+    gap:14px;
+    padding:16px 22px;
+    background:var(--paper-dim);
+    border-bottom:1px solid var(--line);
+  }
+  .example-num{
+    font-family:'Fraunces',serif;
+    font-style:italic;
+    font-size:22px;
+    color:var(--gold);
+  }
+  .example-title{ font-weight:600; font-size:15.5px; color:var(--ink);}
+  .example-body{ padding:22px 22px 24px; }
+
+  .step{
+    display:grid;
+    grid-template-columns: 28px 1fr;
+    gap:14px;
+    margin-bottom:16px;
+    align-items:start;
+  }
+  .step:last-child{ margin-bottom:0; }
+  .step-num{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;
+    color:#fff;
+    background:var(--ink);
+    width:24px; height:24px;
+    border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    margin-top:2px;
+  }
+  .step-content p{ margin-bottom:8px; }
+  .step-content .katex-display{ margin:6px 0; }
+
+  .result-box{
+    margin-top:16px;
+    padding:14px 18px;
+    background:var(--gold-soft);
+    border-radius:var(--radius-note);
+    font-weight:500;
+  }
+
+  /* ---------- tabular / DI method ---------- */
+
+  .di-table{
+    border-collapse:collapse;
+    margin:22px auto;
+  }
+  .di-table td{
+    padding:10px 24px;
+    border-bottom:1px dashed var(--line);
+    text-align:center;
+  }
+  .di-table td:first-child{ font-family:'IBM Plex Mono',monospace; color:var(--muted); font-size:13px;}
+  .di-table tr:last-child td{ border-bottom:none; }
+
+  /* ---------- exercises ---------- */
+
+  .exercise-list{ list-style:none; margin:0; padding:0; }
+  .exercise-list li{
+    border:1px solid var(--line);
+    margin-bottom:14px;
+    background:#fff;
+  }
+  .ex-q{
+    padding:18px 22px;
+    display:flex;
+    gap:16px;
+    align-items:baseline;
+  }
+  .ex-q-num{ font-family:'Fraunces',serif; font-style:italic; color:var(--gold); font-size:19px; flex-shrink:0;}
+
+  details.ex-toggle{ border-top:1px solid var(--line); }
+  details.ex-toggle > summary{
+    cursor:pointer;
+    list-style:none;
+    padding:11px 22px;
+    font-size:13.5px;
+    font-family:'IBM Plex Mono',monospace;
+    color:var(--teal);
+    background:var(--paper-dim);
+    user-select:none;
+  }
+  details.ex-toggle > summary::-webkit-details-marker{ display:none; }
+  details.ex-toggle > summary:before{ content:"▸ "; }
+  details.ex-toggle[open] > summary:before{ content:"▾ "; }
+  .ex-answer{ padding:16px 22px 20px; border-top:1px solid var(--line); }
+
+  /* ---------- cheat sheet ---------- */
+
+  .cheat{
+    background:var(--board);
+    color:#F2F1EC;
+    padding:40px 56px;
+    max-width:none;
+  }
+  @media (max-width:640px){ .cheat{ padding:32px 24px; } }
+  .cheat h2{ color:#fff; }
+  .cheat-grid{
+    display:grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px,1fr));
+    gap: 24px;
+    margin-top:28px;
+  }
+  .cheat-card{
+    background:var(--board-2);
+    padding:20px 22px;
+    border-radius:var(--radius-card);
+  }
+  .cheat-card h4{
+    font-size:14px;
+    color:var(--gold-soft);
+    font-family:'IBM Plex Mono',monospace;
+    text-transform:none;
+    margin-bottom:10px;
+    font-weight:500;
+  }
+  .cheat-card .katex{ color:#F6EFD9; }
+  .cheat-card p{ color:#D8DEE8; font-size:14px; margin-bottom:8px;}
+
+  /* ---------- footer / next steps ---------- */
+
+  .next{
+    padding:52px 56px 70px;
+  }
+  @media (max-width:640px){ .next{ padding:40px 24px 56px; } }
+  .next-list{
+    display:flex;
+    flex-wrap:wrap;
+    gap:14px;
+    margin-top:22px;
+  }
+  .next-pill{
+    border:1px solid var(--line);
+    padding:10px 18px;
+    font-size:14px;
+    color:var(--ink-soft);
+    background:#fff;
+  }
+
+  code{
+    font-family:'IBM Plex Mono', monospace;
+    background:var(--paper-dim);
+    padding:1px 6px;
+    font-size:.9em;
+    border-radius:2px;
+  }
+
+  .more-exercises{
+    margin-top:26px;
+    background:var(--board);
+    color:#F2F1EC;
+    padding:28px 30px;
+    border-radius:2px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:20px;
+    align-items:center;
+    justify-content:space-between;
+  }
+  .more-exercises-text{ max-width:52ch; }
+  .more-exercises-label{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:.06em;
+    color:var(--gold-soft);
+    display:block;
+    margin-bottom:8px;
+  }
+  .more-exercises-text p{ color:#D8DEE8; margin:0; font-size:15px; }
+  .more-exercises-text strong{ color:#fff; }
+  .more-exercises-btn{
+    flex-shrink:0;
+    background:var(--gold);
+    color:#2A1E05;
+    font-weight:600;
+    font-size:14.5px;
+    padding:13px 22px;
+    text-decoration:none;
+    border-radius:2px;
+    white-space:nowrap;
+  }
+  .more-exercises-btn:hover{ background:var(--gold-soft); }
+</style>
+</head>
+<body>
+
+<div class="shell">
+
+  <!-- ================= SIDEBAR ================= -->
+  <nav class="toc">
+    <div class="toc-mark">∫</div>
+    <div class="toc-title">
+      <strong>Cálculo II</strong>
+      Guia de estudo — técnicas de integração
+    </div>
+    <ul class="toc-list">
+      <li><a href="#motivacao"><span class="toc-num">01</span>Por que precisamos disso</a></li>
+      <li><a href="#formula"><span class="toc-num">02</span>De onde vem a fórmula</a></li>
+      <li><a href="#escolha"><span class="toc-num">03</span>Escolhendo u e dv</a></li>
+      <li><a href="#exemplos"><span class="toc-num">04</span>Exemplos resolvidos</a></li>
+      <li><a href="#ciclica"><span class="toc-num">05</span>Integrais cíclicas</a></li>
+      <li><a href="#tabular"><span class="toc-num">06</span>Método tabular (DI)</a></li>
+      <li><a href="#definida"><span class="toc-num">07</span>Integral definida</a></li>
+      <li><a href="#erros"><span class="toc-num">08</span>Erros comuns</a></li>
+      <li><a href="#exercicios"><span class="toc-num">09</span>Exercícios</a></li>
+      <li><a href="#resumo"><span class="toc-num">10</span>Resumo rápido</a></li>
+    </ul>
+    <div class="toc-foot">Parte 1 de uma série sobre técnicas de integração.</div>
+  </nav>
+
+  <!-- ================= MAIN ================= -->
+  <main>
+
+    <div class="hero">
+      <div class="hero-eyebrow">cálculo ii · técnicas de integração</div>
+      <h1>Integração por partes</h1>
+      <p class="lede">O método que resolve integrais de produtos que a substituição não alcança — transformando uma integral difícil em outra mais simples, repetidamente se preciso.</p>
+      <div class="hero-formula">
+        \[ \int u \, dv = uv - \int v \, du \]
+      </div>
+    </div>
+
+    <!-- ============ 01 MOTIVAÇÃO ============ -->
+    <section id="motivacao">
+      <div class="kicker">01 — motivação</div>
+      <h2 class="section-title">Quando a substituição não é suficiente</h2>
+      <p class="lead-in">Tente calcular \( \displaystyle\int x \, e^{x}\, dx \) por substituição. Você vai perceber rapidamente que não existe uma troca de variável \( t = g(x) \) que simplifique o produto \( x \cdot e^x \) — porque \( x \) e \( e^x \) não são uma função e sua derivada, que é o que a substituição exige.</p>
+      <p>Precisamos de uma ferramenta diferente para integrar <strong>produtos de funções de tipos distintos</strong>: um polinômio vezes uma exponencial, um logaritmo, uma função trigonométrica vezes uma exponencial, e assim por diante. Essa ferramenta é a <strong>integração por partes</strong>.</p>
+      <div class="note">
+        <span class="note-label">Ideia central</span>
+        <p>Integração por partes é a versão, para integrais, da regra do produto para derivadas. Ela não elimina o produto — ela troca um produto difícil de integrar por outro mais fácil.</p>
+      </div>
+    </section>
+
+    <!-- ============ 02 FÓRMULA ============ -->
+    <section id="formula">
+      <div class="kicker">02 — de onde vem a fórmula</div>
+      <h2 class="section-title">Derivando a fórmula a partir da regra do produto</h2>
+      <p class="lead-in">A fórmula não precisa ser decorada às cegas — ela sai diretamente da regra da derivada do produto.</p>
+
+      <div class="example">
+        <div class="example-head">
+          <span class="example-num">i</span>
+          <span class="example-title">Dedução passo a passo</span>
+        </div>
+        <div class="example-body">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-content">
+              <p>Partimos da regra do produto para duas funções \( u(x) \) e \( v(x) \):</p>
+              \[ \frac{d}{dx}\big[u(x)v(x)\big] = u'(x)v(x) + u(x)v'(x) \]
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-content">
+              <p>Integramos os dois lados em relação a \( x \):</p>
+              \[ u(x)v(x) = \int u'(x)v(x)\,dx + \int u(x)v'(x)\,dx \]
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-content">
+              <p>Isolamos o termo que nos interessa e escrevemos \( du = u'(x)\,dx \) e \( dv = v'(x)\,dx \):</p>
+              \[ \int u\,dv = uv - \int v\,du \]
+            </div>
+          </div>
+          <div class="result-box">Essa é a fórmula. Ela é exata — não uma aproximação — e vale sempre que \( u \) e \( v \) forem deriváveis.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 03 ESCOLHA DE u e dv ============ -->
+    <section id="escolha">
+      <div class="kicker">03 — a parte mais importante</div>
+      <h2 class="section-title">Como escolher u e dv</h2>
+      <p class="lead-in">O sucesso do método depende quase inteiramente de uma boa escolha de \( u \). Uma escolha ruim transforma a integral em algo <em>mais</em> complicado, não menos.</p>
+
+      <h3 class="sub-title">Duas perguntas para fazer antes de escolher</h3>
+      <p>Ao olhar para o integrando, pergunte:</p>
+      <p>1. Se eu derivar esta parte, ela fica mais simples (viro <code>u</code>)?<br>
+      2. Se eu integrar esta outra parte, eu ainda sei fazer isso com facilidade (viro <code>dv</code>)?</p>
+
+      <h3 class="sub-title">O mnemônico LIATE</h3>
+      <p>Quando não é óbvio, use a ordem de prioridade LIATE para escolher <code>u</code> — dê preferência, na ordem abaixo, à categoria que aparecer primeiro na lista dentro do seu integrando:</p>
+
+      <table class="liate">
+        <thead>
+          <tr><th class="letra"></th><th class="cat">Categoria</th><th>Exemplos</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="letra">L</td><td class="cat">Logarítmicas</td><td>\( \ln x, \ \log_2 x \)</td></tr>
+          <tr><td class="letra">I</td><td class="cat">Inversas trigonométricas</td><td>\( \arctan x, \ \arcsin x \)</td></tr>
+          <tr><td class="letra">A</td><td class="cat">Algébricas</td><td>\( x^2, \ 3x+1, \ \sqrt{x} \)</td></tr>
+          <tr><td class="letra">T</td><td class="cat">Trigonométricas</td><td>\( \sin x, \ \cos x \)</td></tr>
+          <tr><td class="letra">E</td><td class="cat">Exponenciais</td><td>\( e^x, \ 2^x \)</td></tr>
+        </tbody>
+      </table>
+
+      <div class="note">
+        <span class="note-label">Como usar</span>
+        <p>Em \( \displaystyle\int x\,e^x\,dx \), temos uma Algébrica (\(x\)) e uma Exponencial (\(e^x\)). Como A vem antes de E na sigla LIATE, escolhemos \( u = x \) e \( dv = e^x dx \).</p>
+      </div>
+
+      <div class="warn">
+        <span class="warn-label">Atenção</span>
+        <p>LIATE é um guia, não uma lei universal. Em alguns casos raros a ordem falha; se sua escolha gerar uma integral mais complicada que a original, volte atrás e troque \( u \) por \( dv \).</p>
+      </div>
+    </section>
+
+    <!-- ============ 04 EXEMPLOS ============ -->
+    <section id="exemplos" class="wide" style="max-width:900px;">
+      <div class="kicker">04 — prática guiada</div>
+      <h2 class="section-title">Exemplos resolvidos, do mais simples ao mais elaborado</h2>
+
+      <!-- Exemplo 1 -->
+      <div class="example">
+        <div class="example-head"><span class="example-num">1</span><span class="example-title">Polinômio × exponencial — \( \int x\,e^x\,dx \)</span></div>
+        <div class="example-body">
+          <div class="step"><div class="step-num">1</div><div class="step-content">
+            <p>Pelo LIATE, algébrica antes de exponencial:</p>
+            \[ u = x \qquad dv = e^x\,dx \]
+          </div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-content">
+            <p>Derivamos \(u\) e integramos \(dv\):</p>
+            \[ du = dx \qquad v = e^x \]
+          </div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-content">
+            <p>Aplicamos a fórmula \( \int u\,dv = uv - \int v\,du \):</p>
+            \[ \int x\,e^x\,dx = x e^x - \int e^x\,dx \]
+          </div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-content">
+            <p>A integral restante é imediata:</p>
+            \[ \int x\,e^x\,dx = xe^x - e^x + C \]
+          </div></div>
+          <div class="result-box">\( \displaystyle \int x\,e^x\,dx = e^x(x-1) + C \)</div>
+        </div>
+      </div>
+
+      <!-- Exemplo 2 -->
+      <div class="example">
+        <div class="example-head"><span class="example-num">2</span><span class="example-title">Logaritmo puro — \( \int \ln x \, dx \)</span></div>
+        <div class="example-body">
+          <div class="step"><div class="step-num">1</div><div class="step-content">
+            <p>Aqui só há um "fator visível" — o truque é tratar a integral como \( \int \ln x \cdot 1 \, dx \):</p>
+            \[ u = \ln x \qquad dv = dx \]
+          </div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-content">
+            \[ du = \frac{1}{x}\,dx \qquad v = x \]
+          </div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-content">
+            <p>Substituindo na fórmula:</p>
+            \[ \int \ln x\,dx = x\ln x - \int x \cdot \frac{1}{x}\,dx = x \ln x - \int 1\,dx \]
+          </div></div>
+          <div class="result-box">\( \displaystyle \int \ln x\,dx = x\ln x - x + C \)</div>
+        </div>
+      </div>
+
+      <!-- Exemplo 3 -->
+      <div class="example">
+        <div class="example-head"><span class="example-num">3</span><span class="example-title">Inversa trigonométrica — \( \int \arctan x\,dx \)</span></div>
+        <div class="example-body">
+          <div class="step"><div class="step-num">1</div><div class="step-content">
+            <p>Mesma ideia do exemplo anterior: \( dv = dx \).</p>
+            \[ u = \arctan x \qquad dv = dx \qquad du = \frac{1}{1+x^2}\,dx \qquad v = x \]
+          </div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-content">
+            \[ \int \arctan x \, dx = x\arctan x - \int \frac{x}{1+x^2}\,dx \]
+          </div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-content">
+            <p>A integral restante sai por substituição simples com \( t = 1+x^2 \), \( dt = 2x\,dx \):</p>
+            \[ \int \frac{x}{1+x^2}\,dx = \frac{1}{2}\ln(1+x^2) \]
+          </div></div>
+          <div class="result-box">\( \displaystyle \int \arctan x\,dx = x\arctan x - \frac{1}{2}\ln(1+x^2) + C \)</div>
+        </div>
+      </div>
+
+      <!-- Exemplo 4: repetido -->
+      <div class="example">
+        <div class="example-head"><span class="example-num">4</span><span class="example-title">Polinômio de grau 2 — aplicando o método duas vezes — \( \int x^2 \cos x\,dx \)</span></div>
+        <div class="example-body">
+          <div class="step"><div class="step-num">1</div><div class="step-content">
+            <p>Primeira rodada — \( x^2 \) é algébrica, vem antes de trigonométrica:</p>
+            \[ u = x^2 \qquad dv = \cos x\,dx \qquad du = 2x\,dx \qquad v = \sin x \]
+            \[ \int x^2\cos x\,dx = x^2\sin x - \int 2x\sin x\,dx \]
+          </div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-content">
+            <p>A nova integral \( \int 2x \sin x\,dx \) ainda é um produto — repetimos o método:</p>
+            \[ u = 2x \qquad dv = \sin x\,dx \qquad du = 2\,dx \qquad v = -\cos x \]
+            \[ \int 2x\sin x\,dx = -2x\cos x + \int 2\cos x\,dx = -2x\cos x + 2\sin x \]
+          </div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-content">
+            <p>Juntando as duas rodadas:</p>
+            \[ \int x^2\cos x\,dx = x^2 \sin x -\big(-2x\cos x + 2\sin x\big) \]
+          </div></div>
+          <div class="result-box">\( \displaystyle \int x^2\cos x\,dx = x^2\sin x + 2x\cos x - 2\sin x + C \)</div>
+        </div>
+      </div>
+
+      <div class="note">
+        <span class="note-label">Padrão a reconhecer</span>
+        <p>Sempre que \( u \) é um polinômio de grau \( n \), cada aplicação do método reduz o grau em 1. Um polinômio de grau \( n \) multiplicado por \( e^x \), \( \sin x \) ou \( \cos x \) exige exatamente \( n \) aplicações — isso é justamente o que o método tabular da seção 06 automatiza.</p>
+      </div>
+    </section>
+
+    <!-- ============ 05 CÍCLICA ============ -->
+    <section id="ciclica">
+      <div class="kicker">05 — caso especial</div>
+      <h2 class="section-title">Integrais cíclicas: quando a integral "volta"</h2>
+      <p class="lead-in">Em alguns produtos — tipicamente exponencial × trigonométrica — aplicar o método duas vezes não simplifica: a integral original reaparece do lado direito. Isso não é um erro; é o sinal de resolver por álgebra.</p>
+
+      <div class="example">
+        <div class="example-head"><span class="example-num">5</span><span class="example-title">\( \int e^x \sin x\,dx \)</span></div>
+        <div class="example-body">
+          <div class="step"><div class="step-num">1</div><div class="step-content">
+            <p>Primeira aplicação, com \( u = \sin x \), \( dv = e^x dx \):</p>
+            \[ \int e^x \sin x\,dx = e^x \sin x - \int e^x \cos x\,dx \]
+          </div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-content">
+            <p>Aplicamos de novo na integral restante, mantendo a mesma escolha de papel (trigonométrica vira \(u\)):</p>
+            \[ \int e^x \cos x\,dx = e^x\cos x + \int e^x \sin x\,dx \]
+          </div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-content">
+            <p>Substituindo de volta, chamando \( I = \int e^x \sin x\,dx \):</p>
+            \[ I = e^x\sin x - \Big(e^x\cos x + I\Big) = e^x\sin x - e^x\cos x - I \]
+          </div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-content">
+            <p>Agora \( I \) aparece dos dois lados — resolvemos como uma equação algébrica:</p>
+            \[ 2I = e^x(\sin x - \cos x) \]
+          </div></div>
+          <div class="result-box">\( \displaystyle \int e^x \sin x\,dx = \frac{e^x(\sin x - \cos x)}{2} + C \)</div>
+        </div>
+      </div>
+
+      <div class="warn">
+        <span class="warn-label">Cuidado</span>
+        <p>Na segunda aplicação, mantenha a mesma escolha de qual família vira \( u \) (aqui, sempre a trigonométrica). Trocar a escolha no meio do caminho desfaz o primeiro passo e a integral simplesmente volta ao ponto de partida.</p>
+      </div>
+    </section>
+
+    <!-- ============ 06 TABULAR ============ -->
+    <section id="tabular">
+      <div class="kicker">06 — atalho</div>
+      <h2 class="section-title">Método tabular (DI) para polinômios de grau alto</h2>
+      <p class="lead-in">Quando \( u \) é um polinômio que precisará ser derivado várias vezes, repetir a fórmula manualmente é cansativo e fácil de errar sinal. O método tabular organiza o mesmo processo em uma tabela de duas colunas: <strong>D</strong>erivadas e <strong>I</strong>ntegrais.</p>
+
+      <div class="example">
+        <div class="example-head"><span class="example-num">6</span><span class="example-title">\( \int x^3 e^{2x}\,dx \) pelo método DI</span></div>
+        <div class="example-body">
+          <p>Coloque \( u = x^3 \) na coluna D e derive até chegar a zero; coloque \( dv = e^{2x} \) na coluna I e integre o mesmo número de vezes:</p>
+
+          <table class="di-table">
+            <tr><td>sinal</td><td><strong>D (derivar)</strong></td><td><strong>I (integrar)</strong></td></tr>
+            <tr><td>+</td><td>\( x^3 \)</td><td>\( e^{2x} \)</td></tr>
+            <tr><td>−</td><td>\( 3x^2 \)</td><td>\( \tfrac{1}{2}e^{2x} \)</td></tr>
+            <tr><td>+</td><td>\( 6x \)</td><td>\( \tfrac{1}{4}e^{2x} \)</td></tr>
+            <tr><td>−</td><td>\( 6 \)</td><td>\( \tfrac{1}{8}e^{2x} \)</td></tr>
+            <tr><td>+</td><td>\( 0 \)</td><td>\( \tfrac{1}{16}e^{2x} \)</td></tr>
+          </table>
+
+          <div class="step"><div class="step-num">•</div><div class="step-content">
+            <p>O resultado é a soma dos produtos <strong>na diagonal</strong>, alternando o sinal indicado na primeira coluna, parando quando a coluna D chega a zero:</p>
+            \[ \int x^3e^{2x}dx = x^3\cdot\tfrac{1}{2}e^{2x} - 3x^2\cdot\tfrac{1}{4}e^{2x} + 6x\cdot\tfrac{1}{8}e^{2x} - 6\cdot\tfrac{1}{16}e^{2x} \]
+          </div></div>
+          <div class="result-box">\( \displaystyle \int x^3e^{2x}dx = e^{2x}\Big(\frac{x^3}{2} - \frac{3x^2}{4} + \frac{3x}{4} - \frac{3}{8}\Big) + C \)</div>
+        </div>
+      </div>
+
+      <div class="note">
+        <span class="note-label">Quando usar</span>
+        <p>O método tabular só encurta o trabalho quando uma das colunas termina em zero em poucos passos — ou seja, quando \( u \) é polinomial. Para integrais cíclicas (seção 05), ele também funciona, mas você para quando a linha da integral se repete, não quando chega a zero.</p>
+      </div>
+    </section>
+
+    <!-- ============ 07 DEFINIDA ============ -->
+    <section id="definida">
+      <div class="kicker">07 — integral definida</div>
+      <h2 class="section-title">Integração por partes com limites</h2>
+      <p class="lead-in">Para integrais definidas, a fórmula ganha os limites de integração aplicados diretamente ao termo \( uv \):</p>
+
+      <div class="formula-block">
+        <div class="formula-label">fórmula — caso definido</div>
+        \[ \int_a^b u\,dv = \Big[uv\Big]_a^b - \int_a^b v\,du \]
+      </div>
+
+      <div class="example">
+        <div class="example-head"><span class="example-num">7</span><span class="example-title">\( \displaystyle\int_0^1 x e^x\,dx \)</span></div>
+        <div class="example-body">
+          <div class="step"><div class="step-num">1</div><div class="step-content">
+            <p>Reaproveitamos a antiderivada do Exemplo 1: \( \int x e^x dx = e^x(x-1) \).</p>
+          </div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-content">
+            <p>Avaliamos nos limites:</p>
+            \[ \Big[e^x(x-1)\Big]_0^1 = e^1(1-1) - e^0(0-1) = 0 - (-1) \]
+          </div></div>
+          <div class="result-box">\( \displaystyle\int_0^1 xe^x\,dx = 1 \)</div>
+        </div>
+      </div>
+
+      <div class="note">
+        <span class="note-label">Dica prática</span>
+        <p>É quase sempre mais rápido achar a antiderivada geral primeiro (sem os limites) e só substituir os valores no final, em vez de carregar os limites em cada passo intermediário.</p>
+      </div>
+    </section>
+
+    <!-- ============ 08 ERROS ============ -->
+    <section id="erros">
+      <div class="kicker">08 — pegadinhas</div>
+      <h2 class="section-title">Erros comuns</h2>
+
+      <div class="warn">
+        <span class="warn-label">Esquecer a constante de integração</span>
+        <p>O \( +C \) só aparece uma vez, no resultado final — não em cada etapa intermediária do processo.</p>
+      </div>
+
+      <div class="warn">
+        <span class="warn-label">Errar o sinal ao distribuir o menos</span>
+        <p>Em \( uv - \int v\,du \), se a integral restante já tiver um sinal negativo dentro dela, o sinal final é positivo. Escrever \( x^2\sin x -(-2x\cos x + 2\sin x) \) e esquecer de distribuir o sinal negativo é o erro mais comum do método.</p>
+      </div>
+
+      <div class="warn">
+        <span class="warn-label">Escolher u e dv de forma que a integral piora</span>
+        <p>Em \( \int x e^x dx \), escolher \( u = e^x \) e \( dv = x\,dx \) funciona algebricamente, mas gera \( \int \tfrac{x^2}{2}e^x dx \) — um problema mais difícil que o original. Se isso acontecer, volte e inverta a escolha.</p>
+      </div>
+
+      <div class="warn">
+        <span class="warn-label">Trocar de papel no meio de uma integral cíclica</span>
+        <p>Como visto na seção 05, mudar qual função é \( u \) na segunda aplicação desfaz o progresso e a integral original reaparece sem nenhuma simplificação.</p>
+      </div>
+    </section>
+
+    <!-- ============ 09 EXERCÍCIOS ============ -->
+    <section id="exercicios" class="wide" style="max-width:900px;">
+      <div class="kicker">09 — pratique</div>
+      <h2 class="section-title">Exercícios propostos</h2>
+      <p class="lead-in">Resolva cada integral e só depois clique para conferir a resposta.</p>
+
+      <ul class="exercise-list">
+        <li>
+          <div class="ex-q"><span class="ex-q-num">1</span><span>\( \displaystyle\int x\cos x\,dx \)</span></div>
+          <details class="ex-toggle"><summary>ver resposta</summary>
+            <div class="ex-answer">\( x\sin x + \cos x + C \)</div>
+          </details>
+        </li>
+        <li>
+          <div class="ex-q"><span class="ex-q-num">2</span><span>\( \displaystyle\int x^2 \ln x\,dx \)</span></div>
+          <details class="ex-toggle"><summary>ver resposta</summary>
+            <div class="ex-answer">\( \dfrac{x^3}{3}\ln x - \dfrac{x^3}{9} + C \)</div>
+          </details>
+        </li>
+        <li>
+          <div class="ex-q"><span class="ex-q-num">3</span><span>\( \displaystyle\int \arcsin x\,dx \)</span></div>
+          <details class="ex-toggle"><summary>ver resposta</summary>
+            <div class="ex-answer">\( x\arcsin x + \sqrt{1-x^2} + C \)</div>
+          </details>
+        </li>
+        <li>
+          <div class="ex-q"><span class="ex-q-num">4</span><span>\( \displaystyle\int e^{3x}\cos 2x\,dx \) &nbsp;<span style="color:var(--muted); font-size:13px;">(integral cíclica)</span></span></div>
+          <details class="ex-toggle"><summary>ver resposta</summary>
+            <div class="ex-answer">\( \dfrac{e^{3x}(3\cos 2x + 2\sin 2x)}{13} + C \)</div>
+          </details>
+        </li>
+        <li>
+          <div class="ex-q"><span class="ex-q-num">5</span><span>\( \displaystyle\int_1^e \ln x\,dx \)</span></div>
+          <details class="ex-toggle"><summary>ver resposta</summary>
+            <div class="ex-answer">\( 1 \)</div>
+          </details>
+        </li>
+        <li>
+          <div class="ex-q"><span class="ex-q-num">6</span><span>\( \displaystyle\int x^4 e^{x}\,dx \) &nbsp;<span style="color:var(--muted); font-size:13px;">(use o método tabular)</span></span></div>
+          <details class="ex-toggle"><summary>ver resposta</summary>
+            <div class="ex-answer">\( e^x(x^4 - 4x^3 + 12x^2 - 24x + 24) + C \)</div>
+          </details>
+        </li>
+      </ul>
+
+      <div class="more-exercises">
+        <div class="more-exercises-text">
+          <span class="more-exercises-label">quer virar craque de verdade?</span>
+          <p>Esses 6 são o essencial para fixar o método. Para treinar até ficar automático, resolva a lista completa: <strong>35 exercícios</strong> organizados em 7 blocos, do fundamental às integrais cíclicas, combinadas e de desafio.</p>
+        </div>
+        <a class="more-exercises-btn" href="exercicios-integracao-por-partes.html">Ver os 35 exercícios</a>
+      </div>
+    </section>
+
+    <!-- ============ 10 RESUMO / CHEAT SHEET ============ -->
+    <section id="resumo" class="cheat wide">
+      <div class="kicker" style="color:var(--gold-soft);">10 — para revisar rápido</div>
+      <h2 class="section-title">Resumo em um relance</h2>
+
+      <div class="cheat-grid">
+        <div class="cheat-card">
+          <h4>a fórmula</h4>
+          \[ \int u\,dv = uv-\int v\,du \]
+        </div>
+        <div class="cheat-card">
+          <h4>ordem para escolher u — LIATE</h4>
+          <p>Logarítmica → Inversa trig. → Algébrica → Trigonométrica → Exponencial</p>
+        </div>
+        <div class="cheat-card">
+          <h4>truque para "só uma função"</h4>
+          <p>\( \int \ln x\,dx \) e \( \int \arctan x\,dx \) usam \( dv = dx \).</p>
+        </div>
+        <div class="cheat-card">
+          <h4>polinômio de grau n</h4>
+          <p>Precisa de exatamente \( n \) aplicações — use o método tabular.</p>
+        </div>
+        <div class="cheat-card">
+          <h4>exponencial × trig.</h4>
+          <p>É cíclica: aplique duas vezes mantendo o mesmo papel para cada família e isole \( I \).</p>
+        </div>
+        <div class="cheat-card">
+          <h4>caso definido</h4>
+          \[ \int_a^b u\,dv = [uv]_a^b - \int_a^b v\,du \]
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ PRÓXIMOS TÓPICOS ============ -->
+    <div class="next">
+      <div class="kicker">continuando a série</div>
+      <h3 class="sub-title" style="margin-top:6px;">Outros temas de Cálculo II para este material</h3>
+      <div class="next-list">
+        <span class="next-pill">Substituição trigonométrica</span>
+        <span class="next-pill">Frações parciais</span>
+        <span class="next-pill">Integrais impróprias</span>
+        <span class="next-pill">Sequências e séries</span>
+        <span class="next-pill">Séries de potências e Taylor</span>
+        <span class="next-pill">Coordenadas polares</span>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    renderMathInElement(document.body, {
+      delimiters: [
+        {left: "\\[", right: "\\]", display: true},
+        {left: "\\(", right: "\\)", display: false}
+      ],
+      throwOnError: false
+    });
+  });
+</script>
+
+</body>
+</html>

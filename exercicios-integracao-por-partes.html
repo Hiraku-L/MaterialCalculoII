@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>35 Exercícios — Integração por Partes</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+
+<style>
+  :root{
+    --paper:#FBFAF6;
+    --paper-dim:#F3F1EA;
+    --ink:#16202E;
+    --ink-soft:#3C4654;
+    --muted:#6B7280;
+    --board:#1E3448;
+    --board-2:#28425A;
+    --gold:#D79A2C;
+    --gold-soft:#F3DBA6;
+    --teal:#3F7C6E;
+    --teal-soft:#DCEAE5;
+    --line:#DCD6C7;
+    --rose:#B4553F;
+    --rose-soft:#F5E2DC;
+  }
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:'IBM Plex Sans', sans-serif; font-size:16.5px; line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{ font-family:'Fraunces', serif; color:var(--ink); font-weight:600; line-height:1.15; margin:0; }
+  .katex{ font-size:1.05em; }
+  ::selection{ background:var(--gold-soft); }
+
+  .shell{ display:grid; grid-template-columns:250px minmax(0,1fr); max-width:1180px; margin:0 auto; }
+  @media (max-width:900px){ .shell{ grid-template-columns:1fr; } }
+
+  .toc{
+    position:sticky; top:0; align-self:start; height:100vh; overflow-y:auto;
+    padding:38px 20px 40px 30px; border-right:1px solid var(--line);
+  }
+  @media (max-width:900px){
+    .toc{ position:static; height:auto; border-right:none; border-bottom:1px solid var(--line); padding:22px 24px; }
+  }
+  .toc-mark{
+    width:34px; height:34px; border:1.5px solid var(--ink); border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Fraunces', serif; font-style:italic; font-size:17px; margin-bottom:18px;
+  }
+  .toc-title{ font-family:'Fraunces', serif; font-size:14.5px; color:var(--muted); margin-bottom:24px; line-height:1.4; }
+  .toc-title strong{ color:var(--ink); display:block; font-size:16.5px; font-weight:600; }
+  .toc-list{ list-style:none; margin:0; padding:0; }
+  .toc-list li{ margin-bottom:2px; }
+  .toc-list a{
+    display:flex; justify-content:space-between; gap:8px;
+    text-decoration:none; color:var(--ink-soft); font-size:14px;
+    padding:7px 10px 7px 14px; border-left:2px solid transparent;
+    transition:border-color .15s ease, color .15s ease, background .15s ease;
+  }
+  .toc-list a:hover{ border-left-color:var(--gold); color:var(--ink); background:var(--paper-dim); }
+  .toc-count{ font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:var(--muted); }
+  .back-link{
+    display:inline-block; margin-bottom:22px; font-family:'IBM Plex Mono',monospace;
+    font-size:12.5px; color:var(--teal); text-decoration:none;
+  }
+  .back-link:hover{ text-decoration:underline; }
+
+  main{ padding:0 0 100px 0; }
+  .hero{ padding:60px 56px 40px; border-bottom:1px solid var(--line); }
+  @media (max-width:640px){ .hero{ padding:40px 24px 30px; } }
+  .hero-eyebrow{ font-family:'IBM Plex Mono',monospace; font-size:13px; color:var(--teal); margin-bottom:16px; }
+  .hero h1{ font-size:clamp(30px,4.6vw,48px); max-width:16ch; }
+  .hero p.lede{ max-width:60ch; font-size:18px; color:var(--ink-soft); margin-top:18px; }
+
+  .stat-row{ display:flex; flex-wrap:wrap; gap:14px; margin-top:30px; }
+  .stat{
+    border:1px solid var(--line); background:#fff; padding:14px 20px; min-width:120px;
+  }
+  .stat .num{ font-family:'Fraunces',serif; font-size:26px; font-weight:600; }
+  .stat .lbl{ font-size:12.5px; color:var(--muted); font-family:'IBM Plex Mono',monospace; margin-top:2px;}
+
+  section{ padding:48px 56px; border-bottom:1px solid var(--line); }
+  @media (max-width:640px){ section{ padding:34px 24px; } }
+
+  .kicker{ font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:var(--muted); margin-bottom:6px; display:flex; align-items:center; gap:10px;}
+  .level-chip{
+    font-family:'IBM Plex Mono',monospace; font-size:10.5px; text-transform:uppercase; letter-spacing:.06em;
+    padding:3px 9px; border-radius:20px; color:#fff;
+  }
+  .lvl-facil{ background:var(--teal); }
+  .lvl-medio{ background:var(--gold); color:#43310a;}
+  .lvl-dificil{ background:var(--rose); }
+
+  h2.block-title{ font-size:clamp(22px,3vw,28px); margin-bottom:8px;}
+  .block-desc{ color:var(--ink-soft); max-width:62ch; margin-bottom:24px; }
+
+  .exercise-list{ list-style:none; margin:0; padding:0; display:grid; gap:14px; }
+  .exercise-list li{ border:1px solid var(--line); background:#fff; border-left-width:4px; }
+  .lvl-facil-item{ border-left-color:var(--teal); }
+  .lvl-medio-item{ border-left-color:var(--gold); }
+  .lvl-dificil-item{ border-left-color:var(--rose); }
+
+  .ex-q{ padding:17px 22px; display:flex; gap:16px; align-items:baseline; }
+  .ex-q-num{ font-family:'Fraunces',serif; font-style:italic; color:var(--gold); font-size:19px; flex-shrink:0; min-width:22px;}
+
+  details.ex-toggle{ border-top:1px solid var(--line); }
+  details.ex-toggle > summary{
+    cursor:pointer; list-style:none; padding:10px 22px; font-size:13.5px;
+    font-family:'IBM Plex Mono',monospace; color:var(--teal); background:var(--paper-dim); user-select:none;
+  }
+  details.ex-toggle > summary::-webkit-details-marker{ display:none; }
+  details.ex-toggle > summary:before{ content:"▸ "; }
+  details.ex-toggle[open] > summary:before{ content:"▾ "; }
+  .ex-answer{ padding:15px 22px 19px; border-top:1px solid var(--line); }
+  .ex-hint{ color:var(--muted); font-size:13.5px; margin-top:6px; }
+
+  .note{
+    border-left:3px solid var(--teal); background:var(--teal-soft); padding:15px 20px;
+    margin:20px 0; border-radius:0 3px 3px 0; max-width:70ch;
+  }
+  .note .note-label{ font-weight:600; color:var(--teal); display:block; margin-bottom:4px; font-size:14px; font-family:'Fraunces',serif; }
+  .note p{ margin:0; }
+
+  .final{
+    background:var(--board); color:#F2F1EC; padding:48px 56px;
+  }
+  @media (max-width:640px){ .final{ padding:36px 24px; } }
+  .final h2{ color:#fff; }
+  .final p{ color:#D8DEE8; max-width:62ch; }
+  .progress-tip{
+    margin-top:24px; background:var(--board-2); padding:20px 24px; border-radius:2px; max-width:640px;
+  }
+  .progress-tip strong{ color:var(--gold-soft); }
+</style>
+</head>
+<body>
+
+<div class="shell">
+  <nav class="toc">
+    <a class="back-link" href="integracao-por-partes.html">← voltar ao guia principal</a>
+    <div class="toc-mark">∫</div>
+    <div class="toc-title"><strong>35 Exercícios</strong>Integração por partes — lista completa</div>
+    <ul class="toc-list">
+      <li><a href="#bloco-a">Bloco A — Fundamentais <span class="toc-count">8</span></a></li>
+      <li><a href="#bloco-b">Bloco B — dv = dx <span class="toc-count">4</span></a></li>
+      <li><a href="#bloco-c">Bloco C — Repetição <span class="toc-count">6</span></a></li>
+      <li><a href="#bloco-d">Bloco D — Cíclicas <span class="toc-count">5</span></a></li>
+      <li><a href="#bloco-e">Bloco E — Combinadas <span class="toc-count">5</span></a></li>
+      <li><a href="#bloco-f">Bloco F — Definidas <span class="toc-count">4</span></a></li>
+      <li><a href="#bloco-g">Bloco G — Desafio <span class="toc-count">3</span></a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <div class="hero">
+      <div class="hero-eyebrow">cálculo ii · lista de exercícios</div>
+      <h1>35 exercícios de integração por partes</h1>
+      <p class="lede">Da aplicação direta da fórmula até integrais cíclicas, combinadas com substituição e casos de desafio. Resolva antes de abrir a resposta — é assim que o método vira automático.</p>
+      <div class="stat-row">
+        <div class="stat"><div class="num">35</div><div class="lbl">questões</div></div>
+        <div class="stat"><div class="num">7</div><div class="lbl">blocos</div></div>
+        <div class="stat"><div class="num">3</div><div class="lbl">níveis</div></div>
+      </div>
+    </div>
+
+    <!-- BLOCO A -->
+    <section id="bloco-a">
+      <div class="kicker">bloco a <span class="level-chip lvl-facil">fácil</span></div>
+      <h2 class="block-title">Fundamentais — polinômio de grau 1</h2>
+      <p class="block-desc">Uma única aplicação da fórmula. O objetivo aqui é fixar a mecânica: escolher u e dv, derivar, integrar, substituir.</p>
+      <ul class="exercise-list">
+        <li class="lvl-facil-item"><div class="ex-q"><span class="ex-q-num">1</span><span>\( \displaystyle\int x\sin x\,dx \)</span></div>
+          <details class="ex-toggle"><summary>ver resposta</summary><div class="ex-answer">\( -x\cos x + \sin x + C \)</div></details></li>
+        <li class="lvl-facil-item"><div class="ex-q"><span class="ex-q-num">2</span><span>\( \displaystyle\int x\,e^{2x}\,dx \)</span></div>
+          <details class="ex-toggle"><summary>ver resposta</summary><div class="ex-answer">\( e^{2x}\left(\dfrac{x}{2}-\dfrac{1}{4}\right)+C \)</div></details></li>
+        <li class="lvl-facil-item"><div class="ex-q"><span class="ex-q-num">3</span><span>\( \displaystyle\int x\cos 3x\,dx \)</span></div>
+          <details class="ex-toggle"><summary>ver resposta</summary><div class="ex-answer">\( \dfrac{x\sin 3x}{3} + \dfrac{\cos 3x}{9} + C \)</div></details></li>
+        <li class="lvl-facil-item"><div class="ex-q"><span class="ex-q-num">4</span><span>\( \displaystyle\int (2x+1)e^x\,dx \)</span></div>
+          <details class="ex-toggle"><summary>ver resposta</summary><div class="ex-answer">\( e^x(2x-1) + C \)</div></details></li>
+        <li class="lvl-facil-item"><div class="ex-q"><span class="ex-q-num">5</span><span>\( \displaystyle\int x\cdot 2^{x}\,dx \)</span></div>
+          <details class="ex-toggle"><summary>ver resposta</summary><div class="ex-answer">\( \dfrac{x\,2^x}{\ln 2} - \dfrac{2^x}{(\ln 2)^2} + C \)</div></details></li>
+        <li class="lvl-facil-item"><div class="ex-q"><span class="ex-q-num">6</span><span>\( \displaystyle\int x\sec^2 x\,dx \)</span></div>
+          <details class="ex-toggle"><summary>ver resposta</summary><div class="ex-answer">\( x\tan x + \ln|\cos x| + C \)</div></details></li>
+        <li class="lvl-facil-item"><div class="ex-q"><span class="ex-q-num">7</span><span>\( \displaystyle\int x\,e^{-x}\,dx \)</span></div>
+          <details class="ex-toggle"><summary>ver resposta</summary><div class="ex-answer">\( -e^{-x}(x+1) + C \)</div></details></li>
+        <li class="lvl-facil-item"><div class="ex-q"><span class="ex-q-num">8</span><span>\( \displaystyle\int 3x\cos x\,dx \)</span></div>
+          <details class="ex-toggle"><summary>ver resposta</summary><div class="ex-answer">\( 3x\sin x + 3\cos x + C \)</div></details></li>
+      </ul>
+    </section>
+
+    <!-- BLOCO B -->
+    <section id="bloco-b">
+      <div class="kicker">bloco b <span class="level-chip lvl-facil">fácil</span></div>
+      <h2 class="block-title">O truque de dv = dx</h2>
+      <p class="block-desc">Funções que parecem "sozinhas" — logaritmos e inversas trigonométricas — mas escondem um produto quando você escreve \( f(x) = f(x)\cdot 1 \).</p>
+      <ul class="exercise-list">
+        <li class="lvl-facil-item"><div class="ex-q"><span class="ex-q-num">9</span><span>\( \displaystyle\int \arccos x\,dx \)</span></div>
+          <details class="ex-toggle"><summary>ver resposta</summary><div class="ex-answer">\( x\arccos x - \sqrt{1-x^2} + C \)</div></details></li>
+        <li class="lvl-facil-item"><div class="ex-q"><span class="ex-q-num">10</span><span>\( \displaystyle\int \log_2 x\,dx \)</span></div>
+          <details class="ex-toggle"><summary>ver resposta</summary><div class="ex-answer">\( x\log_2 x - \dfrac{x}{\ln 2} + C \)</div></details></li>
+        <li class="lvl-facil-item"><div class="ex-q"><span class="ex-q-num">11</span><span>\( \displaystyle\int \arctan(2x)\,dx \)</span></div>
+          <details class="ex-toggle"><summary>ver resposta</summary><div class="ex-answer">\( x\arctan(2x) - \dfrac{1}{4}\ln(1+4x^2) + C \)</div></details></li>
+        <li class="lvl-facil-item"><div class="ex-q"><span class="ex-q-num">12</span><span>\( \displaystyle\int \ln(2x)\,dx \)</span></div>
+          <details class="ex-toggle"><summary>ver resposta</summary><div class="ex-answer">\( x\ln(2x) - x + C \)</div></details></li>
+      </ul>
+    </section>
+
+    <!-- BLOCO C -->
+    <section id="bloco-c">
+      <div class="kicker">bloco c <span class="level-chip lvl-medio">médio</span></div>
+      <h2 class="block-title">Repetição — polinômios de grau 2 ou mais</h2>
+      <p class="block-desc">Aqui é preciso aplicar a fórmula mais de uma vez. Use o método tabular (DI) se quiser economizar passos.</p>
+      <ul class="exercise-list">
+        <li class="lvl-medio-item"><div class="ex-q"><span class="ex-q-num">13</span><span>\( \displaystyle\int x^2 e^x\,dx \)</span></div>
+          <details class="ex-toggle"><summary>ver resposta</summary><div class="ex-answer">\( e^x(x^2-2x+2) + C \)</div></details></li>
+        <li class="lvl-medio-item"><div class="ex-q"><span class="ex-q-num">14</span><span>\( \displaystyle\int x^2 \sin x\,dx \)</span></div>
+          <details class="ex-toggle"><summary>ver resposta</summary><div class="ex-answer">\( -x^2\cos x + 2x\sin x + 2\cos x + C \)</div></details></li>
+        <li class="lvl-medio-item"><div class="ex-q"><span class="ex-q-num">15</span><span>\( \displaystyle\int x^3 e^x\,dx \) <span class="ex-hint">— tente pelo método tabular</span></span></div>
+          <details class="ex-toggle"><summary>ver resposta</summary><div class="ex-answer">\( e^x(x^3-3x^2+6x-6) + C \)</div></details></li>
+        <li class="lvl-medio-item"><div class="ex-q"><span class="ex-q-num">16</span><span>\( \displaystyle\int x^2 \cos 2x\,dx \)</span></div>
+          <details class="ex-toggle"><summary>ver resposta</summary><div class="ex-answer">\( \dfrac{x^2\sin 2x}{2} + \dfrac{x\cos 2x}{2} - \dfrac{\sin 2x}{4} + C \)</div></details></li>
+        <li class="lvl-medio-item"><div class="ex-q"><span class="ex-q-num">17</span><span>\( \displaystyle\int (x^2+1)e^{-x}\,dx \)</span></div>
+          <details class="ex-toggle"><summary>ver resposta</summary><div class="ex-answer">\( -e^{-x}(x^2+2x+3) + C \)</div></details></li>
+        <li class="lvl-medio-item"><div class="ex-q"><span class="ex-q-num">18</span><span>\( \displaystyle\int x^3 \ln x\,dx \)</span></div>
+          <details class="ex-toggle"><summary>ver resposta</summary><div class="ex-answer">\( \dfrac{x^4}{4}\ln x - \dfrac{x^4}{16} + C \)</div></details></li>
+      </ul>
+    </section>
+
+    <!-- BLOCO D -->
+    <section id="bloco-d">
+      <div class="kicker">bloco d <span class="level-chip lvl-medio">médio</span></div>
+      <h2 class="block-title">Integrais cíclicas</h2>
+      <p class="block-desc">Exponencial vezes trigonométrica: aplique a fórmula duas vezes mantendo sempre a mesma família como \( u \), e resolva a equação algébrica que aparece no final.</p>
+      <ul class="exercise-list">
+        <li class="lvl-medio-item"><div class="ex-q"><span class="ex-q-num">19</span><span>\( \displaystyle\int e^x \cos x\,dx \)</span></div>
+          <details class="ex-toggle"><summary>ver resposta</summary><div class="ex-answer">\( \dfrac{e^x(\sin x + \cos x)}{2} + C \)</div></details></li>
+        <li class="lvl-medio-item"><div class="ex-q"><span class="ex-q-num">20</span><span>\( \displaystyle\int e^{-x} \sin x\,dx \)</span></div>
+          <details class="ex-toggle"><summary>ver resposta</summary><div class="ex-answer">\( -\dfrac{e^{-x}(\sin x + \cos x)}{2} + C \)</div></details></li>
+        <li class="lvl-medio-item"><div class="ex-q"><span class="ex-q-num">21</span><span>\( \displaystyle\int e^{2x} \sin 3x\,dx \)</span></div>
+          <details class="ex-toggle"><summary>ver resposta</summary><div class="ex-answer">\( \dfrac{e^{2x}(2\sin 3x - 3\cos 3x)}{13} + C \)</div></details></li>
+        <li class="lvl-medio-item"><div class="ex-q"><span class="ex-q-num">22</span><span>\( \displaystyle\int e^{2x} \cos 3x\,dx \)</span></div>
+          <details class="ex-toggle"><summary>ver resposta</summary><div class="ex-answer">\( \dfrac{e^{2x}(2\cos 3x + 3\sin 3x)}{13} + C \)</div></details></li>
+        <li class="lvl-medio-item"><div class="ex-q"><span class="ex-q-num">23</span><span>\( \displaystyle\int e^{-2x} \cos x\,dx \)</span></div>
+          <details class="ex-toggle"><summary>ver resposta</summary><div class="ex-answer">\( \dfrac{e^{-2x}(\sin x - 2\cos x)}{5} + C \)</div></details></li>
+      </ul>
+    </section>
+
+    <!-- BLOCO E -->
+    <section id="bloco-e">
+      <div class="kicker">bloco e <span class="level-chip lvl-medio">médio</span></div>
+      <h2 class="block-title">Por partes combinada com substituição</h2>
+      <p class="block-desc">Nestes exercícios, uma troca de variável entra antes ou depois da integração por partes — ou a própria escolha de \(dv\) já exige uma pequena substituição.</p>
+      <ul class="exercise-list">
+        <li class="lvl-medio-item"><div class="ex-q"><span class="ex-q-num">24</span><span>\( \displaystyle\int x\sqrt{x+1}\,dx \)</span></div>
+          <details class="ex-toggle"><summary>ver resposta</summary><div class="ex-answer">\( \dfrac{2x}{3}(x+1)^{3/2} - \dfrac{4}{15}(x+1)^{5/2} + C \)</div></details></li>
+        <li class="lvl-medio-item"><div class="ex-q"><span class="ex-q-num">25</span><span>\( \displaystyle\int x^3 e^{x^2}\,dx \) <span class="ex-hint">— substitua \(t=x^2\) antes de partir</span></span></div>
+          <details class="ex-toggle"><summary>ver resposta</summary><div class="ex-answer">\( \dfrac{1}{2}e^{x^2}(x^2-1) + C \)</div></details></li>
+        <li class="lvl-medio-item"><div class="ex-q"><span class="ex-q-num">26</span><span>\( \displaystyle\int \sin(\ln x)\,dx \) <span class="ex-hint">— também é cíclica</span></span></div>
+          <details class="ex-toggle"><summary>ver resposta</summary><div class="ex-answer">\( \dfrac{x\big(\sin(\ln x) - \cos(\ln x)\big)}{2} + C \)</div></details></li>
+        <li class="lvl-medio-item"><div class="ex-q"><span class="ex-q-num">27</span><span>\( \displaystyle\int \cos(\ln x)\,dx \)</span></div>
+          <details class="ex-toggle"><summary>ver resposta</summary><div class="ex-answer">\( \dfrac{x\big(\sin(\ln x) + \cos(\ln x)\big)}{2} + C \)</div></details></li>
+        <li class="lvl-medio-item"><div class="ex-q"><span class="ex-q-num">28</span><span>\( \displaystyle\int x\ln(x^2+1)\,dx \)</span></div>
+          <details class="ex-toggle"><summary>ver resposta</summary><div class="ex-answer">\( \dfrac{(x^2+1)\ln(x^2+1)}{2} - \dfrac{x^2}{2} + C \)</div></details></li>
+      </ul>
+    </section>
+
+    <!-- BLOCO F -->
+    <section id="bloco-f">
+      <div class="kicker">bloco f <span class="level-chip lvl-medio">médio</span></div>
+      <h2 class="block-title">Integrais definidas</h2>
+      <p class="block-desc">Ache a antiderivada geral primeiro e só então aplique os limites — é quase sempre o caminho mais rápido.</p>
+      <ul class="exercise-list">
+        <li class="lvl-medio-item"><div class="ex-q"><span class="ex-q-num">29</span><span>\( \displaystyle\int_0^{\pi} x\sin x\,dx \)</span></div>
+          <details class="ex-toggle"><summary>ver resposta</summary><div class="ex-answer">\( \pi \)</div></details></li>
+        <li class="lvl-medio-item"><div class="ex-q"><span class="ex-q-num">30</span><span>\( \displaystyle\int_0^1 x^2 e^x\,dx \)</span></div>
+          <details class="ex-toggle"><summary>ver resposta</summary><div class="ex-answer">\( e - 2 \)</div></details></li>
+        <li class="lvl-medio-item"><div class="ex-q"><span class="ex-q-num">31</span><span>\( \displaystyle\int_1^e x\ln x\,dx \)</span></div>
+          <details class="ex-toggle"><summary>ver resposta</summary><div class="ex-answer">\( \dfrac{e^2+1}{4} \)</div></details></li>
+        <li class="lvl-medio-item"><div class="ex-q"><span class="ex-q-num">32</span><span>\( \displaystyle\int_0^{\pi/2} e^x \cos x\,dx \)</span></div>
+          <details class="ex-toggle"><summary>ver resposta</summary><div class="ex-answer">\( \dfrac{e^{\pi/2}-1}{2} \)</div></details></li>
+      </ul>
+    </section>
+
+    <!-- BLOCO G -->
+    <section id="bloco-g" style="border-bottom:none;">
+      <div class="kicker">bloco g <span class="level-chip lvl-dificil">difícil</span></div>
+      <h2 class="block-title">Desafios finais</h2>
+      <p class="block-desc">Aplicações repetidas, integrais que também aparecem em outros contextos de Cálculo II, e uma clássica que costuma cair em prova.</p>
+      <ul class="exercise-list">
+        <li class="lvl-dificil-item"><div class="ex-q"><span class="ex-q-num">33</span><span>\( \displaystyle\int x^5(\ln x)^2\,dx \)</span></div>
+          <details class="ex-toggle"><summary>ver resposta</summary><div class="ex-answer">\( \dfrac{x^6}{6}(\ln x)^2 - \dfrac{x^6}{18}\ln x + \dfrac{x^6}{108} + C \)</div></details></li>
+        <li class="lvl-dificil-item"><div class="ex-q"><span class="ex-q-num">34</span><span>\( \displaystyle\int \sec^3 x\,dx \) <span class="ex-hint">— clássica; aparece de novo em substituição trigonométrica</span></span></div>
+          <details class="ex-toggle"><summary>ver resposta</summary><div class="ex-answer">\( \dfrac{\sec x\tan x + \ln|\sec x + \tan x|}{2} + C \)</div></details></li>
+        <li class="lvl-dificil-item"><div class="ex-q"><span class="ex-q-num">35</span><span>\( \displaystyle\int (x+1)\ln(x+1)\,dx \)</span></div>
+          <details class="ex-toggle"><summary>ver resposta</summary><div class="ex-answer">\( \dfrac{(x+1)^2}{2}\ln(x+1) - \dfrac{(x+1)^2}{4} + C \)</div></details></li>
+      </ul>
+    </section>
+
+    <div class="final">
+      <div class="kicker" style="color:var(--gold-soft);">como usar esta lista</div>
+      <h2 class="block-title" style="margin-top:6px;">Um roteiro de estudo, não só uma lista</h2>
+      <p>Resolva os blocos em ordem. Se travar em algum exercício, volte ao guia principal — cada bloco aqui corresponde diretamente a uma seção da teoria.</p>
+      <div class="progress-tip">
+        <strong>Meta sugerida:</strong> um bloco por sessão de estudo. Ao terminar os blocos A–D sem consultar a resposta, você já domina o essencial. Os blocos E–G são o que separa "sabe integração por partes" de "é craque em integração por partes".
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    renderMathInElement(document.body, {
+      delimiters: [
+        {left: "\\[", right: "\\]", display: true},
+        {left: "\\(", right: "\\)", display: false}
+      ],
+      throwOnError: false
+    });
+  });
+</script>
+
+</body>
+</html>
