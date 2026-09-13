@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cálculo II — teoria, exercícios e provas resolvidas</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+
+<link rel="stylesheet" href="assets/css/tokens.css">
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/components.css">
+
+<style>
+  /* estilos exclusivos da home — o resto vem de assets/css/ */
+  main{ max-width:var(--content-max); margin:0 auto; padding:0; }
+  .hero.home{
+    display:grid; grid-template-columns:1.3fr 1fr; gap:40px; align-items:end;
+    padding:88px 56px 64px;
+  }
+  @media (max-width:900px){ .hero.home{ grid-template-columns:1fr; padding:56px 24px 44px; } }
+</style>
+</head>
+<body>
+
+<div id="site-header-root"></div>
+
+<main>
+
+  <div class="hero home">
+    <div>
+      <div class="hero-eyebrow">cálculo ii · material de estudo</div>
+      <h1>Cálculo II, do zero ao domínio.</h1>
+      <p class="lede">Teoria explicada com calma, exercícios comentados passo a passo e provas resolvidas por completo. Tudo no mesmo formato, para você treinar até virar automático.</p>
+      <div class="hero-cta">
+        <a class="btn-primary" href="#topicos">Ver tópicos</a>
+        <a class="btn-secondary" href="#provas">Ver provas resolvidas</a>
+      </div>
+    </div>
+    <div class="hero-formula">
+      <div class="fl">em destaque agora</div>
+      \[ \int u\,dv = uv - \int v\,du \]
+    </div>
+  </div>
+
+  <div class="stat-strip">
+    <div class="stat-cell"><div class="num" id="stat-topicos">–</div><div class="lbl">tópicos disponíveis</div></div>
+    <div class="stat-cell"><div class="num">35</div><div class="lbl">exercícios comentados</div></div>
+    <div class="stat-cell"><div class="num" id="stat-provas">–</div><div class="lbl">provas resolvidas</div></div>
+    <div class="stat-cell"><div class="num">+</div><div class="lbl">chegando toda semana</div></div>
+  </div>
+
+  <!-- ============ TÓPICOS ============ -->
+  <!-- Cards gerados a partir de TOPICS em assets/js/site-data.js -->
+  <section class="block" id="topicos" style="padding:64px 56px; border-bottom:1px solid var(--line);">
+    <div class="block-head">
+      <div>
+        <div class="kicker">biblioteca de conteúdo</div>
+        <h2 class="block-title">Tópicos</h2>
+        <p class="block-sub">Cada tópico traz a teoria explicada do zero e uma lista de exercícios comentados para treinar até fixar. Novos tópicos entram aqui conforme ficam prontos.</p>
+      </div>
+    </div>
+    <div class="topic-grid" id="topics-grid"><!-- preenchido via JS --></div>
+  </section>
+
+  <!-- ============ PROVAS ============ -->
+  <!-- Cards gerados a partir de PROVAS em assets/js/site-data.js -->
+  <section class="block" id="provas" style="padding:64px 56px; border-bottom:1px solid var(--line);">
+    <div class="block-head">
+      <div>
+        <div class="kicker">treino para a avaliação</div>
+        <h2 class="block-title">Provas</h2>
+        <p class="block-sub">Provas completas, com o enunciado limpo como numa folha real e o gabarito comentado passo a passo logo abaixo — do mesmo jeito que os exercícios dos tópicos.</p>
+      </div>
+    </div>
+    <div class="prova-grid" id="provas-grid"><!-- preenchido via JS --></div>
+  </section>
+
+  <div class="how-it-works">
+    <div class="how-card">
+      <div class="step-tag">01</div>
+      <h4>Estude a teoria</h4>
+      <p>Cada tópico explica de onde vem cada fórmula, não só o "como usar" — assim você reconhece o método em qualquer questão.</p>
+    </div>
+    <div class="how-card">
+      <div class="step-tag">02</div>
+      <h4>Treine com os exercícios</h4>
+      <p>Listas organizadas por dificuldade, com resolução comentada passo a passo escondida até você tentar sozinho.</p>
+    </div>
+    <div class="how-card">
+      <div class="step-tag">03</div>
+      <h4>Simule a prova</h4>
+      <p>Resolva as provas como se fosse o dia da avaliação e só depois confira o gabarito comentado, item por item.</p>
+    </div>
+  </div>
+
+</main>
+
+<div id="site-footer-root"></div>
+
+<script src="assets/js/site-data.js"></script>
+<script src="assets/js/layout.js"></script>
+<script src="assets/js/home.js"></script>
+<script src="assets/js/katex-init.js"></script>
+<script>
+  renderHeader({ active: "home" });
+  renderFooter({});
+  renderTopicsGrid("topics-grid");
+  renderProvasGrid("provas-grid");
+
+  document.getElementById("stat-topicos").textContent =
+    TOPICS.filter(function (t) { return t.status === "available"; }).length;
+  document.getElementById("stat-provas").textContent =
+    PROVAS.filter(function (p) { return p.status === "available"; }).length;
+</script>
+
+</body>
+</html>

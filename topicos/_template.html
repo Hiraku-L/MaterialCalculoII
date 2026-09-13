@@ -1,0 +1,128 @@
+ <!--
+  TEMPLATE DE TÓPICO
+  ===================
+  Como usar:
+  1. Copie este arquivo para "topicos/nome-do-topico.html" (e crie também
+     "topicos/nome-do-topico-exercicios.html" copiando este mesmo template
+     e adaptando, ou reaproveite a estrutura de integracao-por-partes-exercicios.html).
+  2. Troque o <title>, o conteúdo do <h1> e da sidebar (.toc).
+  3. Escreva as seções normalmente — reaproveite as classes prontas:
+     .formula-block, .note, .warn, .example (+.step/.step-num/.step-content),
+     .liate (tabela LIATE), .di-table (método tabular). Todas já estilizadas
+     em assets/css/components.css.
+  4. No final, ajuste o <script> de renderFooter() com os links certos.
+  5. Abra assets/js/site-data.js e acrescente um objeto novo em TOPICS
+     apontando para este arquivo — o card aparece sozinho na home.
+-->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NOME DO TÓPICO — Cálculo II</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+
+<link rel="stylesheet" href="../assets/css/tokens.css">
+<link rel="stylesheet" href="../assets/css/base.css">
+<link rel="stylesheet" href="../assets/css/components.css">
+</head>
+<body>
+
+<div id="site-header-root"></div>
+
+<div class="shell">
+
+  <!-- ================= SIDEBAR ================= -->
+  <nav class="toc">
+    <div class="toc-mark">∫</div>
+    <div class="toc-title">
+      <strong>Cálculo II</strong>
+      Guia de estudo — troque esta descrição
+    </div>
+    <ul class="toc-list">
+      <li><a href="#secao-1"><span class="toc-num">01</span>Primeira seção</a></li>
+      <li><a href="#secao-2"><span class="toc-num">02</span>Segunda seção</a></li>
+    </ul>
+    <div class="toc-foot">Parte da série de tópicos de Cálculo II.</div>
+  </nav>
+
+  <!-- ================= MAIN ================= -->
+  <main>
+
+    <div class="hero">
+      <div class="hero-eyebrow">cálculo ii · técnicas de integração</div>
+      <h1>Nome do tópico</h1>
+      <p class="lede">Uma frase curta explicando o que esse tópico resolve e por que importa.</p>
+      <div class="hero-formula">
+        \[ \text{fórmula principal aqui} \]
+      </div>
+    </div>
+
+    <section id="secao-1">
+      <div class="kicker">01 — introdução</div>
+      <h2 class="section-title">Primeira seção</h2>
+      <p class="lead-in">Texto de abertura da seção.</p>
+
+      <div class="note">
+        <span class="note-label">Ideia central</span>
+        <p>Use .note para destacar uma observação importante em azul-esverdeado.</p>
+      </div>
+
+      <div class="warn">
+        <span class="warn-label">Atenção</span>
+        <p>Use .warn para alertar sobre um erro comum, em tom terracota.</p>
+      </div>
+    </section>
+
+    <section id="secao-2">
+      <div class="kicker">02 — exemplo</div>
+      <h2 class="section-title">Segunda seção</h2>
+
+      <div class="example">
+        <div class="example-head">
+          <span class="example-num">1</span>
+          <span class="example-title">Título do exemplo</span>
+        </div>
+        <div class="example-body">
+          <div class="step"><div class="step-num">1</div><div class="step-content">
+            <p>Descrição do primeiro passo.</p>
+            \[ \text{expressão matemática} \]
+          </div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-content">
+            <p>Descrição do segundo passo.</p>
+          </div></div>
+          <div class="result-box">Resultado final aqui.</div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<div id="site-footer-root"></div>
+
+<script src="../assets/js/site-data.js"></script>
+<script src="../assets/js/layout.js"></script>
+<script src="../assets/js/katex-init.js"></script>
+<script>
+  renderHeader({ active: "topicos", base: "../" });
+  renderFooter({
+    base: "../",
+    related: {
+      title: "Nome do tópico",
+      links: [
+        { label: "Exercícios", href: "nome-do-topico-exercicios.html" }
+      ]
+    }
+  });
+</script>
+
+</body>
+</html>

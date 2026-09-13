@@ -1,0 +1,123 @@
+<!--
+  TEMPLATE DE PROVA
+  ==================
+  Como usar:
+  1. Copie este arquivo para "provas/prova-N.html".
+  2. Escreva o enunciado dentro de .sheet (um bloco .questao por questão,
+     .item-list > li para cada alternativa a/b/c/d).
+  3. Escreva o gabarito logo abaixo: um .gab-item por item, com <details>
+     escondendo a resolução em .step (mesmo padrão dos exercícios).
+  4. Para impróprias/convergência, use <span class="conclusion-tag div"> ou
+     <span class="conclusion-tag conv"> e <div class="result-box diverge">.
+  5. Abra assets/js/site-data.js e acrescente um objeto novo em PROVAS
+     apontando para este arquivo — o card aparece sozinho na home.
+-->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prova N — Cálculo II</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+
+<link rel="stylesheet" href="../assets/css/tokens.css">
+<link rel="stylesheet" href="../assets/css/base.css">
+<link rel="stylesheet" href="../assets/css/components.css">
+<style>
+  main{ max-width:900px; margin:0 auto; }
+</style>
+</head>
+<body>
+
+<div id="site-header-root"></div>
+
+<main>
+
+  <a class="back-link" href="../index.html#provas" style="margin:28px 0 0; display:inline-block; padding:0 24px;">← voltar para provas</a>
+
+  <div class="hero">
+    <div class="hero-eyebrow">cálculo ii · prova resolvida</div>
+    <h1>Prova N</h1>
+    <p class="lede">Descrição curta do que esta prova cobre.</p>
+    <div class="hero-tags">
+      <span class="htag">assunto 1</span>
+      <span class="htag">assunto 2</span>
+    </div>
+    <div class="hero-meta">
+      <div><strong>1</strong>questões</div>
+      <div><strong>1</strong>itens no total</div>
+      <div><strong>nível</strong>dificuldade</div>
+    </div>
+  </div>
+
+  <!-- ================= ENUNCIADO ================= -->
+  <section class="block" id="enunciado" style="padding:44px 24px 52px; border-bottom:1px solid var(--line);">
+    <div class="block-kicker">folha de questões</div>
+    <h2 class="block-title">Enunciado</h2>
+    <p class="block-desc">Resolva no papel antes de abrir o gabarito.</p>
+
+    <div class="sheet">
+      <div class="sheet-head">
+        <span class="sh-title">Cálculo II — Prova N</span>
+        <span class="sh-sub">1 item · sem consulta</span>
+      </div>
+      <div class="sheet-body">
+
+        <div class="questao">
+          <div class="questao-head">
+            <span class="questao-num">1</span>
+            <span class="questao-instr">Instrução da questão.</span>
+          </div>
+          <div class="item-single">\( \displaystyle y = \int \text{...} \,dx \)</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= GABARITO ================= -->
+  <section class="block" id="gabarito" style="padding:44px 24px 52px;">
+    <div class="block-kicker">resolução comentada</div>
+    <h2 class="block-title">Gabarito</h2>
+    <p class="block-desc">Cada item abre com a resolução completa, passo a passo.</p>
+
+    <div class="gab-item">
+      <div class="gab-head"><span class="gab-num">1</span><span class="gab-statement">\( \displaystyle \int \text{...}\,dx \)</span></div>
+      <details class="gab-toggle"><summary>ver resolução</summary>
+        <div class="gab-body">
+          <div class="step"><div class="step-num">1</div><div class="step-content"><p>Primeiro passo.</p></div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-content"><p>Segundo passo.</p></div></div>
+          <div class="result-box">Resultado final.</div>
+        </div>
+      </details>
+    </div>
+
+  </section>
+
+</main>
+
+<div id="site-footer-root"></div>
+
+<script src="../assets/js/site-data.js"></script>
+<script src="../assets/js/layout.js"></script>
+<script src="../assets/js/katex-init.js"></script>
+<script>
+  renderHeader({ active: "provas", base: "../" });
+  renderFooter({
+    base: "../",
+    related: {
+      title: "Relacionado",
+      links: []
+    }
+  });
+</script>
+
+</body>
+</html>

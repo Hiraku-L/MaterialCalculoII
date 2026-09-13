@@ -1,0 +1,39 @@
+/*
+  tokens.css
+  Fonte única das cores, tipografia e medidas do site.
+  Mude uma cor aqui e ela se propaga para o site inteiro.
+*/
+
+:root{
+  /* superfícies */
+  --paper:#FBFAF6;
+  --paper-dim:#F3F1EA;
+
+  /* texto */
+  --ink:#16202E;
+  --ink-soft:#3C4654;
+  --muted:#6B7280;
+
+  /* "quadro-negro" (fundo escuro usado em fórmulas, footer, cards de destaque) */
+  --board:#1E3448;
+  --board-2:#28425A;
+
+  /* acentos */
+  --gold:#D79A2C;
+  --gold-soft:#F3DBA6;
+  --teal:#3F7C6E;
+  --teal-soft:#DCEAE5;
+  --rose:#B4553F;
+  --rose-soft:#F5E2DC;
+
+  /* linhas */
+  --line:#DCD6C7;
+
+  /* raios */
+  --radius-note:3px;
+  --radius-card:2px;
+
+  /* layout */
+  --header-h:64px;
+  --content-max:1180px;
+}

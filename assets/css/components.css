@@ -1,0 +1,212 @@
+/*
+  components.css
+  Widgets de conteúdo reutilizados pelas páginas: blocos de fórmula, notas,
+  exemplos passo a passo, tabelas, cards de tópico/prova, folha de prova e gabarito.
+  Toda página do site pode carregar este arquivo inteiro sem custo perceptível —
+  cada página só usa as classes que precisa.
+*/
+
+/* ================= fórmula em destaque ================= */
+
+.hero-formula{ background:var(--board); color:#F2F1EC; padding:26px 30px; border-radius:var(--radius-card); display:inline-block; font-size:22px; }
+.hero-formula .katex{ color:#F6EFD9; }
+.hero-formula .fl{ font-family:'IBM Plex Mono',monospace; font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:var(--gold-soft); margin-bottom:14px; opacity:.85; }
+
+.formula-block{ background:var(--board); color:#F2F1EC; padding:28px 32px; margin:22px 0; border-radius:var(--radius-card); overflow-x:auto; }
+.formula-block .katex{ color:#F6EFD9; font-size:1.2em; }
+.formula-block .katex-display{ margin:0; }
+.formula-label{
+  font-family:'IBM Plex Mono',monospace; font-size:11.5px; text-transform:uppercase; letter-spacing:.08em;
+  color:var(--gold-soft); margin-bottom:10px; opacity:.85;
+}
+
+/* ================= notas e avisos ================= */
+
+.note{ border-left:3px solid var(--teal); background:var(--teal-soft); padding:16px 20px; margin:22px 0; border-radius:0 var(--radius-note) var(--radius-note) 0; max-width:70ch; }
+.note .note-label{ font-weight:600; color:var(--teal); display:block; margin-bottom:4px; font-size:14px; font-family:'Fraunces',serif; }
+.note p:last-child{ margin-bottom:0; }
+
+.warn{ border-left:3px solid var(--rose); background:#F5E8E3; padding:16px 20px; margin:22px 0; border-radius:0 var(--radius-note) var(--radius-note) 0; max-width:70ch; }
+.warn .warn-label{ font-weight:600; color:var(--rose); display:block; margin-bottom:4px; font-size:14px; font-family:'Fraunces',serif; }
+.warn p:last-child{ margin-bottom:0; }
+
+.progress-tip{ margin-top:24px; background:var(--board-2); padding:20px 24px; border-radius:2px; max-width:640px; }
+.progress-tip strong{ color:var(--gold-soft); }
+
+/* ================= tabela LIATE ================= */
+
+.liate{ width:100%; border-collapse:collapse; margin:24px 0; font-size:15px; }
+.liate th{ text-align:left; font-family:'Fraunces',serif; font-weight:600; padding:10px 14px; border-bottom:1.5px solid var(--ink); color:var(--ink); }
+.liate td{ padding:12px 14px; border-bottom:1px solid var(--line); vertical-align:top; }
+.liate tr:last-child td{ border-bottom:none; }
+.liate .letra{ font-family:'Fraunces',serif; font-style:italic; font-size:19px; color:var(--gold); width:34px; }
+.liate .cat{ font-weight:600; width:170px; }
+
+/* ================= exemplo (teoria) ================= */
+
+.example{ border:1px solid var(--line); margin:28px 0; background:#fff; }
+.example-head{ display:flex; align-items:baseline; gap:14px; padding:16px 22px; background:var(--paper-dim); border-bottom:1px solid var(--line); }
+.example-num{ font-family:'Fraunces',serif; font-style:italic; font-size:22px; color:var(--gold); }
+.example-title{ font-weight:600; font-size:15.5px; color:var(--ink); }
+.example-body{ padding:22px 22px 24px; }
+
+/* ================= passo a passo (usado em exemplos, exercícios e gabarito) ================= */
+
+.step{ display:grid; grid-template-columns:28px 1fr; gap:14px; margin-bottom:16px; align-items:start; }
+.step:last-child{ margin-bottom:0; }
+.step-num{
+  font-family:'IBM Plex Mono',monospace; font-size:12px; color:#fff; background:var(--ink);
+  width:24px; height:24px; border-radius:50%; display:flex; align-items:center; justify-content:center; margin-top:2px;
+}
+.step-content p{ margin:0 0 6px 0; font-size:15px; color:var(--ink-soft); }
+.step-content .katex-display{ margin:6px 0; }
+
+.result-box{ margin-top:16px; padding:12px 18px; background:var(--gold-soft); border-radius:3px; font-weight:500; font-size:15.5px; }
+.result-box.diverge{ background:var(--rose-soft); }
+
+.conclusion-tag{ display:inline-block; font-family:'IBM Plex Mono',monospace; font-size:11px; text-transform:uppercase; letter-spacing:.06em; padding:4px 10px; border-radius:20px; margin-left:8px; }
+.conclusion-tag.div{ background:var(--rose); color:#fff; }
+.conclusion-tag.conv{ background:var(--teal); color:#fff; }
+
+/* ================= método tabular (DI) ================= */
+
+.di-table{ border-collapse:collapse; margin:22px auto; }
+.di-table td{ padding:10px 24px; border-bottom:1px dashed var(--line); text-align:center; }
+.di-table td:first-child{ font-family:'IBM Plex Mono',monospace; color:var(--muted); font-size:13px; }
+.di-table tr:last-child td{ border-bottom:none; }
+
+/* ================= lista de exercícios ================= */
+
+.exercise-list{ list-style:none; margin:0; padding:0; display:grid; gap:14px; }
+.exercise-list li{ border:1px solid var(--line); background:#fff; }
+.exercise-list li.lvl-facil-item{ border-left:4px solid var(--teal); }
+.exercise-list li.lvl-medio-item{ border-left:4px solid var(--gold); }
+.exercise-list li.lvl-dificil-item{ border-left:4px solid var(--rose); }
+
+.ex-q{ padding:17px 22px; display:flex; gap:16px; align-items:baseline; }
+.ex-q-num{ font-family:'Fraunces',serif; font-style:italic; color:var(--gold); font-size:19px; flex-shrink:0; min-width:22px; }
+.ex-hint{ color:var(--muted); font-size:13.5px; margin-top:6px; }
+
+details.ex-toggle{ border-top:1px solid var(--line); }
+details.ex-toggle > summary{ cursor:pointer; list-style:none; padding:11px 22px; font-size:13.5px; font-family:'IBM Plex Mono',monospace; color:var(--teal); background:var(--paper-dim); user-select:none; }
+details.ex-toggle > summary::-webkit-details-marker{ display:none; }
+details.ex-toggle > summary:before{ content:"▸ "; }
+details.ex-toggle[open] > summary:before{ content:"▾ "; }
+.ex-answer{ padding:16px 22px 22px; border-top:1px solid var(--line); }
+
+.level-chip{ font-family:'IBM Plex Mono',monospace; font-size:10.5px; text-transform:uppercase; letter-spacing:.06em; padding:3px 9px; border-radius:20px; color:#fff; }
+.level-chip.lvl-facil{ background:var(--teal); }
+.level-chip.lvl-medio{ background:var(--gold); color:#43310a; }
+.level-chip.lvl-dificil{ background:var(--rose); }
+
+/* ================= cheat sheet / resumo ================= */
+
+.cheat{ background:var(--board); color:#F2F1EC; padding:40px 56px; max-width:none; }
+@media (max-width:640px){ .cheat{ padding:32px 24px; } }
+.cheat h2{ color:#fff; }
+.cheat-grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(240px,1fr)); gap:24px; margin-top:28px; }
+.cheat-card{ background:var(--board-2); padding:20px 22px; border-radius:var(--radius-card); }
+.cheat-card h4{ font-size:14px; color:var(--gold-soft); font-family:'IBM Plex Mono',monospace; margin-bottom:10px; font-weight:500; }
+.cheat-card .katex{ color:#F6EFD9; }
+.cheat-card p{ color:#D8DEE8; font-size:14px; margin-bottom:8px; }
+
+/* ================= chamada para próximo conteúdo ================= */
+
+.next{ padding:52px 56px 70px; }
+@media (max-width:640px){ .next{ padding:40px 24px 56px; } }
+.next-list{ display:flex; flex-wrap:wrap; gap:14px; margin-top:22px; }
+.next-pill{ border:1px solid var(--line); padding:10px 18px; font-size:14px; color:var(--ink-soft); background:#fff; }
+
+.more-exercises{
+  margin-top:26px; background:var(--board); color:#F2F1EC; padding:28px 30px; border-radius:2px;
+  display:flex; flex-wrap:wrap; gap:20px; align-items:center; justify-content:space-between;
+}
+.more-exercises-text{ max-width:52ch; }
+.more-exercises-label{ font-family:'IBM Plex Mono',monospace; font-size:12px; text-transform:uppercase; letter-spacing:.06em; color:var(--gold-soft); display:block; margin-bottom:8px; }
+.more-exercises-text p{ color:#D8DEE8; margin:0; font-size:15px; }
+.more-exercises-text strong{ color:#fff; }
+.more-exercises-btn{ flex-shrink:0; background:var(--gold); color:#2A1E05; font-weight:600; font-size:14.5px; padding:13px 22px; text-decoration:none; border-radius:2px; white-space:nowrap; }
+.more-exercises-btn:hover{ background:var(--gold-soft); }
+
+.cta-more{
+  background:var(--board); color:#F2F1EC; padding:34px 40px; margin-top:8px; display:flex;
+  justify-content:space-between; align-items:center; flex-wrap:wrap; gap:18px; border-radius:2px;
+}
+.cta-more p{ margin:0; color:#D8DEE8; max-width:48ch; font-size:14.5px; }
+.cta-more a{ background:var(--gold); color:#2A1E05; text-decoration:none; font-weight:600; font-size:14px; padding:11px 20px; border-radius:2px; white-space:nowrap; }
+.cta-more a:hover{ background:var(--gold-soft); }
+
+/* ================= cards de tópico (usados na home) ================= */
+
+.topic-grid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(280px,1fr)); gap:20px; }
+.topic-card{ border:1px solid var(--line); background:#fff; padding:26px 26px 24px; display:flex; flex-direction:column; border-top:4px solid var(--teal); }
+.topic-card.locked{ border-top-color:var(--line); opacity:.62; }
+.topic-card .tnum{ font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--muted); margin-bottom:10px; }
+.topic-card h3{ font-size:20px; margin-bottom:10px; }
+.topic-card p{ font-size:14.5px; color:var(--ink-soft); margin:0 0 18px 0; flex-grow:1; }
+.topic-links{ display:flex; gap:10px; flex-wrap:wrap; }
+.topic-links a{ text-decoration:none; font-size:13px; font-family:'IBM Plex Mono',monospace; border:1px solid var(--ink); padding:8px 14px; color:var(--ink); }
+.topic-links a:hover{ background:var(--ink); color:#fff; }
+.badge-soon{ display:inline-block; font-family:'IBM Plex Mono',monospace; font-size:11px; text-transform:uppercase; letter-spacing:.05em; background:var(--paper-dim); color:var(--muted); padding:5px 10px; border-radius:20px; }
+
+/* ================= cards de prova (usados na home) ================= */
+
+.prova-grid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(300px,1fr)); gap:20px; }
+.prova-card{ border:1px solid var(--line); background:#fff; padding:26px; display:flex; flex-direction:column; gap:14px; }
+.prova-card.locked{ opacity:.55; }
+.prova-top{ display:flex; justify-content:space-between; align-items:flex-start; gap:10px; }
+.prova-card h3{ font-size:19px; }
+.prova-meta{ font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--muted); }
+.prova-tags{ display:flex; gap:8px; flex-wrap:wrap; }
+.prova-tag{ font-size:11.5px; font-family:'IBM Plex Mono',monospace; background:var(--teal-soft); color:var(--teal); padding:4px 10px; border-radius:20px; }
+.prova-card p{ font-size:14px; color:var(--ink-soft); margin:0; }
+.prova-card .btn-secondary{ align-self:flex-start; margin-top:4px; padding:10px 18px; font-size:13.5px; }
+
+/* ================= "como funciona" (home) ================= */
+
+.how-it-works{ background:var(--board); color:#F2F1EC; padding:56px 56px; display:grid; grid-template-columns:repeat(3,1fr); gap:26px; max-width:var(--content-max); margin:0 auto; }
+@media (max-width:800px){ .how-it-works{ grid-template-columns:1fr; padding:44px 24px; } }
+.how-card{ background:var(--board-2); padding:22px 22px; border-radius:2px; }
+.how-card .step-tag{ font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:var(--gold-soft); margin-bottom:10px; }
+.how-card h4{ font-family:'Fraunces',serif; font-size:18px; color:#fff; margin-bottom:8px; font-weight:600; }
+.how-card p{ color:#D8DEE8; font-size:14px; margin:0; }
+
+/* ================= folha de prova (enunciado) ================= */
+
+.hero-tags{ display:flex; gap:8px; flex-wrap:wrap; margin-top:20px; }
+.htag{ font-size:12px; font-family:'IBM Plex Mono',monospace; background:var(--teal-soft); color:var(--teal); padding:5px 12px; border-radius:20px; }
+.hero-meta{ display:flex; gap:22px; margin-top:22px; flex-wrap:wrap; }
+.hero-meta div{ font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:var(--muted); }
+.hero-meta strong{ display:block; font-family:'Fraunces',serif; font-size:20px; color:var(--ink); font-weight:600; }
+
+.sheet{ background:#fff; border:1px solid var(--line); box-shadow:0 1px 0 var(--line); margin-top:28px; }
+.sheet-head{ padding:22px 34px; border-bottom:1px dashed var(--line); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; }
+.sheet-head .sh-title{ font-family:'Fraunces',serif; font-weight:600; font-size:16px; }
+.sheet-head .sh-sub{ font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:var(--muted); }
+.sheet-body{ padding:36px 40px 44px; }
+@media (max-width:640px){ .sheet-body{ padding:28px 22px 34px; } }
+
+.questao{ margin-bottom:34px; }
+.questao:last-child{ margin-bottom:0; }
+.questao-head{ display:flex; gap:12px; align-items:baseline; margin-bottom:14px; }
+.questao-num{ font-family:'Fraunces',serif; font-style:italic; font-size:22px; color:var(--gold); flex-shrink:0; }
+.questao-instr{ font-size:15px; color:var(--ink-soft); }
+.item-list{ list-style:none; margin:0; padding:0; display:grid; gap:16px; }
+.item-list li{ display:flex; gap:12px; align-items:baseline; padding-left:4px; }
+.item-letter{ font-family:'IBM Plex Mono',monospace; font-size:14px; color:var(--muted); flex-shrink:0; width:16px; }
+.item-body{ font-size:16px; }
+.item-single{ font-size:16px; margin-top:4px; }
+
+/* ================= gabarito (resolução comentada, coringa p/ qualquer prova) ================= */
+
+.gab-item{ border:1px solid var(--line); background:#fff; margin-bottom:16px; }
+.gab-item:last-child{ margin-bottom:0; }
+.gab-head{ display:flex; gap:14px; align-items:baseline; padding:16px 22px; background:var(--paper-dim); border-bottom:1px solid var(--line); }
+.gab-num{ font-family:'Fraunces',serif; font-style:italic; font-size:20px; color:var(--gold); flex-shrink:0; }
+.gab-statement{ font-size:15px; color:var(--ink-soft); }
+
+details.gab-toggle > summary{ cursor:pointer; list-style:none; padding:12px 22px; font-size:13.5px; font-family:'IBM Plex Mono',monospace; color:var(--teal); user-select:none; }
+details.gab-toggle > summary::-webkit-details-marker{ display:none; }
+details.gab-toggle > summary:before{ content:"▸ "; }
+details.gab-toggle[open] > summary:before{ content:"▾ "; }
+.gab-body{ padding:6px 22px 24px; }

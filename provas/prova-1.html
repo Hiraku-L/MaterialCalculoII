@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prova 1 — Cálculo II</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+
+<link rel="stylesheet" href="../assets/css/tokens.css">
+<link rel="stylesheet" href="../assets/css/base.css">
+<link rel="stylesheet" href="../assets/css/components.css">
+<style>
+  main{ max-width:900px; margin:0 auto; }
+</style>
+</head>
+<body>
+
+<div id="site-header-root"></div>
+
+<main>
+
+  <a class="back-link" href="../index.html#provas">← voltar para provas</a>
+
+  <div class="hero">
+    <div class="hero-eyebrow">cálculo ii · prova resolvida</div>
+    <h1>Prova 1</h1>
+    <p class="lede">Integrais indefinidas por substituição e por partes, uma integral definida com frações parciais, e duas integrais impróprias com análise de convergência.</p>
+    <div class="hero-tags">
+      <span class="htag">substituição simples</span>
+      <span class="htag">substituição trigonométrica</span>
+      <span class="htag">por partes</span>
+      <span class="htag">frações parciais</span>
+      <span class="htag">integrais impróprias</span>
+    </div>
+    <div class="hero-meta">
+      <div><strong>3</strong>questões</div>
+      <div><strong>7</strong>itens no total</div>
+      <div><strong>avançado</strong>nível</div>
+    </div>
+  </div>
+
+  <!-- ================= ENUNCIADO ================= -->
+  <section class="block" id="enunciado">
+    <div class="block-kicker">folha de questões</div>
+    <h2 class="block-title">Enunciado</h2>
+    <p class="block-desc">Resolva no papel antes de abrir o gabarito. Ele está logo na seção seguinte, comentado item por item.</p>
+
+    <div class="sheet">
+      <div class="sheet-head">
+        <span class="sh-title">Cálculo II — Prova 1</span>
+        <span class="sh-sub">7 itens · sem consulta</span>
+      </div>
+      <div class="sheet-body">
+
+        <div class="questao">
+          <div class="questao-head">
+            <span class="questao-num">1</span>
+            <span class="questao-instr">Resolva as integrais indefinidas abaixo.</span>
+          </div>
+          <ul class="item-list">
+            <li><span class="item-letter">a)</span><span class="item-body">\( \displaystyle y = \int \frac{(x^3+3)^2}{\sqrt{x^3+3}}\,x^2\,dx \)</span></li>
+            <li><span class="item-letter">b)</span><span class="item-body">\( \displaystyle y = \int \left(\frac{x}{2}+1\right)\sec x\tan x\,dx \)</span></li>
+            <li><span class="item-letter">c)</span><span class="item-body">\( \displaystyle y = \int \operatorname{sen}^2 x \cos^5 x\,dx \)</span></li>
+            <li><span class="item-letter">d)</span><span class="item-body">\( \displaystyle y = \int \frac{3}{x^2\sqrt{x^2-25}}\,dx \)</span></li>
+          </ul>
+        </div>
+
+        <div class="questao">
+          <div class="questao-head">
+            <span class="questao-num">2</span>
+            <span class="questao-instr">Resolva a integral definida.</span>
+          </div>
+          <div class="item-single">\( \displaystyle y = \int_0^1 \frac{x^2}{(x+1)(x^2+1)}\,dx \)</div>
+        </div>
+
+        <div class="questao">
+          <div class="questao-head">
+            <span class="questao-num">3</span>
+            <span class="questao-instr">Calcule as integrais impróprias abaixo e conclua se são convergentes ou divergentes.</span>
+          </div>
+          <ul class="item-list">
+            <li><span class="item-letter">a)</span><span class="item-body">\( \displaystyle y = \int_2^{\infty} \frac{1}{\sqrt[4]{x-1}}\,dx \)</span></li>
+            <li><span class="item-letter">b)</span><span class="item-body">\( \displaystyle y = \int_1^2 \frac{3x}{(1-x^2)^2}\,dx \)</span></li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= GABARITO ================= -->
+  <section class="block" id="gabarito" style="border-bottom:none;">
+    <div class="block-kicker">resolução comentada</div>
+    <h2 class="block-title">Gabarito</h2>
+    <p class="block-desc">Cada item abre com a resolução completa, passo a passo — o mesmo formato usado nos exercícios dos tópicos.</p>
+
+    <!-- QUESTÃO 1a -->
+    <div class="gab-item">
+      <div class="gab-head"><span class="gab-num">1a</span><span class="gab-statement">\( \displaystyle \int \frac{(x^3+3)^2}{\sqrt{x^3+3}}\,x^2\,dx \)</span></div>
+      <details class="gab-toggle"><summary>ver resolução</summary>
+        <div class="gab-body">
+          <div class="step"><div class="step-num">1</div><div class="step-content"><p>Simplificamos o integrando escrevendo a raiz como expoente fracionário:</p>\[ \frac{(x^3+3)^2}{\sqrt{x^3+3}} = \frac{(x^3+3)^2}{(x^3+3)^{1/2}} = (x^3+3)^{2-1/2} = (x^3+3)^{3/2} \]<p>A integral se torna \( \displaystyle y=\int (x^3+3)^{3/2}x^2\,dx \).</p></div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-content"><p>Substituição: \( u=x^3+3 \Rightarrow du = 3x^2\,dx \Rightarrow x^2dx = \dfrac{1}{3}du \).</p></div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-content"><p>Reescrevendo e integrando em \( u \):</p>\[ y = \frac{1}{3}\int u^{3/2}\,du = \frac{1}{3}\cdot\frac{u^{5/2}}{5/2} = \frac{2}{15}u^{5/2} \]</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-content"><p>Voltando para \( x \):</p></div></div>
+          <div class="result-box">\( y = \dfrac{2}{15}(x^3+3)^{5/2} + C \)</div>
+        </div>
+      </details>
+    </div>
+
+    <!-- QUESTÃO 1b -->
+    <div class="gab-item">
+      <div class="gab-head"><span class="gab-num">1b</span><span class="gab-statement">\( \displaystyle \int \left(\frac{x}{2}+1\right)\sec x\tan x\,dx \)</span></div>
+      <details class="gab-toggle"><summary>ver resolução</summary>
+        <div class="gab-body">
+          <div class="step"><div class="step-num">1</div><div class="step-content"><p>Integração por partes. Como \( \sec x\tan x \) é a derivada de \( \sec x \), escolhemos:</p>\[ u=\frac{x}{2}+1 \qquad dv=\sec x\tan x\,dx \qquad du=\frac{1}{2}dx \qquad v=\sec x \]</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-content"><p>Aplicando \( \int u\,dv = uv-\int v\,du \):</p>\[ y = \left(\frac{x}{2}+1\right)\sec x - \frac{1}{2}\int \sec x\,dx \]</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-content"><p>Usando o resultado padrão \( \int \sec x\,dx = \ln|\sec x+\tan x| \):</p></div></div>
+          <div class="result-box">\( y = \left(\dfrac{x}{2}+1\right)\sec x - \dfrac{1}{2}\ln|\sec x+\tan x| + C \)</div>
+        </div>
+      </details>
+    </div>
+
+    <!-- QUESTÃO 1c -->
+    <div class="gab-item">
+      <div class="gab-head"><span class="gab-num">1c</span><span class="gab-statement">\( \displaystyle \int \operatorname{sen}^2 x \cos^5 x\,dx \)</span></div>
+      <details class="gab-toggle"><summary>ver resolução</summary>
+        <div class="gab-body">
+          <div class="step"><div class="step-num">1</div><div class="step-content"><p>A potência do cosseno é ímpar — separamos um fator \( \cos x \) e convertemos o resto com \( \cos^2x=1-\operatorname{sen}^2x \):</p>\[ \cos^5x = \cos^4x\cdot\cos x = (1-\operatorname{sen}^2x)^2\cos x \]<p>A integral fica \( \displaystyle y=\int \operatorname{sen}^2x\,(1-\operatorname{sen}^2x)^2\cos x\,dx \).</p></div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-content"><p>Substituição: \( u=\operatorname{sen}x \Rightarrow du=\cos x\,dx \).</p>\[ y = \int u^2(1-u^2)^2\,du = \int (u^2-2u^4+u^6)\,du \]</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-content">\[ y = \frac{u^3}{3} - \frac{2u^5}{5} + \frac{u^7}{7} \]</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-content"><p>Voltando para \( x \):</p></div></div>
+          <div class="result-box">\( y = \dfrac{\operatorname{sen}^3 x}{3} - \dfrac{2\operatorname{sen}^5 x}{5} + \dfrac{\operatorname{sen}^7 x}{7} + C \)</div>
+        </div>
+      </details>
+    </div>
+
+    <!-- QUESTÃO 1d -->
+    <div class="gab-item">
+      <div class="gab-head"><span class="gab-num">1d</span><span class="gab-statement">\( \displaystyle \int \frac{3}{x^2\sqrt{x^2-25}}\,dx \)</span></div>
+      <details class="gab-toggle"><summary>ver resolução</summary>
+        <div class="gab-body">
+          <div class="step"><div class="step-num">1</div><div class="step-content"><p>Forma \( \sqrt{x^2-a^2} \) com \( a=5 \) — substituição trigonométrica com secante:</p>\[ x=5\sec\theta \qquad dx=5\sec\theta\tan\theta\,d\theta \qquad \sqrt{x^2-25}=5\tan\theta \]</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-content"><p>Substituindo na integral:</p>\[ y = \int \frac{3}{(25\sec^2\theta)(5\tan\theta)}\cdot 5\sec\theta\tan\theta\,d\theta = \frac{3}{25}\int \frac{1}{\sec\theta}\,d\theta \]</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-content">\[ y = \frac{3}{25}\int \cos\theta\,d\theta = \frac{3}{25}\operatorname{sen}\theta \]</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-content"><p>Voltando para \( x \) com um triângulo retângulo: \( \sec\theta=\tfrac{x}{5} \) é hipotenusa sobre cateto adjacente, então o cateto oposto é \( \sqrt{x^2-25} \) e</p>\[ \operatorname{sen}\theta = \frac{\sqrt{x^2-25}}{x} \]</div></div>
+          <div class="result-box">\( y = \dfrac{3\sqrt{x^2-25}}{25x} + C \)</div>
+        </div>
+      </details>
+    </div>
+
+    <!-- QUESTÃO 2 -->
+    <div class="gab-item">
+      <div class="gab-head"><span class="gab-num">2</span><span class="gab-statement">\( \displaystyle \int_0^1 \frac{x^2}{(x+1)(x^2+1)}\,dx \)</span></div>
+      <details class="gab-toggle"><summary>ver resolução</summary>
+        <div class="gab-body">
+          <div class="step"><div class="step-num">1</div><div class="step-content"><p>Decomposição em frações parciais:</p>\[ \frac{x^2}{(x+1)(x^2+1)} = \frac{A}{x+1} + \frac{Bx+C}{x^2+1} \]<p>Multiplicando pelo denominador comum:</p>\[ x^2 = A(x^2+1) + (Bx+C)(x+1) = (A+B)x^2 + (B+C)x + (A+C) \]</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-content"><p>Igualando coeficientes: \( A+B=1 \), \( B+C=0 \), \( A+C=0 \). Da segunda e terceira, \( C=-B=-A \Rightarrow A=B \). Substituindo na primeira:</p>\[ 2A=1 \ \Rightarrow\ A=\frac{1}{2},\quad B=\frac{1}{2},\quad C=-\frac{1}{2} \]</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-content"><p>Reescrevendo a integral e separando em partes conhecidas:</p>\[ y = \frac{1}{2}\int_0^1 \frac{dx}{x+1} + \frac{1}{4}\int_0^1 \frac{2x\,dx}{x^2+1} - \frac{1}{2}\int_0^1 \frac{dx}{x^2+1} \]</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-content"><p>Cada uma é uma integral direta, avaliada de 0 a 1:</p>\[ \int_0^1\frac{dx}{x+1}=\ln 2,\qquad \int_0^1\frac{2x\,dx}{x^2+1}=\ln 2,\qquad \int_0^1\frac{dx}{x^2+1}=\frac{\pi}{4} \]</div></div>
+          <div class="step"><div class="step-num">5</div><div class="step-content"><p>Substituindo:</p>\[ y = \frac{1}{2}\ln 2 + \frac{1}{4}\ln 2 - \frac{1}{2}\cdot\frac{\pi}{4} \]</div></div>
+          <div class="result-box">\( y = \dfrac{3}{4}\ln 2 - \dfrac{\pi}{8} \)</div>
+        </div>
+      </details>
+    </div>
+
+    <!-- QUESTÃO 3a -->
+    <div class="gab-item">
+      <div class="gab-head"><span class="gab-num">3a</span><span class="gab-statement">\( \displaystyle \int_2^{\infty} \frac{1}{\sqrt[4]{x-1}}\,dx \) <span class="conclusion-tag div">divergente</span></span></div>
+      <details class="gab-toggle"><summary>ver resolução</summary>
+        <div class="gab-body">
+          <div class="step"><div class="step-num">1</div><div class="step-content"><p>Limite superior infinito — escrevemos como limite:</p>\[ y = \lim_{t\to\infty}\int_2^t (x-1)^{-1/4}\,dx \]</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-content"><p>Integramos normalmente:</p>\[ \int (x-1)^{-1/4}dx = \frac{(x-1)^{3/4}}{3/4} = \frac{4}{3}(x-1)^{3/4} \]</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-content"><p>Aplicando os limites e o limite em \( t \):</p>\[ y = \lim_{t\to\infty}\left(\frac{4}{3}(t-1)^{3/4} - \frac{4}{3}\right) \]</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-content"><p>Como \( (t-1)^{3/4}\to\infty \) quando \( t\to\infty \), o limite não existe (é infinito).</p></div></div>
+          <div class="result-box diverge">A integral diverge — não converge para um valor finito.</div>
+        </div>
+      </details>
+    </div>
+
+    <!-- QUESTÃO 3b -->
+    <div class="gab-item">
+      <div class="gab-head"><span class="gab-num">3b</span><span class="gab-statement">\( \displaystyle \int_1^2 \frac{3x}{(1-x^2)^2}\,dx \) <span class="conclusion-tag div">divergente</span></span></div>
+      <details class="gab-toggle"><summary>ver resolução</summary>
+        <div class="gab-body">
+          <div class="step"><div class="step-num">1</div><div class="step-content"><p>O integrando é descontínuo em \( x=1 \) (o limite inferior), onde o denominador se anula. Escrevemos como limite lateral:</p>\[ y = \lim_{t\to 1^+}\int_t^2 \frac{3x}{(1-x^2)^2}\,dx \]</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-content"><p>Substituição \( u=1-x^2,\ du=-2x\,dx \Rightarrow x\,dx=-\tfrac{1}{2}du \):</p>\[ \int \frac{3x}{(1-x^2)^2}dx = -\frac{3}{2}\int u^{-2}du = \frac{3}{2u} = \frac{3}{2(1-x^2)} \]</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-content"><p>Aplicando os limites de integração e o limite em \( t \):</p>\[ y = \lim_{t\to1^+}\left(-\frac{1}{2} - \frac{3}{2(1-t^2)}\right) \]</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-content"><p>Quando \( t\to 1^+ \) (isto é, \( t>1 \)), temos \( 1-t^2\to 0^- \), então \( \dfrac{3}{2(1-t^2)}\to-\infty \) e o termo \( -\dfrac{3}{2(1-t^2)}\to+\infty \).</p></div></div>
+          <div class="result-box diverge">A integral diverge — não converge para um valor finito.</div>
+        </div>
+      </details>
+    </div>
+
+    <div class="cta-more">
+      <p>Quer entender melhor os métodos usados aqui? A teoria completa de integração por partes está no tópico correspondente.</p>
+      <a href="../topicos/integracao-por-partes.html">Ver o tópico</a>
+    </div>
+
+  </section>
+
+</main>
+
+<div id="site-footer-root"></div>
+
+<script src="../assets/js/site-data.js"></script>
+<script src="../assets/js/layout.js"></script>
+<script src="../assets/js/katex-init.js"></script>
+<script>
+  renderHeader({ active: "provas", base: "../" });
+  renderFooter({
+    base: "../",
+    related: {
+      title: "Relacionado",
+      links: [
+        { label: "Integração por partes (teoria)", href: "../topicos/integracao-por-partes.html" },
+        { label: "35 exercícios comentados", href: "../topicos/integracao-por-partes-exercicios.html" }
+      ]
+    }
+  });
+</script>
+
+</body>
+</html>

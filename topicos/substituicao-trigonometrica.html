@@ -1,0 +1,2193 @@
+<!--
+  TÓPICO — SUBSTITUIÇÃO TRIGONOMÉTRICA
+  ====================================
+  Mesmo padrão visual do guia de Integração por Partes.
+-->
+
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Substituição Trigonométrica — Cálculo II</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+
+    <link rel="stylesheet" href="../assets/css/tokens.css">
+    <link rel="stylesheet" href="../assets/css/base.css">
+    <link rel="stylesheet" href="../assets/css/components.css">
+</head>
+
+<body>
+
+<div id="site-header-root"></div>
+
+<div class="shell">
+
+    <!-- ================= SIDEBAR ================= -->
+
+    <nav class="toc">
+
+        ```
+        <div class="toc-mark">∫</div>
+
+        <div class="toc-title">
+            <strong>Cálculo II</strong>
+            Guia de estudo — técnicas de integração
+        </div>
+
+        <ul class="toc-list">
+            <li><a href="#motivacao"><span class="toc-num">01</span>Por que isso funciona</a></li>
+            <li><a href="#padroes"><span class="toc-num">02</span>Os 3 padrões</a></li>
+            <li><a href="#seno"><span class="toc-num">03</span>Caso \(a^2-x^2\)</a></li>
+            <li><a href="#tangente"><span class="toc-num">04</span>Caso \(a^2+x^2\)</a></li>
+            <li><a href="#secante"><span class="toc-num">05</span>Caso \(x^2-a^2\)</a></li>
+            <li><a href="#triangulo"><span class="toc-num">06</span>Voltando para x</a></li>
+            <li><a href="#exemplos"><span class="toc-num">07</span>Exemplos resolvidos</a></li>
+            <li><a href="#definida"><span class="toc-num">08</span>Integral definida</a></li>
+            <li><a href="#erros"><span class="toc-num">09</span>Erros comuns</a></li>
+            <li><a href="#resumo"><span class="toc-num">10</span>Resumo rápido</a></li>
+        </ul>
+
+        <div class="toc-foot">
+            Parte da série de tópicos de Cálculo II.
+        </div>
+        ```
+
+    </nav>
+
+    <!-- ================= MAIN ================= -->
+
+    <main>
+
+        ```
+        <!-- ================= HERO ================= -->
+        <div class="hero">
+
+            <div class="hero-eyebrow">
+                cálculo ii · técnicas de integração
+            </div>
+
+            <h1>Substituição trigonométrica</h1>
+
+            <p class="lede">
+                Uma técnica para transformar raízes envolvendo
+                \(a^2-x^2\), \(a^2+x^2\) e \(x^2-a^2\)
+                em expressões trigonométricas mais fáceis de integrar.
+            </p>
+
+            <div class="hero-formula">
+                \[
+                \boxed{
+                \begin{array}{c}
+                a^2-x^2 \rightarrow x=a\sin\theta \\[4pt]
+                a^2+x^2 \rightarrow x=a\tan\theta \\[4pt]
+                x^2-a^2 \rightarrow x=a\sec\theta
+                \end{array}}
+                \]
+            </div>
+
+        </div>
+
+
+        <!-- ========================================================= -->
+        <!-- 01 — MOTIVAÇÃO -->
+        <!-- ========================================================= -->
+
+        <section id="motivacao">
+
+            <div class="kicker">01 — motivação</div>
+
+            <h2 class="section-title">
+                A ideia por trás da substituição trigonométrica
+            </h2>
+
+            <p class="lead-in">
+                Algumas integrais ficam difíceis por causa de uma raiz quadrada
+                contendo uma soma ou diferença de quadrados. Por exemplo:
+            </p>
+
+            \[
+            \int \sqrt{a^2-x^2}\,dx
+            \]
+
+            <p>
+                A substituição comum, como \(u=a^2-x^2\), até consegue
+                transformar a raiz em \(\sqrt{u}\), mas aparece um problema:
+                não temos necessariamente o \(x\,dx\) que precisaríamos para
+                completar a substituição.
+            </p>
+
+            <div class="note">
+
+                <span class="note-label">Ideia central</span>
+
+                <p>
+                    A substituição trigonométrica escolhe uma troca de variável
+                    que faz a identidade trigonométrica cancelar exatamente a
+                    expressão dentro da raiz.
+                </p>
+
+            </div>
+
+            <p>
+                Por exemplo, sabemos que:
+            </p>
+
+            \[
+            1-\sin^2\theta=\cos^2\theta
+            \]
+
+            <p>
+                Então, se tivermos \(a^2-x^2\), podemos colocar:
+            </p>
+
+            \[
+            x=a\sin\theta
+            \]
+
+            <p>
+                porque isso transforma:
+            </p>
+
+            \[
+            a^2-x^2
+            =
+            a^2-a^2\sin^2\theta
+            =
+            a^2(1-\sin^2\theta)
+            =
+            a^2\cos^2\theta.
+            \]
+
+            <div class="result-box">
+                A raiz complicada vira uma função trigonométrica simples.
+            </div>
+
+        </section>
+
+
+        <!-- ========================================================= -->
+        <!-- 02 — PADRÕES -->
+        <!-- ========================================================= -->
+
+        <section id="padroes">
+
+            <div class="kicker">02 — a tabela que você precisa dominar</div>
+
+            <h2 class="section-title">
+                Os 3 padrões fundamentais
+            </h2>
+
+            <p class="lead-in">
+                Não tente decorar três substituições isoladas. Primeiro reconheça
+                o formato da expressão. O formato já indica qual função
+                trigonométrica usar.
+            </p>
+
+            <div class="formula-block">
+
+                <div class="formula-label">
+                    tabela principal
+                </div>
+
+                \[
+                \begin{array}{c|c|c}
+                \text{Expressão} & \text{Substituição} & \text{Identidade} \\[6pt]
+                \hline
+                a^2-x^2 & x=a\sin\theta &
+                1-\sin^2\theta=\cos^2\theta \\[6pt]
+                a^2+x^2 & x=a\tan\theta &
+                1+\tan^2\theta=\sec^2\theta \\[6pt]
+                x^2-a^2 & x=a\sec\theta &
+                \sec^2\theta-1=\tan^2\theta
+                \end{array}
+                \]
+
+            </div>
+
+            <h3 class="sub-title">Como decorar sem decorar</h3>
+
+            <p>
+                Pense nas três identidades fundamentais:
+            </p>
+
+            <div class="example">
+
+                <div class="example-head">
+                    <span class="example-num">★</span>
+                    <span class="example-title">O mapa mental</span>
+                </div>
+
+                <div class="example-body">
+
+                    <div class="step">
+                        <div class="step-num">1</div>
+                        <div class="step-content">
+
+                            <p>
+                                Quando aparecer uma <strong>diferença</strong>:
+                            </p>
+
+                            \[
+                            a^2-x^2
+                            \]
+
+                            <p>
+                                pense em seno:
+                            </p>
+
+                            \[
+                            x=a\sin\theta.
+                            \]
+
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-num">2</div>
+                        <div class="step-content">
+
+                            <p>
+                                Quando aparecer uma <strong>soma</strong>:
+                            </p>
+
+                            \[
+                            a^2+x^2
+                            \]
+
+                            <p>
+                                pense em tangente:
+                            </p>
+
+                            \[
+                            x=a\tan\theta.
+                            \]
+
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-num">3</div>
+                        <div class="step-content">
+
+                            <p>
+                                Quando aparecer \(x^2-a^2\), pense em secante:
+                            </p>
+
+                            \[
+                            x=a\sec\theta.
+                            \]
+
+                        </div>
+                    </div>
+
+                    <div class="result-box">
+
+                        \[
+                        \boxed{
+                        \begin{array}{c}
+                        a^2-x^2 \Rightarrow \sin \\[3pt]
+                        a^2+x^2 \Rightarrow \tan \\[3pt]
+                        x^2-a^2 \Rightarrow \sec
+                        \end{array}}
+                        \]
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="warn">
+
+                <span class="warn-label">Atenção</span>
+
+                <p>
+                    O número \(a\) fica multiplicando a função trigonométrica.
+                    Não é simplesmente \(x=\sin\theta\): em geral é
+                    \(x=a\sin\theta\), \(x=a\tan\theta\) ou \(x=a\sec\theta\).
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- ========================================================= -->
+        <!-- 03 — SENO -->
+        <!-- ========================================================= -->
+
+        <section id="seno">
+
+            <div class="kicker">03 — primeiro caso</div>
+
+            <h2 class="section-title">
+                Quando aparece \(a^2-x^2\): use seno
+            </h2>
+
+            <p class="lead-in">
+                O padrão
+                \(a^2-x^2\) combina perfeitamente com a identidade
+                \(1-\sin^2\theta=\cos^2\theta\).
+            </p>
+
+            <div class="formula-block">
+
+                <div class="formula-label">
+                    substituição
+                </div>
+
+                \[
+                \boxed{x=a\sin\theta}
+                \]
+
+                \[
+                dx=a\cos\theta\,d\theta
+                \]
+
+            </div>
+
+            <h3 class="sub-title">O que acontece com a raiz?</h3>
+
+            \[
+            \sqrt{a^2-x^2}
+            \]
+
+            <p>Substituímos \(x=a\sin\theta\):</p>
+
+            \[
+            \sqrt{a^2-a^2\sin^2\theta}
+            \]
+
+            \[
+            =
+            \sqrt{a^2(1-\sin^2\theta)}
+            \]
+
+            \[
+            =
+            \sqrt{a^2\cos^2\theta}
+            \]
+
+            \[
+            =
+            a\cos\theta.
+            \]
+
+            <div class="note">
+
+                <span class="note-label">O grande truque</span>
+
+                <p>
+                    A raiz que parecia difícil desapareceu:
+                    \(\sqrt{a^2-x^2}\) virou \(a\cos\theta\).
+                    É exatamente por isso que escolhemos o seno.
+                </p>
+
+            </div>
+
+            <div class="example">
+
+                <div class="example-head">
+                    <span class="example-num">1</span>
+                    <span class="example-title">
+        \( \displaystyle \int \sqrt{9-x^2}\,dx \)
+      </span>
+                </div>
+
+                <div class="example-body">
+
+                    <div class="step">
+                        <div class="step-num">1</div>
+                        <div class="step-content">
+
+                            <p>
+                                Primeiro reconhecemos o padrão:
+                            </p>
+
+                            \[
+                            9-x^2=3^2-x^2.
+                            \]
+
+                            <p>
+                                É \(a^2-x^2\), então usamos seno:
+                            </p>
+
+                            \[
+                            x=3\sin\theta.
+                            \]
+
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-num">2</div>
+                        <div class="step-content">
+
+                            <p>
+                                Derivamos a substituição:
+                            </p>
+
+                            \[
+                            dx=3\cos\theta\,d\theta.
+                            \]
+
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-num">3</div>
+                        <div class="step-content">
+
+                            <p>
+                                Transformamos a raiz:
+                            </p>
+
+                            \[
+                            \sqrt{9-x^2}
+                            =
+                            \sqrt{9-9\sin^2\theta}
+                            \]
+
+                            \[
+                            =
+                            \sqrt{9(1-\sin^2\theta)}
+                            =
+                            3\cos\theta.
+                            \]
+
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-num">4</div>
+                        <div class="step-content">
+
+                            <p>
+                                Agora substituímos tudo na integral:
+                            </p>
+
+                            \[
+                            \int \sqrt{9-x^2}\,dx
+                            =
+                            \int
+                            (3\cos\theta)(3\cos\theta)\,d\theta
+                            \]
+
+                            \[
+                            =
+                            9\int\cos^2\theta\,d\theta.
+                            \]
+
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-num">5</div>
+                        <div class="step-content">
+
+                            <p>
+                                Usamos a identidade de meio ângulo:
+                            </p>
+
+                            \[
+                            \cos^2\theta
+                            =
+                            \frac{1+\cos 2\theta}{2}.
+                            \]
+
+                            Portanto:
+
+                            \[
+                            9\int\cos^2\theta\,d\theta
+                            =
+                            \frac{9}{2}
+                            \int(1+\cos2\theta)\,d\theta.
+                            \]
+
+                            \[
+                            =
+                            \frac{9}{2}
+                            \left(
+                            \theta+\frac{\sin2\theta}{2}
+                            \right)+C.
+                            \]
+
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-num">6</div>
+                        <div class="step-content">
+
+                            <p>
+                                Agora precisamos voltar de \(\theta\) para \(x\).
+                                Da substituição:
+                            </p>
+
+                            \[
+                            x=3\sin\theta
+                            \]
+
+                            \[
+                            \sin\theta=\frac{x}{3}
+                            \]
+
+                            portanto:
+
+                            \[
+                            \theta=\arcsin\left(\frac{x}{3}\right).
+                            \]
+
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-num">7</div>
+                        <div class="step-content">
+
+                            <p>
+                                Para \(\sin2\theta\), usamos:
+                            </p>
+
+                            \[
+                            \sin2\theta=2\sin\theta\cos\theta.
+                            \]
+
+                            Como:
+
+                            \[
+                            \sin\theta=\frac{x}{3}
+                            \]
+
+                            e
+
+                            \[
+                            \cos\theta
+                            =
+                            \frac{\sqrt{9-x^2}}{3},
+                            \]
+
+                            então:
+
+                            \[
+                            \sin2\theta
+                            =
+                            \frac{2x\sqrt{9-x^2}}{9}.
+                            \]
+
+                        </div>
+                    </div>
+
+                    <div class="result-box">
+
+                        \[
+                        \boxed{
+                        \int\sqrt{9-x^2}\,dx
+                        =
+                        \frac{x\sqrt{9-x^2}}{2}
+                        +
+                        \frac{9}{2}
+                        \arcsin\left(\frac{x}{3}\right)
+                        +C
+                        }
+                        \]
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ========================================================= -->
+        <!-- 04 — TANGENTE -->
+        <!-- ========================================================= -->
+
+        <section id="tangente">
+
+            <div class="kicker">04 — segundo caso</div>
+
+            <h2 class="section-title">
+                Quando aparece \(a^2+x^2\): use tangente
+            </h2>
+
+            <p class="lead-in">
+                Agora temos uma soma de quadrados. A identidade perfeita é:
+            </p>
+
+            \[
+            1+\tan^2\theta=\sec^2\theta.
+            \]
+
+            <div class="formula-block">
+
+                <div class="formula-label">
+                    substituição
+                </div>
+
+                \[
+                \boxed{x=a\tan\theta}
+                \]
+
+                \[
+                dx=a\sec^2\theta\,d\theta
+                \]
+
+            </div>
+
+            <p>
+                Veja o que acontece:
+            </p>
+
+            \[
+            \sqrt{a^2+x^2}
+            \]
+
+            \[
+            =
+            \sqrt{a^2+a^2\tan^2\theta}
+            \]
+
+            \[
+            =
+            \sqrt{a^2(1+\tan^2\theta)}
+            \]
+
+            \[
+            =
+            \sqrt{a^2\sec^2\theta}
+            =
+            a\sec\theta.
+            \]
+
+            <div class="note">
+
+                <span class="note-label">Sacada</span>
+
+                <p>
+                    \(1+\tan^2\theta=\sec^2\theta\).
+                    Por isso, quando aparecer \(a^2+x^2\), a tangente é a escolha
+                    natural.
+                </p>
+
+            </div>
+
+            <div class="example">
+
+                <div class="example-head">
+                    <span class="example-num">2</span>
+                    <span class="example-title">
+        \( \displaystyle \int \frac{dx}{\sqrt{4+x^2}} \)
+      </span>
+                </div>
+
+                <div class="example-body">
+
+                    <div class="step">
+                        <div class="step-num">1</div>
+                        <div class="step-content">
+
+                            <p>
+                                Identificamos:
+                            </p>
+
+                            \[
+                            4+x^2=2^2+x^2.
+                            \]
+
+                            <p>
+                                É o padrão \(a^2+x^2\), então:
+                            </p>
+
+                            \[
+                            x=2\tan\theta.
+                            \]
+
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-num">2</div>
+                        <div class="step-content">
+
+                            \[
+                            dx=2\sec^2\theta\,d\theta.
+                            \]
+
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-num">3</div>
+                        <div class="step-content">
+
+                            <p>
+                                Transformamos a raiz:
+                            </p>
+
+                            \[
+                            \sqrt{4+x^2}
+                            =
+                            \sqrt{4+4\tan^2\theta}
+                            \]
+
+                            \[
+                            =
+                            2\sqrt{1+\tan^2\theta}
+                            =
+                            2\sec\theta.
+                            \]
+
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-num">4</div>
+                        <div class="step-content">
+
+                            <p>
+                                Substituímos:
+                            </p>
+
+                            \[
+                            \int\frac{dx}{\sqrt{4+x^2}}
+                            =
+                            \int
+                            \frac{2\sec^2\theta}
+                            {2\sec\theta}
+                            d\theta
+                            \]
+
+                            \[
+                            =
+                            \int\sec\theta\,d\theta.
+                            \]
+
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-num">5</div>
+                        <div class="step-content">
+
+                            <p>
+                                Usamos a integral conhecida:
+                            </p>
+
+                            \[
+                            \int\sec\theta\,d\theta
+                            =
+                            \ln|\sec\theta+\tan\theta|+C.
+                            \]
+
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-num">6</div>
+                        <div class="step-content">
+
+                            <p>
+                                Voltamos para \(x\). Como:
+                            </p>
+
+                            \[
+                            x=2\tan\theta
+                            \]
+
+                            temos:
+
+                            \[
+                            \tan\theta=\frac{x}{2}.
+                            \]
+
+                            Pela identidade:
+
+                            \[
+                            \sec^2\theta
+                            =
+                            1+\tan^2\theta
+                            =
+                            1+\frac{x^2}{4}
+                            =
+                            \frac{x^2+4}{4}.
+                            \]
+
+                            Logo:
+
+                            \[
+                            \sec\theta
+                            =
+                            \frac{\sqrt{x^2+4}}{2}.
+                            \]
+
+                        </div>
+                    </div>
+
+                    <div class="result-box">
+
+                        \[
+                        \boxed{
+                        \int\frac{dx}{\sqrt{4+x^2}}
+                        =
+                        \ln
+                        \left|
+                        \frac{\sqrt{x^2+4}+x}{2}
+                        \right|
+                        +C
+                        }
+                        \]
+
+                        <p style="margin-bottom:0;">
+                            Como \(\ln 2\) é constante, também podemos escrever:
+                        </p>
+
+                        \[
+                        \boxed{
+                        \ln|x+\sqrt{x^2+4}|+C
+                        }
+                        \]
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ========================================================= -->
+        <!-- 05 — SECANTE -->
+        <!-- ========================================================= -->
+
+        <section id="secante">
+
+            <div class="kicker">05 — terceiro caso</div>
+
+            <h2 class="section-title">
+                Quando aparece \(x^2-a^2\): use secante
+            </h2>
+
+            <p class="lead-in">
+                O último padrão aparece quando o quadrado de \(x\) vem primeiro:
+            </p>
+
+            \[
+            x^2-a^2.
+            \]
+
+            <p>
+                A identidade correspondente é:
+            </p>
+
+            \[
+            \sec^2\theta-1=\tan^2\theta.
+            \]
+
+            <div class="formula-block">
+
+                <div class="formula-label">
+                    substituição
+                </div>
+
+                \[
+                \boxed{x=a\sec\theta}
+                \]
+
+                \[
+                dx=a\sec\theta\tan\theta\,d\theta
+                \]
+
+            </div>
+
+            <p>
+                Agora veja:
+            </p>
+
+            \[
+            \sqrt{x^2-a^2}
+            \]
+
+            \[
+            =
+            \sqrt{a^2\sec^2\theta-a^2}
+            \]
+
+            \[
+            =
+            \sqrt{a^2(\sec^2\theta-1)}
+            \]
+
+            \[
+            =
+            \sqrt{a^2\tan^2\theta}
+            =
+            a\tan\theta.
+            \]
+
+            <div class="note">
+
+                <span class="note-label">Terceira regra</span>
+
+                <p>
+                    Quando você enxergar \(x^2-a^2\), pense imediatamente:
+                    <strong>secante</strong>.
+                </p>
+
+            </div>
+
+            <div class="example">
+
+                <div class="example-head">
+                    <span class="example-num">3</span>
+                    <span class="example-title">
+        \( \displaystyle \int \frac{\sqrt{x^2-9}}{x}\,dx \)
+      </span>
+                </div>
+
+                <div class="example-body">
+
+                    <div class="step">
+                        <div class="step-num">1</div>
+                        <div class="step-content">
+
+                            <p>
+                                Identificamos:
+                            </p>
+
+                            \[
+                            x^2-9=x^2-3^2.
+                            \]
+
+                            <p>
+                                Portanto usamos:
+                            </p>
+
+                            \[
+                            x=3\sec\theta.
+                            \]
+
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-num">2</div>
+                        <div class="step-content">
+
+                            \[
+                            dx=3\sec\theta\tan\theta\,d\theta.
+                            \]
+
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-num">3</div>
+                        <div class="step-content">
+
+                            <p>
+                                Transformamos a raiz:
+                            </p>
+
+                            \[
+                            \sqrt{x^2-9}
+                            =
+                            \sqrt{9\sec^2\theta-9}
+                            \]
+
+                            \[
+                            =
+                            3\sqrt{\sec^2\theta-1}
+                            =
+                            3\tan\theta.
+                            \]
+
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-num">4</div>
+                        <div class="step-content">
+
+                            <p>
+                                Substituímos tudo:
+                            </p>
+
+                            \[
+                            \int
+                            \frac{\sqrt{x^2-9}}{x}\,dx
+                            =
+                            \int
+                            \frac{3\tan\theta}
+                            {3\sec\theta}
+                            \cdot
+                            3\sec\theta\tan\theta
+                            \,d\theta
+                            \]
+
+                            \[
+                            =
+                            3\int\tan^2\theta\,d\theta.
+                            \]
+
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-num">5</div>
+                        <div class="step-content">
+
+                            <p>
+                                Como:
+                            </p>
+
+                            \[
+                            \tan^2\theta=\sec^2\theta-1,
+                            \]
+
+                            temos:
+
+                            \[
+                            3\int\tan^2\theta\,d\theta
+                            =
+                            3\int(\sec^2\theta-1)\,d\theta
+                            \]
+
+                            \[
+                            =
+                            3(\tan\theta-\theta)+C.
+                            \]
+
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-num">6</div>
+                        <div class="step-content">
+
+                            <p>
+                                Voltamos para \(x\):
+                            </p>
+
+                            \[
+                            x=3\sec\theta
+                            \]
+
+                            portanto:
+
+                            \[
+                            \sec\theta=\frac{x}{3}.
+                            \]
+
+                            Logo:
+
+                            \[
+                            \tan\theta
+                            =
+                            \sqrt{\sec^2\theta-1}
+                            =
+                            \sqrt{\frac{x^2}{9}-1}
+                            =
+                            \frac{\sqrt{x^2-9}}{3}.
+                            \]
+
+                            Assim:
+
+                            \[
+                            3\tan\theta=\sqrt{x^2-9}.
+                            \]
+
+                            Além disso:
+
+                            \[
+                            \theta
+                            =
+                            \operatorname{arcsec}\left(\frac{x}{3}\right).
+                            \]
+
+                        </div>
+                    </div>
+
+                    <div class="result-box">
+
+                        \[
+                        \boxed{
+                        \int\frac{\sqrt{x^2-9}}{x}\,dx
+                        =
+                        \sqrt{x^2-9}
+                        -
+                        3\operatorname{arcsec}\left(\frac{x}{3}\right)
+                        +C
+                        }
+                        \]
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ========================================================= -->
+        <!-- 06 — TRIÂNGULO -->
+        <!-- ========================================================= -->
+
+        <section id="triangulo">
+
+            <div class="kicker">06 — a parte que mais confunde</div>
+
+            <h2 class="section-title">
+                Como voltar de \(\theta\) para \(x\)
+            </h2>
+
+            <p class="lead-in">
+                Depois da substituição, você normalmente chega a uma resposta
+                envolvendo \(\theta\). Mas a resposta final deve estar em \(x\).
+                É aqui que o triângulo retângulo entra.
+            </p>
+
+            <div class="example">
+
+                <div class="example-head">
+                    <span class="example-num">A</span>
+                    <span class="example-title">Quando \(x=a\sin\theta\)</span>
+                </div>
+
+                <div class="example-body">
+
+                    <p>
+                        Temos:
+                    </p>
+
+                    \[
+                    \sin\theta=\frac{x}{a}.
+                    \]
+
+                    <p>
+                        Então imaginamos um triângulo com:
+                    </p>
+
+                    \[
+                    \text{oposto}=x,
+                    \qquad
+                    \text{hipotenusa}=a.
+                    \]
+
+                    <p>
+                        Pelo Teorema de Pitágoras, o cateto adjacente é:
+                    </p>
+
+                    \[
+                    \sqrt{a^2-x^2}.
+                    \]
+
+                    Portanto:
+
+                    \[
+                    \boxed{
+                    \sin\theta=\frac{x}{a}
+                    }
+                    \]
+
+                    \[
+                    \boxed{
+                    \cos\theta=
+                    \frac{\sqrt{a^2-x^2}}{a}
+                    }
+                    \]
+
+                    \[
+                    \boxed{
+                    \theta=\arcsin\left(\frac{x}{a}\right)
+                    }
+                    \]
+
+                </div>
+
+            </div>
+
+
+            <div class="example">
+
+                <div class="example-head">
+                    <span class="example-num">B</span>
+                    <span class="example-title">Quando \(x=a\tan\theta\)</span>
+                </div>
+
+                <div class="example-body">
+
+                    \[
+                    \tan\theta=\frac{x}{a}.
+                    \]
+
+                    <p>
+                        Agora podemos pensar em:
+                    </p>
+
+                    \[
+                    \text{oposto}=x,
+                    \qquad
+                    \text{adjacente}=a.
+                    \]
+
+                    <p>
+                        A hipotenusa será:
+                    </p>
+
+                    \[
+                    \sqrt{x^2+a^2}.
+                    \]
+
+                    Portanto:
+
+                    \[
+                    \boxed{
+                    \tan\theta=\frac{x}{a}
+                    }
+                    \]
+
+                    \[
+                    \boxed{
+                    \sec\theta=
+                    \frac{\sqrt{x^2+a^2}}{a}
+                    }
+                    \]
+
+                    \[
+                    \boxed{
+                    \theta=\arctan\left(\frac{x}{a}\right)
+                    }
+                    \]
+
+                </div>
+
+            </div>
+
+
+            <div class="example">
+
+                <div class="example-head">
+                    <span class="example-num">C</span>
+                    <span class="example-title">Quando \(x=a\sec\theta\)</span>
+                </div>
+
+                <div class="example-body">
+
+                    \[
+                    \sec\theta=\frac{x}{a}.
+                    \]
+
+                    <p>
+                        Como \(\sec\theta=\dfrac{\text{hipotenusa}}{\text{adjacente}}\),
+                        podemos escolher:
+                    </p>
+
+                    \[
+                    \text{hipotenusa}=x,
+                    \qquad
+                    \text{adjacente}=a.
+                    \]
+
+                    <p>
+                        O cateto oposto será:
+                    </p>
+
+                    \[
+                    \sqrt{x^2-a^2}.
+                    \]
+
+                    Portanto:
+
+                    \[
+                    \boxed{
+                    \sec\theta=\frac{x}{a}
+                    }
+                    \]
+
+                    \[
+                    \boxed{
+                    \tan\theta=
+                    \frac{\sqrt{x^2-a^2}}{a}
+                    }
+                    \]
+
+                    \[
+                    \boxed{
+                    \theta=
+                    \operatorname{arcsec}\left(\frac{x}{a}\right)
+                    }
+                    \]
+
+                </div>
+
+            </div>
+
+
+            <div class="note">
+
+                <span class="note-label">Regra prática</span>
+
+                <p>
+                    Você não precisa ficar tentando "adivinhar" seno, cosseno,
+                    tangente ou secante no final. Monte o triângulo a partir da
+                    substituição e leia as razões trigonométricas diretamente dele.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- ========================================================= -->
+        <!-- 07 — EXEMPLOS -->
+        <!-- ========================================================= -->
+
+        <section id="exemplos" class="wide" style="max-width:900px;">
+
+            <div class="kicker">07 — prática guiada</div>
+
+            <h2 class="section-title">
+                Como reconhecer o método rapidamente
+            </h2>
+
+            <p class="lead-in">
+                Antes de calcular qualquer coisa, olhe apenas para a expressão
+                dentro da raiz.
+            </p>
+
+
+            <div class="example">
+
+                <div class="example-head">
+                    <span class="example-num">4</span>
+                    <span class="example-title">
+        \( \displaystyle\int\frac{x^2}{\sqrt{25-x^2}}\,dx \)
+      </span>
+                </div>
+
+                <div class="example-body">
+
+                    <div class="step">
+                        <div class="step-num">1</div>
+                        <div class="step-content">
+
+                            <p>
+                                Identifique o padrão:
+                            </p>
+
+                            \[
+                            25-x^2=5^2-x^2.
+                            \]
+
+                            <p>
+                                Portanto:
+                            </p>
+
+                            \[
+                            x=5\sin\theta.
+                            \]
+
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-num">2</div>
+                        <div class="step-content">
+
+                            \[
+                            dx=5\cos\theta\,d\theta
+                            \]
+
+                            e
+
+                            \[
+                            \sqrt{25-x^2}
+                            =
+                            5\cos\theta.
+                            \]
+
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-num">3</div>
+                        <div class="step-content">
+
+                            <p>
+                                Também precisamos de \(x^2\):
+                            </p>
+
+                            \[
+                            x^2=25\sin^2\theta.
+                            \]
+
+                            Então:
+
+                            \[
+                            \int
+                            \frac{x^2}{\sqrt{25-x^2}}dx
+                            =
+                            \int
+                            \frac{25\sin^2\theta}
+                            {5\cos\theta}
+                            (5\cos\theta)d\theta
+                            \]
+
+                            \[
+                            =
+                            25\int\sin^2\theta\,d\theta.
+                            \]
+
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-num">4</div>
+                        <div class="step-content">
+
+                            <p>
+                                Usamos:
+                            </p>
+
+                            \[
+                            \sin^2\theta
+                            =
+                            \frac{1-\cos2\theta}{2}.
+                            \]
+
+                            Logo:
+
+                            \[
+                            25\int\sin^2\theta\,d\theta
+                            =
+                            \frac{25}{2}
+                            \left(
+                            \theta-\frac{\sin2\theta}{2}
+                            \right)+C.
+                            \]
+
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-num">5</div>
+                        <div class="step-content">
+
+                            <p>
+                                Voltamos para \(x\):
+                            </p>
+
+                            \[
+                            \theta=
+                            \arcsin\left(\frac{x}{5}\right).
+                            \]
+
+                            E:
+
+                            \[
+                            \sin2\theta
+                            =
+                            2\sin\theta\cos\theta
+                            =
+                            \frac{2x\sqrt{25-x^2}}{25}.
+                            \]
+
+                        </div>
+                    </div>
+
+                    <div class="result-box">
+
+                        \[
+                        \boxed{
+                        \int\frac{x^2}{\sqrt{25-x^2}}dx
+                        =
+                        \frac{25}{2}
+                        \arcsin\left(\frac{x}{5}\right)
+                        -
+                        \frac{x\sqrt{25-x^2}}{2}
+                        +C
+                        }
+                        \]
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="example">
+
+                <div class="example-head">
+                    <span class="example-num">5</span>
+                    <span class="example-title">
+        \( \displaystyle\int\frac{dx}{(x^2+16)^{3/2}} \)
+      </span>
+                </div>
+
+                <div class="example-body">
+
+                    <div class="step">
+                        <div class="step-num">1</div>
+                        <div class="step-content">
+
+                            <p>
+                                O padrão é:
+                            </p>
+
+                            \[
+                            x^2+16=x^2+4^2.
+                            \]
+
+                            <p>
+                                Portanto usamos tangente:
+                            </p>
+
+                            \[
+                            x=4\tan\theta.
+                            \]
+
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-num">2</div>
+                        <div class="step-content">
+
+                            \[
+                            dx=4\sec^2\theta\,d\theta.
+                            \]
+
+                            Além disso:
+
+                            \[
+                            x^2+16
+                            =
+                            16\tan^2\theta+16
+                            =
+                            16\sec^2\theta.
+                            \]
+
+                            Portanto:
+
+                            \[
+                            (x^2+16)^{3/2}
+                            =
+                            (16\sec^2\theta)^{3/2}
+                            =
+                            64\sec^3\theta.
+                            \]
+
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-num">3</div>
+                        <div class="step-content">
+
+                            <p>
+                                Substituindo:
+                            </p>
+
+                            \[
+                            \int
+                            \frac{4\sec^2\theta}
+                            {64\sec^3\theta}
+                            d\theta
+                            =
+                            \frac{1}{16}
+                            \int\cos\theta\,d\theta.
+                            \]
+
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-num">4</div>
+                        <div class="step-content">
+
+                            \[
+                            =
+                            \frac{\sin\theta}{16}+C.
+                            \]
+
+                            Como:
+
+                            \[
+                            \tan\theta=\frac{x}{4},
+                            \]
+
+                            temos:
+
+                            \[
+                            \sin\theta
+                            =
+                            \frac{x}{\sqrt{x^2+16}}.
+                            \]
+
+                        </div>
+                    </div>
+
+                    <div class="result-box">
+
+                        \[
+                        \boxed{
+                        \int\frac{dx}{(x^2+16)^{3/2}}
+                        =
+                        \frac{x}
+                        {16\sqrt{x^2+16}}
+                        +C
+                        }
+                        \]
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ========================================================= -->
+        <!-- 08 — DEFINIDA -->
+        <!-- ========================================================= -->
+
+        <section id="definida">
+
+            <div class="kicker">08 — integral definida</div>
+
+            <h2 class="section-title">
+                E se a integral tiver limites?
+            </h2>
+
+            <p class="lead-in">
+                Para integrais definidas, podemos fazer a substituição
+                trigonométrica e também transformar os limites de \(x\)
+                diretamente em limites de \(\theta\).
+            </p>
+
+            <div class="note">
+
+                <span class="note-label">Dica prática</span>
+
+                <p>
+                    Isso costuma ser mais rápido porque você não precisa fazer
+                    toda a volta de \(\theta\) para \(x\) no final.
+                </p>
+
+            </div>
+
+            <div class="example">
+
+                <div class="example-head">
+                    <span class="example-num">6</span>
+                    <span class="example-title">
+        \( \displaystyle\int_0^2\sqrt{4-x^2}\,dx \)
+      </span>
+                </div>
+
+                <div class="example-body">
+
+                    <div class="step">
+                        <div class="step-num">1</div>
+                        <div class="step-content">
+
+                            <p>
+                                Como aparece \(4-x^2=2^2-x^2\), usamos:
+                            </p>
+
+                            \[
+                            x=2\sin\theta.
+                            \]
+
+                            \[
+                            dx=2\cos\theta\,d\theta.
+                            \]
+
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-num">2</div>
+                        <div class="step-content">
+
+                            <p>
+                                Transformamos os limites.
+                            </p>
+
+                            <p>
+                                Quando \(x=0\):
+                            </p>
+
+                            \[
+                            0=2\sin\theta
+                            \Rightarrow
+                            \theta=0.
+                            \]
+
+                            <p>
+                                Quando \(x=2\):
+                            </p>
+
+                            \[
+                            2=2\sin\theta
+                            \Rightarrow
+                            \theta=\frac{\pi}{2}.
+                            \]
+
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-num">3</div>
+                        <div class="step-content">
+
+                            \[
+                            \sqrt{4-x^2}=2\cos\theta.
+                            \]
+
+                            Então:
+
+                            \[
+                            \int_0^2\sqrt{4-x^2}\,dx
+                            =
+                            \int_0^{\pi/2}
+                            (2\cos\theta)(2\cos\theta)
+                            d\theta
+                            \]
+
+                            \[
+                            =
+                            4\int_0^{\pi/2}\cos^2\theta\,d\theta.
+                            \]
+
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-num">4</div>
+                        <div class="step-content">
+
+                            \[
+                            =
+                            4\int_0^{\pi/2}
+                            \frac{1+\cos2\theta}{2}
+                            d\theta
+                            \]
+
+                            \[
+                            =
+                            2
+                            \left[
+                            \theta+\frac{\sin2\theta}{2}
+                            \right]_0^{\pi/2}.
+                            \]
+
+                            Como:
+
+                            \[
+                            \sin\pi=0
+                            \qquad
+                            \sin0=0,
+                            \]
+
+                            temos:
+
+                            \[
+                            2\left(\frac{\pi}{2}\right)=\pi.
+                            \]
+
+                        </div>
+                    </div>
+
+                    <div class="result-box">
+
+                        \[
+                        \boxed{
+                        \int_0^2\sqrt{4-x^2}\,dx=\pi
+                        }
+                        \]
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ========================================================= -->
+        <!-- 09 — ERROS -->
+        <!-- ========================================================= -->
+
+        <section id="erros">
+
+            <div class="kicker">09 — pegadinhas</div>
+
+            <h2 class="section-title">
+                Erros comuns na substituição trigonométrica
+            </h2>
+
+
+            <div class="warn">
+
+    <span class="warn-label">
+      Escolher a função trigonométrica errada
+    </span>
+
+                <p>
+                    Se aparecer \(a^2-x^2\), não use tangente só porque você
+                    lembra melhor dela. O padrão foi feito para seno:
+                    \(x=a\sin\theta\).
+                </p>
+
+            </div>
+
+
+            <div class="warn">
+
+    <span class="warn-label">
+      Esquecer o \(a\)
+    </span>
+
+                <p>
+                    Para \(25-x^2\), a substituição não é
+                    \(x=\sin\theta\). É:
+                </p>
+
+                \[
+                x=5\sin\theta.
+                \]
+
+            </div>
+
+
+            <div class="warn">
+
+    <span class="warn-label">
+      Esquecer de transformar \(dx\)
+    </span>
+
+                <p>
+                    Se:
+                </p>
+
+                \[
+                x=a\sin\theta,
+                \]
+
+                <p>
+                    então obrigatoriamente:
+                </p>
+
+                \[
+                dx=a\cos\theta\,d\theta.
+                \]
+
+                <p>
+                    A substituição só está completa quando você troca
+                    <strong>tudo</strong>.
+                </p>
+
+            </div>
+
+
+            <div class="warn">
+
+    <span class="warn-label">
+      Parar antes de voltar para \(x\)
+    </span>
+
+                <p>
+                    Uma resposta como
+                    \(\frac{9}{2}\theta+\frac{9}{4}\sin2\theta+C\)
+                    ainda não terminou. Para uma integral indefinida,
+                    precisamos voltar de \(\theta\) para \(x\).
+                </p>
+
+            </div>
+
+
+            <div class="warn">
+
+    <span class="warn-label">
+      Esquecer o módulo no logaritmo
+    </span>
+
+                <p>
+                    Quando aparecer:
+                </p>
+
+                \[
+                \int\frac{1}{u}\,du,
+                \]
+
+                <p>
+                    a resposta é:
+                </p>
+
+                \[
+                \ln|u|+C.
+                \]
+
+            </div>
+
+
+            <div class="note">
+
+                <span class="note-label">Checklist antes de terminar</span>
+
+                <p>
+                    Pergunte:
+                    <strong>
+                        escolhi o padrão correto? Troquei \(x\)? Troquei \(dx\)?
+                        Transformei a raiz? Integrei em \(\theta\)? Voltei para \(x\)?
+                    </strong>
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- ========================================================= -->
+        <!-- 10 — RESUMO -->
+        <!-- ========================================================= -->
+
+        <section id="resumo">
+
+            <div class="kicker">10 — folha de cola</div>
+
+            <h2 class="section-title">
+                Resumo rápido da substituição trigonométrica
+            </h2>
+
+            <p class="lead-in">
+                Se você só lembrar de uma coisa desta página, lembre desta tabela:
+            </p>
+
+
+            <div class="formula-block">
+
+                <div class="formula-label">
+                    os três casos
+                </div>
+
+                \[
+                \boxed{
+                \begin{array}{c|c|c}
+                \text{Padrão} & \text{Substituição} & dx \\[6pt]
+                \hline
+                a^2-x^2
+                &
+                x=a\sin\theta
+                &
+                dx=a\cos\theta\,d\theta
+                \\[8pt]
+                a^2+x^2
+                &
+                x=a\tan\theta
+                &
+                dx=a\sec^2\theta\,d\theta
+                \\[8pt]
+                x^2-a^2
+                &
+                x=a\sec\theta
+                &
+                dx=a\sec\theta\tan\theta\,d\theta
+                \end{array}}
+                \]
+
+            </div>
+
+
+            <div class="example">
+
+                <div class="example-head">
+                    <span class="example-num">→</span>
+                    <span class="example-title">
+        Como reconhecer em 5 segundos
+      </span>
+                </div>
+
+                <div class="example-body">
+
+                    <div class="step">
+                        <div class="step-num">1</div>
+                        <div class="step-content">
+
+                            <p>
+                                Veja o que está dentro da raiz:
+                            </p>
+
+                            \[
+                            \boxed{a^2-x^2}
+                            \]
+
+                            <p>
+                                → <strong>seno</strong>
+                            </p>
+
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-num">2</div>
+                        <div class="step-content">
+
+                            \[
+                            \boxed{a^2+x^2}
+                            \]
+
+                            <p>
+                                → <strong>tangente</strong>
+                            </p>
+
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-num">3</div>
+                        <div class="step-content">
+
+                            \[
+                            \boxed{x^2-a^2}
+                            \]
+
+                            <p>
+                                → <strong>secante</strong>
+                            </p>
+
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-num">4</div>
+                        <div class="step-content">
+
+                            <p>
+                                Faça a substituição, incluindo o \(dx\).
+                            </p>
+
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-num">5</div>
+                        <div class="step-content">
+
+                            <p>
+                                Integre em \(\theta\) e depois volte para \(x\)
+                                usando o triângulo.
+                            </p>
+
+                        </div>
+                    </div>
+
+                    <div class="result-box">
+
+                        \[
+                        \boxed{
+                        a^2-x^2\rightarrow\sin
+                        \qquad
+                        a^2+x^2\rightarrow\tan
+                        \qquad
+                        x^2-a^2\rightarrow\sec
+                        }
+                        \]
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================= PRÓXIMOS TÓPICOS ================= -->
+
+            <div class="next">
+
+                <div class="kicker">continuando a série</div>
+
+                <h3 class="sub-title" style="margin-top:6px;">
+                    Outros temas de Cálculo II para este material
+                </h3>
+
+                <p>
+                    Depois da substituição trigonométrica, podemos seguir para
+                    outras técnicas de integração.
+                </p>
+
+                <div class="next-list">
+
+                    <span class="next-pill">Frações parciais</span>
+                    <span class="next-pill">Integrais impróprias</span>
+                    <span class="next-pill">Sequências e séries</span>
+                    <span class="next-pill">Séries de potências e Taylor</span>
+                    <span class="next-pill">Coordenadas polares</span>
+
+                </div>
+
+            </div>
+
+        </section>
+        ```
+
+    </main>
+
+</div>
+
+<div id="site-footer-root"></div>
+
+<script src="../assets/js/site-data.js"></script>
+
+<script src="../assets/js/layout.js"></script>
+
+<script src="../assets/js/katex-init.js"></script>
+
+<script>
+
+    renderHeader({
+        active: "topicos",
+        base: "../"
+    });
+
+    renderFooter({
+
+        base: "../",
+
+        related: {
+
+            title: "Substituição trigonométrica",
+
+            links: [
+                {
+                    label: "Exercícios",
+                    href: "substituicao-trigonometrica-exercicios.html"
+                }
+            ]
+
+        }
+
+    });
+
+</script>
+
+</body>
+</html>
